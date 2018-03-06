@@ -1,23 +1,46 @@
-CREATE TABLE IF NOT EXISTS Person (
+CREATE TABLE IF NOT EXISTS Organization (
     id         INTEGER  PRIMARY KEY AUTO_INCREMENT,
-    version    INTEGER NOT NULL,
-    first_name VARCHAR(50) NOT NULL,
-    age        INTEGER  NOT NULL
+    name       VARCHAR(50) NOT NULL,
+    fullName   VARCHAR(250) NOT NULL,
+    inn        INTEGER  NOT NULL,
+    kpp        INTEGER  NOT NULL,
+    address    VARCHAR(250) NOT NULL,
+    phone      INTEGER  NOT NULL,
+    isActive   BOOLEAN  NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS House (
+CREATE TABLE IF NOT EXISTS Office (
     id         INTEGER  PRIMARY KEY AUTO_INCREMENT,
-    version    INTEGER NOT NULL,
-    address    VARCHAR(50) NOT NULL
+    name       VARCHAR(50) NOT NULL,
+    address    VARCHAR(250) NOT NULL,
+    pnone      INTEGER NOT NULL,
+    isActive   BOOLEAN NOT NULL,
+    orgId      INTEGER NOT NULL,
+CONSTRAINT Office_FKEY FOREIGN KEY(orgId) REFERENCES PUBLIC.Organization (id)
 );
 
-CREATE TABLE IF NOT EXISTS Person_House (
-    person_id   INTEGER  NOT NULL,
-    house_id    INTEGER  NOT NULL
+CREATE TABLE IF NOT EXISTS User (
+    id              INTEGER  PRIMARY KEY AUTO_INCREMENT,
+    firstName       VARCHAR(50) NOT NULL,
+    lastName        VARCHAR(50) NOT NULL,
+    middleName      VARCHAR(50) NOT NULL,
+    possition       VARCHAR(50) NOT NULL,
+    officeId        INTEGER     NOT NULL,
+    docCode         INTEGER     NOT NULL,
+    citizenshipCode INTEGER     NOT NULL,
+    CONSTRAINT docs_FKEY FOREIGN KEY(officeId) REFERENCES PUBLIC.Office (id),
+    CONSTRAINT docs_FKEY FOREIGN KEY(docCode) REFERENCES PUBLIC.docs (code),
+    CONSTRAINT countries_FKEY FOREIGN KEY(citizenshipCode) REFERENCES PUBLIC.countries (code)
 );
 
-CREATE INDEX IX_Person_House_Id ON Person_House (house_id);
-ALTER TABLE Person_House ADD FOREIGN KEY (house_id) REFERENCES House(id);
+CREATE TABLE IF NOT EXISTS docs (
+    name        VARCHAR(50)  NOT NULL,
+    code        INTEGER  NOT NULL
+);
 
-CREATE INDEX IX_House_Person_Id ON Person_House (person_id);
-ALTER TABLE Person_House ADD FOREIGN KEY (person_id) REFERENCES Person(id);
+CREATE TABLE IF NOT EXISTS countries (
+    name        VARCHAR(50)  NOT NULL,
+    code        INTEGER  NOT NULL
+);
+
+
