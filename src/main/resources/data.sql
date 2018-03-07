@@ -1,11 +1,27 @@
-INSERT INTO House (id, version, address) VALUES (1, 0, 'ул.Цюрупы, 16');
+INSERT INTO DOCS (id, NAME, CODE) VALUES (1, 'Свидетельство о рождении', 3);
 
-INSERT INTO House (id, version, address) VALUES (2, 0, 'ул.Лунина, 7');
+INSERT INTO DOCS (id, NAME, CODE) VALUES ('Военный билет', 7);
 
-INSERT INTO Person (id, version, first_name, age) VALUES (1, 0, 'Пётр', 20);
+INSERT INTO DOCS (id, NAME, CODE) VALUES ('Временное удостоверение, выданное взамен военного билета', 8);
 
-INSERT INTO Person (id, version, first_name, age) VALUES (2, 0, 'John', 25);
+INSERT INTO DOCS (id, NAME, CODE) VALUES ('Свидетельство о рассмотрении ходатайства о признании лица
+беженцем на территории Российской Федерации по существу ', 11);
 
-INSERT INTO Person_House (person_id, house_id) VALUES (1, 1);
+INSERT INTO DOCS (id, NAME, CODE) VALUES ('Вид на жительство в Российской Федерации  ', 12);
 
-INSERT INTO Person_House (person_id, house_id) VALUES (1, 2);
+INSERT INTO DOCS (id, NAME, CODE) VALUES ('Удостоверение беженца', 13);
+
+INSERT INTO DOCS (id, NAME, CODE) ('Разрешение на временное проживание в Российской Федерации', 14);
+
+INSERT INTO DOCS (id, NAME, CODE) VALUES ('Свидетельство о предоставлении временного убежища на территории
+Российской Федерации', 15);
+
+INSERT INTO DOCS (id, NAME, CODE) VALUES ('Паспорт гражданина Российской Федерации', 21);
+
+
+INSERT INTO DOCS (id, NAME, CODE) VALUES ('Российская Федерация', 643);
+
+INSERT INTO DOCS (id, NAME, CODE) VALUES ('Республика Армения', 051);
+
+INSERT INTO DOCS (id, NAME, CODE) VALUES ('Респубика Беларусь', 112);
+
