@@ -3,8 +3,8 @@ package ru.bellintegrator.practice.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "docs")
-public class Docs {
+@Table(name = "doc")
+public class Doc {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -51,6 +51,6 @@ public class Docs {
 
     @Override
     public String toString() {
-        return "Docs{" + "code='" + code + '\'' + ", name='" + name + '\'' + '}';
+        return "Doc{" + "code='" + code + '\'' + ", name='" + name + '\'' + '}';
     }
 }

@@ -15,9 +15,9 @@ public class Organization {
     @Column(name = "fullName")
     private String country;
     @Column(name = "inn")
-    private int inn;
+    private Integer inn;
     @Column(name = "kpp")
-    private int kpp;
+    private Integer kpp;
     @Column(name = "phone")
     private int phone;
     @Column(name = "isActive")

@@ -3,13 +3,13 @@ package ru.bellintegrator.practice.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Countries")
-public class Countries {
+@Table(name = "Country")
+public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "code")
-    private int code;
+    private Integer code;
 
     @Column(name = "name")
     private String name;
@@ -20,11 +20,11 @@ public class Countries {
 
     private User user;
 
-    public Countries() {
+    public Country() {
     }
 
     @Override
     public String toString() {
-        return "Countries{" + "code=" + code + ", name='" + name + '\'' + '}';
+        return "Country{" + "code=" + code + ", name='" + name + '\'' + '}';
     }
 }

@@ -14,7 +14,7 @@ public class Office {
     @Column(name = "address")
     private String address;
     @Column(name = "phone")
-    private int phone;
+    private Integer phone;
     @Column(name = "isActive")
     private Boolean isActive = true;
 
