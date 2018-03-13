@@ -1,12 +1,12 @@
 CREATE TABLE IF NOT EXISTS Organization (
     id         INTEGER  PRIMARY KEY AUTO_INCREMENT,
     name       VARCHAR(50) NOT NULL,
-    fullName   VARCHAR(250) NOT NULL,
-    inn        INTEGER  NOT NULL,
+    full_Name   VARCHAR(250) NOT NULL,
+    inn        BIGINT  NOT NULL,
     kpp        INTEGER  NOT NULL,
     address    VARCHAR(250) NOT NULL,
     phone      INTEGER  NOT NULL,
-    isActive   BOOLEAN  NOT NULL
+    is_Active   BOOLEAN  NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Office (
@@ -44,8 +44,8 @@ CREATE TABLE IF NOT EXISTS User (
     countryId         INTEGER     NOT NULL,
     isIdentified    BOOLEAN     NOT NULL,
     CONSTRAINT Office_FKEY FOREIGN KEY(officeId) REFERENCES PUBLIC.Office (id),
-    CONSTRAINT docs_FKEY FOREIGN KEY(docId) REFERENCES PUBLIC.docs (id),
-    CONSTRAINT countries_FKEY FOREIGN KEY(countryId) REFERENCES PUBLIC.countries (id)
+    CONSTRAINT doc_FKEY FOREIGN KEY(docId) REFERENCES PUBLIC.doc (id),
+    CONSTRAINT country_FKEY FOREIGN KEY(countryId) REFERENCES PUBLIC.country (id)
 );
 
 

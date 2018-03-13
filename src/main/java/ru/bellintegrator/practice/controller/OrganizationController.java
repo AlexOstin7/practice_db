@@ -14,19 +14,20 @@ import javax.xml.ws.RequestWrapper;
 
 
 @Controller
+@RequestMapping("/organization")
 public class OrganizationController {
-    private OrganizationService organizationService;
 
     @Autowired(required = true)
-    @Qualifier(value = "organizationService")
+    private OrganizationService organizationService;
+
     public void setOrganizationService(OrganizationService organizationService) {
         this.organizationService = organizationService;
     }
 
-    @RequestMapping(value = "organization", method = RequestMethod.GET)
-    public String listBooks(Model model) {
-        model.addAllAttributes("organization", new Organization());
-        model.addAttribute("listOrganization", this.organizationService().listOrganization());
+    @RequestMapping(value = "/organization", method = RequestMethod.GET)
+    public String listOrganization(Model model) {
+       // model.addAllAttributes("organization", organizationService.values());
+
 
         return "organization";
     }

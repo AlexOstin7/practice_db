@@ -12,15 +12,15 @@ public class Organization {
     private Long id;
     @Column(name = "name")
     private String name;
-    @Column(name = "fullName")
+    @Column(name = "full_Name")
     private String country;
     @Column(name = "inn")
-    private Integer inn;
+    private Long inn;
     @Column(name = "kpp")
-    private Integer kpp;
+    private Long kpp;
     @Column(name = "phone")
     private int phone;
-    @Column(name = "isActive")
+    @Column(name = "is_Active")
     private Boolean isActive = true;
 
     public Organization() {
@@ -53,19 +53,19 @@ public class Organization {
         this.country = country;
     }
 
-    public int getInn() {
+    public Long getInn() {
         return inn;
     }
 
-    public void setInn(int inn) {
+    public void setInn(Long inn) {
         this.inn = inn;
     }
 
-    public int getKpp() {
+    public Long getKpp() {
         return kpp;
     }
 
-    public void setKpp(int kpp) {
+    public void setKpp(Long kpp) {
         this.kpp = kpp;
     }
 
@@ -91,6 +91,11 @@ public class Organization {
 
     public void setOffice(List<Office> office) {
         this.office = office;
+    }
+
+    public Organization(String name, Long inn) {
+        this.name = name;
+        this.inn = inn;
     }
 
     @Override
