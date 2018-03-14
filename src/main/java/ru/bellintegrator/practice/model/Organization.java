@@ -13,11 +13,13 @@ public class Organization {
     @Column(name = "name")
     private String name;
     @Column(name = "full_Name")
-    private String country;
+    private String fullName;
     @Column(name = "inn")
     private Long inn;
     @Column(name = "kpp")
-    private Long kpp;
+    private int kpp;
+    @Column(name = "address")
+    private String address;
     @Column(name = "phone")
     private int phone;
     @Column(name = "is_Active")
@@ -45,12 +47,12 @@ public class Organization {
         this.name = name;
     }
 
-    public String getCountry() {
-        return country;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public Long getInn() {
@@ -61,12 +63,20 @@ public class Organization {
         this.inn = inn;
     }
 
-    public Long getKpp() {
+    public int getKpp() {
         return kpp;
     }
 
-    public void setKpp(Long kpp) {
+    public void setKpp(int kpp) {
         this.kpp = kpp;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public int getPhone() {
@@ -100,6 +110,6 @@ public class Organization {
 
     @Override
     public String toString() {
-        return "Organization{" + "id=" + id + ", name='" + name + '\'' + ", country='" + country + '\'' + ", inn=" + inn + ", kpp=" + kpp + ", phone=" + phone + ", isActive=" + isActive + '}';
+        return "Organization{" + "id=" + id + ", name='" + name + '\'' + ", fullName='" + fullName + '\'' + ", inn=" + inn + ", kpp=" + kpp + ", address='" + address + '\'' + ", phone=" + phone + ", isActive=" + isActive + '}';
     }
 }

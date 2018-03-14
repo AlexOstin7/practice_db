@@ -35,21 +35,28 @@ public class DummyOrganizationServiceImpl implements DummyOrganizationService {
         dao.save(organization);
     }
 
+
     @Override
     @Transactional(readOnly = true)
     public List<OrganizationView> organizations() {
         List<Organization> all = dao.all();
 
-        Function<Organization, OrganizationView> mapOrganization = org -> {
+        Function<Organization, OrganizationView> mapOrganization = p -> {
             OrganizationView view = new OrganizationView();
-            view.id = String.valueOf(org.getId());
-            view.name = org.getName();
-            view.inn = org.getInn();
+            view.id = String.valueOf(p.getId());
+            view.name = p.getName();
+            view.fullName = p.getFullName();
+            view.inn = p.getInn();
+            view.kpp = p.getKpp();
+            view.address = p.getAddress();
+            view.phone = p.getPhone();
+            view.isActive = p.getActive();
 
             log.info(view.toString());
 
             return view;
         };
+
 
         return all.stream()
                 .map(mapOrganization)
