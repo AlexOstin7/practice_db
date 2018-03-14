@@ -25,4 +25,7 @@ INSERT INTO COUNTRY (id, NAME, CODE) VALUES (2, 'Республика Армен
 
 INSERT INTO COUNTRY (id, NAME, CODE) VALUES (3, 'Респубика Беларусь', 112);
 
-INSERT INTO ORGANIZATION (id, NAME, FULL_NAME, INN, KPP, ADDRESS, PHONE, IS_ACTIVE) VALUES (1, 'ООО ИНТЕР', 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕСТВЕННОСТЬЮ ИНТЕР',5820001122, 582001001, 'ПЕНЗА УЛ.КРАСНАЯ Д. 1', 541234, TRUE);
+INSERT INTO ORGANIZATION (id, NAME, FULL_NAME, INN, KPP, ADDRESS, PHONE, IS_ACTIVE) VALUES (1, 'ООО СТАРТ', 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕСТВЕННОСТЬЮ ИНТЕР',5820001122, 582001001, 'ПЕНЗА УЛ.КРАСНАЯ Д. 1', 541234, TRUE);
+
+INSERT INTO ORGANIZATION (id, NAME, FULL_NAME, INN, KPP, ADDRESS, PHONE, IS_ACTIVE) VALUES (2, 'ЗАО МИР', 'ЗАКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО МИР',5820003344, 582001001, 'ПЕНЗА ПР.ПОБЕДЫ Д. 9', 551234, TRUE);
+

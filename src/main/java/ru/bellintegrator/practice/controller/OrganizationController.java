@@ -6,7 +6,7 @@ import ru.bellintegrator.practice.view.OrganizationView;
 
 import java.util.List;
 
-public interface DummyOrganizationController {
+public interface OrganizationController {
     /**
      * Dummy controller
      * Just for testing
