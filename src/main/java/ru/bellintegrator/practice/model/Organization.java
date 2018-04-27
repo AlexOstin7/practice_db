@@ -28,7 +28,7 @@ public class Organization {
     public Organization() {
     }
 
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Office> office;
 
     public Long getId() {
@@ -108,8 +108,20 @@ public class Organization {
         this.inn = inn;
     }
 
-    @Override
-    public String toString() {
-        return "Organization{" + "id=" + id + ", name='" + name + '\'' + ", fullName='" + fullName + '\'' + ", inn=" + inn + ", kpp=" + kpp + ", address='" + address + '\'' + ", phone=" + phone + ", isActive=" + isActive + '}';
+    public Organization(String name, String fullName, Long inn, int kpp, String address, int phone, Boolean isActive) {
+        this.name = name;
+        this.fullName = fullName;
+        this.inn = inn;
+        this.kpp = kpp;
+        this.address = address;
+        this.phone = phone;
+        this.isActive = isActive;
     }
+
+    public Organization(String name, Long inn, Boolean isActive) {
+        this.name = name;
+        this.inn = inn;
+        this.isActive = isActive;
+    }
+
 }

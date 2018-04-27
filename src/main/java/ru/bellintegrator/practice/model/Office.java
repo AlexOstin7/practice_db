@@ -15,11 +15,11 @@ public class Office {
     private String address;
     @Column(name = "phone")
     private Integer phone;
-    @Column(name = "isActive")
+    @Column(name = "is_Active")
     private Boolean isActive = true;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "orgId")
+    @JoinColumn(name = "org_Id")
     private Organization organization;
 
     @OneToMany(mappedBy = "office", cascade = CascadeType.ALL, orphanRemoval = true)

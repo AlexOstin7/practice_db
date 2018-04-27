@@ -6,13 +6,13 @@ CREATE TABLE IF NOT EXISTS Organiztion (
     kpp        INTEGER  NOT NULL,
     address    VARCHAR  NOT NULL,
     phone      INTEGER  NOT NULL,
-    isActive   BOOLEAN  NOT NULL
+    is_Active   BOOLEAN  NOT NULL
 ) ;
 CREATE TABLE IF NOT EXISTS Office (
     ordId     INTEGER   PRIMARY KEY AUTO_INCREMENT,
     name      VARCHAR(50) NOT NULL,
     phone     INTEGER   NOT NULL,
-    isActive  BOOLEAN   NOT NULL
+    is_Active  BOOLEAN   NOT NULL
 ) ;
 
 CREATE TABLE IF NOT EXISTS User (
@@ -23,5 +23,5 @@ CREATE TABLE IF NOT EXISTS User (
     position   INTEGER  NOT NULL,
     docCode    VARCHAR  NOT NULL,
     citizenShipCode INTEGER  NOT NULL,
-    isActive   BOOLEAN  NOT NULL
+    is_Active   BOOLEAN  NOT NULL
 )

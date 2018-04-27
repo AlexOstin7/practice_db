@@ -90,10 +90,4 @@ crashlytics-build.properties
 # ---------------------------------------------------------------------
 *.log
 README.MD
-/home/user/BellIntegrator/src/main/java/ru/bellintegrator/practice/controller/Impl/
-/home/user/BellIntegrator/src/main/java/ru/bellintegrator/practice/controller/Impl/DummyOrganizationControllerImpl.java
-/home/user/BellIntegrator/src/main/java/ru/bellintegrator/practice/controller/DummyOrganizationControllerImpl.java
-/home/user/BellIntegrator/src/main/java/ru/bellintegrator/practice/controller/Impl/ReminderController.java
-/home/user/BellIntegrator/src/main/java/ru/bellintegrator/practice/service/Impl/
-/home/user/BellIntegrator/src/main/java/ru/bellintegrator/practice/service/Impl/DummyOrganizationServiceImpl.java
-/home/user/BellIntegrator/src/main/java/ru/bellintegrator/practice/service/DummyOrganizationService.java
+

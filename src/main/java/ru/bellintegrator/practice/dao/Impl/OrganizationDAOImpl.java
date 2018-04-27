@@ -17,38 +17,31 @@ import java.util.List;
 public class OrganizationDAOImpl implements OrganizationDAO {
 
     private final EntityManager em;
-    // @PersistenceContext(unitName="entityManagerFactory")
-    private EntityManager entityManager;
+    //private EntityManager entityManager;
     @Autowired
     public OrganizationDAOImpl(EntityManager em) {
         this.em = em;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
     public List<Organization> all() {
-
         TypedQuery<Organization> query = em.createQuery("SELECT p FROM Organization p", Organization.class);
         //TypedQuery<Organization> query = em.createQuery("FROM Organization", Organization.class);
-
         return query.getResultList();
-
-
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
     public Organization loadById(Long id) {
         return em.find(Organization.class, id);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
+    public Organization loadByName(String name, Long inn, Boolean isActive) {
+        return em.find(Organization.class, name);
+    }
+
     @Override
     public Organization loadByName(String name) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -61,12 +54,14 @@ public class OrganizationDAOImpl implements OrganizationDAO {
         return query.getSingleResult();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void save(Organization Organization) {
         em.persist(Organization);
+    }
+
+    @Override
+    public void remove(Organization Organization) {
+        em.remove(Organization);
     }
 
 }

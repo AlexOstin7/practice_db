@@ -29,3 +29,5 @@ INSERT INTO ORGANIZATION (id, NAME, FULL_NAME, INN, KPP, ADDRESS, PHONE, IS_ACTI
 
 INSERT INTO ORGANIZATION (id, NAME, FULL_NAME, INN, KPP, ADDRESS, PHONE, IS_ACTIVE) VALUES (2, 'ЗАО МИР', 'ЗАКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО МИР',5820003344, 582001001, 'ПЕНЗА ПР.ПОБЕДЫ Д. 9', 551234, TRUE);
 
+INSERT INTO ORGANIZATION (id, NAME, FULL_NAME, INN, KPP, ADDRESS, PHONE, IS_ACTIVE) VALUES (3, 'ПО ПОЛЁТ', 'ПРОИЗВОДСТВЕННОЕ ОБЪЕДИНЕНИЕ ПОЛЁТ',5820005566, 582001002, 'ПЕНЗА ПР.СТРОИТЕЛЕЙ Д. 11', 654321, TRUE);
+

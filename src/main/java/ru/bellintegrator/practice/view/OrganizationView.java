@@ -1,11 +1,9 @@
 package ru.bellintegrator.practice.view;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 
-/**
- * Dummy data view
- * Just for test
- */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrganizationView {
     @ApiModelProperty(hidden = true)
     public String id;
@@ -93,13 +91,13 @@ public class OrganizationView {
 
     }
 
-    public OrganizationView(String name, Long inn) {
+    public OrganizationView(String name, Long inn, Boolean isActive) {
         this.name = name;
         this.inn = inn;
+        this.isActive = isActive;
     }
 
-    public OrganizationView(String id, String name, String fullName, Long inn, int kpp, String address, int phone, Boolean isActive) {
-        this.id = id;
+    public OrganizationView(String name, String fullName, Long inn, int kpp, String address, int phone, Boolean isActive) {
         this.name = name;
         this.fullName = fullName;
         this.inn = inn;
@@ -109,8 +107,12 @@ public class OrganizationView {
         this.isActive = isActive;
     }
 
+    public OrganizationView(String id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
-        return "OrganizationView{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", fullName='" + fullName + '\'' + ", inn=" + inn + ", kpp=" + kpp + ", address='" + address + '\'' + ", phone=" + phone + ", isActive=" + isActive + '}';
+        return "OrganizationView{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", fullName='" + fullName + '\'' + ", inn=" + inn + ", kpp=" + kpp + ", address='" + address + '\'' + ", phone=" + phone + ", isActive=" + isActive +'}';
     }
 }

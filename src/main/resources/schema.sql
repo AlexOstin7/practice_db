@@ -13,10 +13,10 @@ CREATE TABLE IF NOT EXISTS Office (
     id         INTEGER  PRIMARY KEY AUTO_INCREMENT,
     name       VARCHAR(50) NOT NULL,
     address    VARCHAR(250) NOT NULL,
-    pnone      INTEGER NOT NULL,
-    isActive   BOOLEAN NOT NULL,
-    orgId      INTEGER NOT NULL,
-CONSTRAINT Organization_FKEY FOREIGN KEY(orgId) REFERENCES PUBLIC.Organization (id)
+    phone      INTEGER NOT NULL,
+    is_Active   BOOLEAN NOT NULL,
+    org_Id      INTEGER NOT NULL,
+CONSTRAINT Organization_FKEY FOREIGN KEY(org_Id) REFERENCES PUBLIC.Organization (id)
 );
 
 CREATE TABLE IF NOT EXISTS doc (

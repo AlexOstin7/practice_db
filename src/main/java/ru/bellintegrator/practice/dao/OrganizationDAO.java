@@ -31,11 +31,21 @@ public interface OrganizationDAO {
     Organization loadByName(String name);
 
     /**
+     * Получить Organization по имени
+     *
+     * @param name, inn, isActive
+     * @return
+     */
+    Organization loadByName(String name, Long inn, Boolean isActive);
+
+    /**
      * Сохранить Organization
      *
      * @param Organization
      */
     void save(Organization Organization);
+
+    void remove(Organization Organization);
 
     //public List(Organization) listOrganization(String name, Integer inn, Boolean isActive);
 }

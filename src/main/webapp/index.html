@@ -1,23 +1,186 @@
 <!DOCTYPE HTML>
 <html lang="ru">
-    <head>
-        <meta charset="UTF-8">
-        <title>Organization CRUD</title>
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/main.css">
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery.min.js"></script>
-        <script src="js/form.js"> </script>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <title>Persons CRUD</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.min.js"></script>
 
-    <body class="fonts">
+    <!--script src="js/form.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.min.js"></script>
+    <title>AngularJs PUT Form Nested Object to SpringBoot Example</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="/js/angularApp.js"></script>
+    <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <title>Spring Boot Example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script-->
+</head>
 
-        <h1>Hello, World!</h1>
-        <button id="ping" class="btn btn-default btn-md">Ping</button><br/>
-        <button id="organizationList" class="btn btn-default btn-md">Organization List</button><br><br>
-        Name: <input type="text" id="name"><br>
-        Age: <input type="text" id="age"><br>
-        <button id="addOrganization" class="btn btn-default btn-md">Save</button><br>
 
-    </body>
+<div class="container" ng-app="app">
+    <!--h1>Practice</h1-->
+    <div class="row">
+        <div ng-controller="postControllerSave" class="col-md-3">
+            <form name="organizationForm" ng-submit="submitForm()">
+                <h3>Save Organizations</h3>
+                <label>Name</label>
+                <input type="text" name="name" class="form-control" ng-model="name"/>
+                <label>FullName</label>
+                <input type="text" name="fullName" class="form-control" ng-model="fullName"/>
+                <label>Inn</label>
+                <input type="text" name="inn" class="form-control" ng-model="inn"/>
+                <label>Kpp</label>
+                <input type="text" name="kpp" class="form-control" ng-model="kpp"/>
+                <label>Address</label>
+                <input type="text" name="address" class="form-control" ng-model="address"/>
+                <label>Phone</label>
+                <input type="text" name="phone" class="form-control" ng-model="phone"/>
+                <label>isActive</label>
+                <input type="text" name="isActive" class="form-control" ng-model="isActive"/>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <p>{{postResultMessage}}</p>
+        </div>
+
+        <div ng-controller="postControllerUpdate" class="col-md-3">
+
+            <form name="organizationFormUpdate" ng-submit="submitForm()">
+                <h3>Update Organizations</h3>
+
+                <label>Name</label>
+                <input type="text" name="name" class="form-control" ng-model="name"/>
+                <label>FullName</label>
+                <input type="text" name="fullName" class="form-control" ng-model="fullName"/>
+                <label>Inn</label>
+                <input type="text" name="inn" class="form-control" ng-model="inn"/>
+                <label>Kpp</label>
+                <input type="text" name="kpp" class="form-control" ng-model="kpp"/>
+                <label>Address</label>
+                <input type="text" name="address" class="form-control" ng-model="address"/>
+                <label>Phone</label>
+                <input type="text" name="phone" class="form-control" ng-model="phone"/>
+                <label>isActive</label>
+                <input type="text" name="isActive" class="form-control" ng-model="isActive"/>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <input type="text" class="form-control" style="width: 100px;" ng-model="organizationId"/> <br/>
+            <button ng-click="getOrganization()">Get Organizations by Id</button>
+            <p>{{postResultMessage}}</p>
+        </div>
+
+
+        <div ng-controller="postControllerDelete" class="col-md-3">
+            <h3>Delete organization</h3>
+            <label>Id:</label>
+            <input type="text" class="form-control" style="width: 100px;" ng-model="organizationId"/> <br/>
+            <button ng-click="deleteOrganizationById()">Delete Organizations by Id</button>
+            <p>{{postResultMessage}}</p>
+        </div>
+
+        <div ng-controller="postOrganizationsControllerList" class="col-md-3">
+
+            <form name="organizationFormList" ng-submit="submitForm()">
+                <h3>Filter Organizations </h3> <!--  (name, id, isActive)-->
+                <label>Name</label>
+                <input type="text" name="name" class="form-control" ng-model="name"/>
+                <label>Inn</label>
+                <input type="text" name="inn" class="form-control" ng-model="inn"/>
+                <label>isActive</label>
+                <input type="text" name="isActive" class="form-control" ng-model="isActive"/>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+            <div ng-show="showAllOrganizations">
+                <ul class="list-group">
+                    <li ng-repeat="organization in allorganizations.data"><h4 class="list-group-item">
+                        <strong>Organizations {{$index}}</strong><br/>
+                        Id: {{organization.id}}<br/>
+                        Name: {{organization.name}}<br/>
+                        Inn: {{organization.inn}}<br/>
+                        Active: {{organization.isActive}}<br/>
+                    </h4></li>
+                </ul>
+            </div>
+
+            <p>{{postResultMessage}}</p>
+        </div>
+
+
+    </div>
+    <div class="row">
+        <div ng-controller="getAllOrganizationsController" class="col-md-3">
+            <h3>All Organizations</h3>
+
+            <button ng-click="getAllOrganizations()">Get All Organizations</button>
+
+            <div ng-show="showAllOrganizations">
+                <ul class="list-group">
+                    <li ng-repeat="organization in allorganizations.data"><h4 class="list-group-item">
+                        <strong>Organizations {{$index}}</strong><br/>
+                        Id: {{organization.id}}<br/>
+                        Name: {{organization.name}}<br/>
+                        FullName: {{organization.fullName}}<br/>
+                        Inn: {{organization.inn}}<br/>
+                        Kpp: {{organization.kpp}}<br/>
+                        Address: {{organization.address}}<br/>
+                        Phone: {{organization.phone}}<br/>
+                        Active: {{organization.isActive}}<br/>
+                    </h4></li>
+                </ul>
+            </div>
+            <p>{{getResultMessage}}</p>
+        </div>
+
+        <div ng-controller="getAllOrganizationsControllerBrief" class="col-md-3">
+            <h3>All Organizations brief</h3>
+
+            <button ng-click="getAllOrganizations()">Get All Organizations</button>
+
+            <div ng-show="showAllOrganizations">
+                <ul class="list-group">
+                    <li ng-repeat="organization in allOrganizations.data"><h4 class="list-group-item">
+                        <strong>Organizations {{$index}}</strong><br/>
+                        Id: {{organization.id}}<br/>
+                        Name: {{organization.name}}<br/>
+                        Inn: {{organization.inn}}
+                    </h4></li>
+                </ul>
+            </div>
+            <p>{{getResultMessage}}</p>
+            <p>{{error}}</p>
+        </div>
+
+        <div ng-controller="getOrganizationControllerById" class="col-md-3">
+            <h3>Organizations by ID</h3>
+
+            <input type="text" class="form-control" style="width: 100px;"
+                   ng-model="organizationId"/> <br/>
+            <button ng-click="getOrganization()">Get Organizations by Id</button>
+
+            <div ng-show="showOrganization">
+                <strong>Organizations {{$index}}</strong><br/>
+                Id: {{organization.data.id}}<br/>
+                Name: {{organization.data.name}}<br/>
+                FullName: {{organization.data.fullName}}<br/>
+                Inn: {{organization.data.inn}}<br/>
+                Kpp: {{organization.data.kpp}}<br/>
+                Address: {{organization.data.address}}<br/>
+                Phone: {{organization.data.phone}}<br/>
+                Active: {{organization.data.isActive}}<br/>
+            </div>
+            <p>{{getResultMessage}}</p>
+        </div>
+
+    </div>
+</div>
+
 </html>

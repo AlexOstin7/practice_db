@@ -12,9 +12,14 @@ import ru.bellintegrator.practice.model.Organization;
 import ru.bellintegrator.practice.service.OrganizationService;
 import ru.bellintegrator.practice.view.OrganizationView;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static com.sun.jmx.snmp.ThreadContext.contains;
+import static java.util.Collections.emptyList;
 
 @Service
 @Scope(proxyMode = ScopedProxyMode.INTERFACES)
@@ -31,10 +36,34 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional
     public void add(OrganizationView view) {
-        Organization organization = new Organization(view.name, view.inn);
+        Organization organization = new Organization(view.name, view.fullName, view.inn, view.kpp, view.address, view.phone, view.isActive);
         dao.save(organization);
     }
 
+    @Override
+    @Transactional
+    public void updateOrganization(OrganizationView view) {
+        Organization organization = dao.loadById(Long.valueOf(view.id));
+        organization.setName(view.name);
+        organization.setFullName(view.fullName);
+        organization.setInn(view.inn);
+        organization.setKpp(view.kpp);
+        organization.setAddress(view.address);
+        organization.setPhone(view.phone);
+        organization.setActive(view.isActive);
+
+        log.info(view.toString());
+
+        dao.save(organization);
+    }
+
+    @Override
+    @Transactional
+    public void deleteOrganization(OrganizationView view) {
+        Organization organization = dao.loadById(Long.valueOf(view.getId()));
+        log.info(view.toString());
+        dao.remove(organization);
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -56,10 +85,57 @@ public class OrganizationServiceImpl implements OrganizationService {
 
             return view;
         };
-
-
         return all.stream()
                 .map(mapOrganization)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<OrganizationView> listOrganizations(OrganizationView organization) {
+        List<Organization> all = dao.all();
+
+        Function<Organization, OrganizationView> mapOrganization = p -> {
+            OrganizationView view = new OrganizationView();
+                view.id = String.valueOf(p.getId());
+                view.name = p.getName();
+                view.inn = p.getInn();
+                view.isActive = p.getActive();
+
+            log.info(view.toString());
+
+            return view;
+        };
+        if (organization.getName() != null && !organization.getName().isEmpty()) {
+            return all.stream().map(mapOrganization)
+                    .filter(p -> (
+                                    ( p.getActive() == organization.getActive() && p.getName().contains(organization.getName()) && String.valueOf(p.getInn()).contains(String.valueOf(organization.getInn())) )
+
+                                    || (
+                                            p.getName().contains(organization.getName()) && organization.getActive() == null && p.getName().contains(organization.getName()) && organization.getInn() == null )
+                                        )
+                            ||      (
+                                    (String.valueOf(p.getInn()).contains(String.valueOf(organization.getInn())) && p.getName().contains(organization.getName()) && organization.getActive() == null)
+                                    )
+                            
+                            ||      (
+                                    p.getName().contains(organization.getName()) && p.getActive() == organization.getActive() && organization.getInn() == null
+                                    )
+                                )
+                    .collect(Collectors.toList());
+        }
+            else return Collections.emptyList();
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public Organization getOrganizationById(Long id) {
+        return dao.loadById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Organization getOrganizationByName(String name){
+        return dao.loadByName(name);
+    }
+
 }
