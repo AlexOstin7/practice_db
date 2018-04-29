@@ -7,19 +7,23 @@ import ru.bellintegrator.practice.message.Response;
 import ru.bellintegrator.practice.message.ResponseMsg;
 import ru.bellintegrator.practice.view.OfficeView;
 
-public interface OfficeControler {
+public interface OfficeController {
+    Response offices(@RequestBody OfficeView office);
 
+    Response offices();
+
+    Response getOfficeById(@PathVariable("id") Long id) ;
+ /*
     Response office(@RequestBody OfficeView office);
 
     Response updateOffice(@RequestBody OfficeView office);
 
     Response deleteOffice(@RequestBody OfficeView office);
 
-    Response offices();
 
-    Response offices(@RequestBody OfficeView office);
 
-    Response getOfficeById(@PathVariable("id") Long id) ;
+
 
     Response getOfficeByName(String name);
+    */
 }

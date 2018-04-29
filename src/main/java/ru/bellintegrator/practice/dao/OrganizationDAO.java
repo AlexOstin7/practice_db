@@ -28,15 +28,6 @@ public interface OrganizationDAO {
      * @param name
      * @return
      */
-    Organization loadByName(String name);
-
-    /**
-     * Получить Organization по имени
-     *
-     * @param name, inn, isActive
-     * @return
-     */
-    Organization loadByName(String name, Long inn, Boolean isActive);
 
     /**
      * Сохранить Organization
@@ -47,5 +38,4 @@ public interface OrganizationDAO {
 
     void remove(Organization Organization);
 
-    //public List(Organization) listOrganization(String name, Integer inn, Boolean isActive);
 }

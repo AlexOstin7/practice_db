@@ -1,50 +1,49 @@
 package ru.bellintegrator.practice.dao;
 
-import ru.bellintegrator.practice.model.Organization;
-
+import ru.bellintegrator.practice.model.Office;
 
 import java.util.List;
 
-public interface OrganizationDAO {
+public interface OfficeDAO {
 
     /**
-     * Получить все объекты Organization
+     * Получить все объекты Office
      *
      * @return
      */
-    List<Organization> all();
+    List<Office> all();
 
     /**
-     * Получить Organization по идентификатору
+     * Получить Office по идентификатору
      *
      * @param id
      * @return
      */
-    Organization loadById(Long id);
+    Office loadById(Long id);
 
     /**
-     * Получить Organization по имени
+     * Получить Office по имени
      *
      * @param name
      * @return
      */
-    Organization loadByName(String name);
+    Office loadByName(String name);
 
     /**
-     * Получить Organization по имени
+     * Получить Office по имени
      *
      * @param name, inn, isActive
      * @return
      */
-    Organization loadByName(String name, Long inn, Boolean isActive);
+    Office loadByName(String name, Long inn, Boolean isActive);
 
     /**
-     * Сохранить Organization
+     * Сохранить Office
      *
-     * @param Organization
+     * @param Office
      */
-    void save(Organization Organization);
+    void save(Office Office);
 
-    void remove(Organization Organization);
+    void remove(Office Office);
 
 }

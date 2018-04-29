@@ -25,9 +25,19 @@ INSERT INTO COUNTRY (id, NAME, CODE) VALUES (2, 'Республика Армен
 
 INSERT INTO COUNTRY (id, NAME, CODE) VALUES (3, 'Респубика Беларусь', 112);
 
-INSERT INTO ORGANIZATION (id, NAME, FULL_NAME, INN, KPP, ADDRESS, PHONE, IS_ACTIVE) VALUES (1, 'ООО СТАРТ', 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕСТВЕННОСТЬЮ ИНТЕР',5820001122, 582001001, 'ПЕНЗА УЛ.КРАСНАЯ Д. 1', 541234, TRUE);
+INSERT INTO ORGANIZATION (id, NAME, FULL_NAME, INN, KPP, ADDRESS, PHONE, IS_ACTIVE) VALUES (1, 'ООО СТАРТ', 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕСТВЕННОСТЬЮ СТАРТ',5820001122, 582001001, 'ПЕНЗА УЛ.КРАСНАЯ Д. 1', 541234, TRUE);
 
 INSERT INTO ORGANIZATION (id, NAME, FULL_NAME, INN, KPP, ADDRESS, PHONE, IS_ACTIVE) VALUES (2, 'ЗАО МИР', 'ЗАКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО МИР',5820003344, 582001001, 'ПЕНЗА ПР.ПОБЕДЫ Д. 9', 551234, TRUE);
 
 INSERT INTO ORGANIZATION (id, NAME, FULL_NAME, INN, KPP, ADDRESS, PHONE, IS_ACTIVE) VALUES (3, 'ПО ПОЛЁТ', 'ПРОИЗВОДСТВЕННОЕ ОБЪЕДИНЕНИЕ ПОЛЁТ',5820005566, 582001002, 'ПЕНЗА ПР.СТРОИТЕЛЕЙ Д. 11', 654321, TRUE);
+
+INSERT INTO OFFICE (id, NAME, ADDRESS, PHONE, IS_ACTIVE, ORG_ID) VALUES (1, 'АДМИНИСТРАЦИЯ', 'Г.ПЕНЗА УЛ. ЛЕНИНА Д.777', 84125565, TRUE, 1);
+
+INSERT INTO OFFICE (id, NAME, ADDRESS, PHONE, IS_ACTIVE, ORG_ID) VALUES (2, 'БУХГАЛТЕРИЯ', 'Г.ПЕНЗА УЛ. ВОРОШИЛОВА ', 841255667, TRUE, 1);
+
+INSERT INTO OFFICE (id, NAME, ADDRESS, PHONE, IS_ACTIVE, ORG_ID) VALUES (3, 'АДМИНИСТРАЦИЯ', 'Г.САМАРА УЛ. ВИШНЕВАЯ Д.34', 84699001, TRUE, 2);
+
+INSERT INTO OFFICE (id, NAME, ADDRESS, PHONE, IS_ACTIVE, ORG_ID) VALUES (4, 'БУХГАЛТЕРИЯ', 'Г.САМАРА УЛ. ОКРУЖНАЯ Д.35', 84699007, TRUE, 2);
+
+INSERT INTO OFFICE (id, NAME, ADDRESS, PHONE, IS_ACTIVE, ORG_ID) VALUES (5, 'АДМИНИСТРАЦИЯ', 'Г.МОСКВА УЛ. РЕВОЛЮЦИОННАЯ Д.7', 94512345, TRUE, 3);
 

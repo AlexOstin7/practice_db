@@ -1,9 +1,7 @@
 package ru.bellintegrator.practice.view;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrganizationView {
     @ApiModelProperty(hidden = true)
     public String id;
@@ -14,11 +12,11 @@ public class OrganizationView {
 
     public Long inn;
 
-    public int kpp;
+    public Integer kpp;
 
     public String address;
 
-    public int phone;
+    public Integer phone;
 
     public Boolean isActive;
 
@@ -54,11 +52,11 @@ public class OrganizationView {
         this.inn = inn;
     }
 
-    public int getKpp() {
+    public Integer getKpp() {
         return kpp;
     }
 
-    public void setKpp(int kpp) {
+    public void setKpp(Integer kpp) {
         this.kpp = kpp;
     }
 
@@ -70,11 +68,11 @@ public class OrganizationView {
         this.address = address;
     }
 
-    public int getPhone() {
+    public Integer getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(Integer phone) {
         this.phone = phone;
     }
 
@@ -86,7 +84,6 @@ public class OrganizationView {
         isActive = active;
     }
 
-    //для jackson
     public OrganizationView() {
 
     }
@@ -97,7 +94,7 @@ public class OrganizationView {
         this.isActive = isActive;
     }
 
-    public OrganizationView(String name, String fullName, Long inn, int kpp, String address, int phone, Boolean isActive) {
+    public OrganizationView(String name, String fullName, Long inn, Integer kpp, String address, Integer phone, Boolean isActive) {
         this.name = name;
         this.fullName = fullName;
         this.inn = inn;

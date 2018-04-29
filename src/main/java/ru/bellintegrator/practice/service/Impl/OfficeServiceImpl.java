@@ -7,86 +7,37 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bellintegrator.practice.dao.OrganizationDAO;
+import ru.bellintegrator.practice.dao.OfficeDAO;
 import ru.bellintegrator.practice.exception.CustomNotFoundException;
-import ru.bellintegrator.practice.model.Organization;
-import ru.bellintegrator.practice.service.OrganizationService;
+import ru.bellintegrator.practice.model.Office;
+import ru.bellintegrator.practice.service.OfficeService;
 import ru.bellintegrator.practice.view.OfficeView;
-import ru.bellintegrator.practice.view.OrganizationView;
+import ru.bellintegrator.practice.view.OfficeView;
 
-import java.util.Collections;
-import java.util.Formatter;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.sun.jmx.snmp.ThreadContext.contains;
-import static java.util.Collections.emptyList;
-
 @Service
 @Scope(proxyMode = ScopedProxyMode.INTERFACES)
-public class OrganizationServiceImpl implements OrganizationService {
-    private final Logger log = LoggerFactory.getLogger(OrganizationServiceImpl.class);
+public class OfficeServiceImpl implements OfficeService {
+    private final Logger log = LoggerFactory.getLogger(OfficeServiceImpl.class);
 
-    private final OrganizationDAO dao;
+    private final OfficeDAO dao;
 
     @Autowired
-    public OrganizationServiceImpl(OrganizationDAO dao) {
+    public OfficeServiceImpl(OfficeDAO dao) {
         this.dao = dao;
     }
 
     @Override
-    @Transactional
-    public void add(OrganizationView view) {
-        Organization organization = new Organization(view.name, view.fullName, view.inn, view.kpp, view.address, view.phone, view.isActive);
-        dao.save(organization);
-    }
-
-    @Override
-    @Transactional
-    public void updateOrganization(OrganizationView view) {
-        Organization organization = dao.loadById(Long.valueOf(view.id));
-        organization.setName(view.name);
-        organization.setFullName(view.fullName);
-        organization.setInn(view.inn);
-        organization.setKpp(view.kpp);
-        organization.setAddress(view.address);
-        organization.setPhone(view.phone);
-        organization.setActive(view.isActive);
-
-        log.info(view.toString());
-
-        dao.save(organization);
-    }
-
-    @Override
-    @Transactional
-    public void deleteOrganization(OrganizationView view) {
-        Organization organization = dao.loadById(Long.valueOf(view.getId()));
-        log.info(view.toString());
-        if (organization == null) {
-            //throw new CustomNotFoundException("Not found organizaton with Id is " + view.getId());
-            throw new CustomNotFoundException("Not found organizaton with Id is " + view.getId());
-        }
-        //else {
-            dao.remove(organization);
-        //}
-    }
-
-    @Override
     @Transactional(readOnly = true)
-    public List<OrganizationView> organizations() {
-        List<Organization> all = dao.all();
-
-        Function<Organization, OrganizationView> mapOrganization = p -> {
-            OrganizationView view = new OrganizationView();
+    public List<OfficeView> listOffices(OfficeView office) {
+        List<Office> all = dao.all();
+        Function<Office, OfficeView> mapOffice = p -> {
+            OfficeView view = new OfficeView();
             view.id = String.valueOf(p.getId());
             view.name = p.getName();
-            view.fullName = p.getFullName();
-            view.inn = p.getInn();
-            view.kpp = p.getKpp();
-            view.address = p.getAddress();
             view.phone = p.getPhone();
             view.isActive = p.getActive();
 
@@ -94,56 +45,100 @@ public class OrganizationServiceImpl implements OrganizationService {
 
             return view;
         };
-        return all.stream()
-                .map(mapOrganization)
-                .collect(Collectors.toList());
+        if (office.getName() != null && !office.getName().isEmpty()) {
+            return all.stream().map(mapOffice)
+                    .filter(p -> (
+                                    ( p.getActive() == office.getActive() && p.getName().contains(office.getName()) && String.valueOf(p.getPhone()).contains(String.valueOf(office.getPhone())) )
+
+                                            || (
+                                            p.getName().contains(office.getName()) && office.getActive() == null && p.getName().contains(office.getName()) && office.getPhone() == null )
+                            )
+                                    ||      (
+                                    (String.valueOf(p.getPhone()).contains(String.valueOf(office.getPhone())) && p.getName().contains(office.getName()) && office.getActive() == null)
+                            )
+
+                                    ||      (
+                                    p.getName().contains(office.getName()) && p.getActive() == office.getActive() && office.getPhone() == null
+                            )
+                    )
+                    .collect(Collectors.toList());
+        }
+
+        else {throw new CustomNotFoundException(String.format("Not found organizaton with Id Phone Active are %s %l %b ", office.getId(), office.getPhone(), office.isActive));//return Collections.emptyList();
+        }
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<OrganizationView> listOrganizations(OrganizationView organization) {
-        List<Organization> all = dao.all();
-        Function<Organization, OrganizationView> mapOrganization = p -> {
-            OrganizationView view = new OrganizationView();
-                view.id = String.valueOf(p.getId());
-                view.name = p.getName();
-                view.inn = p.getInn();
-                view.isActive = p.getActive();
+    public List<OfficeView> offices() {
+        List<Office> all = dao.all();
+
+        Function<Office, OfficeView> mapOffice = p -> {
+            OfficeView view = new OfficeView();
+            view.id = String.valueOf(p.getId());
+            view.name = p.getName();
+            view.address = p.getAddress();
+            view.phone = p.getPhone();
+            view.isActive = p.getActive();
+            //view.orgId = p.getOrganization()
 
             log.info(view.toString());
 
             return view;
         };
-        if (organization.getName() != null && !organization.getName().isEmpty()) {
-            return all.stream().map(mapOrganization)
-                    .filter(p -> (
-                                    ( p.getActive() == organization.getActive() && p.getName().contains(organization.getName()) && String.valueOf(p.getInn()).contains(String.valueOf(organization.getInn())) )
-
-                                    || (
-                                            p.getName().contains(organization.getName()) && organization.getActive() == null && p.getName().contains(organization.getName()) && organization.getInn() == null )
-                                        )
-                            ||      (
-                                    (String.valueOf(p.getInn()).contains(String.valueOf(organization.getInn())) && p.getName().contains(organization.getName()) && organization.getActive() == null)
-                                    )
-                            
-                            ||      (
-                                    p.getName().contains(organization.getName()) && p.getActive() == organization.getActive() && organization.getInn() == null
-                                    )
-                                )
-                    .collect(Collectors.toList());
-        }
-
-            else {throw new CustomNotFoundException(String.format("Not found organizaton with Id Inn Active are %s %l %b ", organization.getId(), organization.getInn(), organization.isActive));//return Collections.emptyList();
-        }
+        return all.stream()
+                .map(mapOffice)
+                .collect(Collectors.toList());
     }
+
     @Override
     @Transactional(readOnly = true)
-    public Organization getOrganizationById(Long id) {
+    public Office getOfficeById(Long id) {
         return dao.loadById(id);
+    }
+/*
+    @Override
+    @Transactional
+    public void add(OfficeView view) {
+        Office office = new Office(view.name, view.fullName, view.inn, view.kpp, view.address, view.phone, view.isActive);
+        dao.save(office);
     }
 
     @Override
-    public List<OfficeView> listOrganizations(OfficeView officeView) {
-        return null;
+    @Transactional
+    public void updateOffice(OfficeView view) {
+        Office office = dao.loadById(Long.valueOf(view.id));
+        office.setName(view.name);
+        office.setFullName(view.fullName);
+        office.setInn(view.inn);
+        office.setKpp(view.kpp);
+        office.setAddress(view.address);
+        office.setPhone(view.phone);
+        office.setActive(view.isActive);
+
+        log.info(view.toString());
+
+        dao.save(office);
     }
+
+    @Override
+    @Transactional
+    public void deleteOffice(OfficeView view) {
+        Office office = dao.loadById(Long.valueOf(view.getId()));
+        log.info(view.toString());
+        if (office == null) {
+            //throw new CustomNotFoundException("Not found organizaton with Id is " + view.getId());
+            throw new CustomNotFoundException("Not found organizaton with Id is " + view.getId());
+        }
+        //else {
+            dao.remove(office);
+        //}
+    }
+
+
+
+
+
+
+    */
 }

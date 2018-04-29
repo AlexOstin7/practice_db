@@ -1,5 +1,7 @@
 package ru.bellintegrator.practice.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -17,18 +19,16 @@ public class Organization {
     @Column(name = "inn")
     private Long inn;
     @Column(name = "kpp")
-    private int kpp;
+    private Integer kpp;
     @Column(name = "address")
     private String address;
     @Column(name = "phone")
-    private int phone;
+    private Integer phone;
     @Column(name = "is_Active")
     private Boolean isActive = true;
 
-    public Organization() {
-    }
-
     @OneToMany(mappedBy = "organization", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @JsonBackReference
     private List<Office> office;
 
     public Long getId() {
@@ -103,12 +103,15 @@ public class Organization {
         this.office = office;
     }
 
+    public Organization() {
+    }
+
     public Organization(String name, Long inn) {
         this.name = name;
         this.inn = inn;
     }
 
-    public Organization(String name, String fullName, Long inn, int kpp, String address, int phone, Boolean isActive) {
+    public Organization(String name, String fullName, Long inn, Integer kpp, String address, Integer phone, Boolean isActive) {
         this.name = name;
         this.fullName = fullName;
         this.inn = inn;

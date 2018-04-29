@@ -1,4 +1,4 @@
-package com.javasampleapproach.restcontrolleradvice.exception;
+package ru.bellintegrator.practice.exception;
 
 public class CustomNotFoundException extends RuntimeException{
 

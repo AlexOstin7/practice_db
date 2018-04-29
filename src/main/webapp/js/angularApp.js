@@ -1,6 +1,6 @@
 var app = angular.module('app', []);
 
-app.controller('postControllerSave', function ($scope, $http, $location) {
+app.controller('postOrganizationsControllerSave', function ($scope, $http, $location) {
     $scope.submitForm = function () {
         var url = $location.absUrl() + "/api/organiazation/save";
 
@@ -34,7 +34,7 @@ app.controller('postControllerSave', function ($scope, $http, $location) {
     }
 });
 
-app.controller('postControllerUpdate', function ($scope, $http, $location) {
+app.controller('postOrganizationsControllerUpdate', function ($scope, $http, $location) {
 
     $scope.showOrganization = false;
 
@@ -58,7 +58,7 @@ app.controller('postControllerUpdate', function ($scope, $http, $location) {
 
         $http.get(url, config).then(function (response) {
 
-            if (response.data.status == "Done") {
+            if (response.data.status == "success") {
                 $scope.organization = response.data;
                 $scope.showOrganization = true;
                 $scope.name = $scope.organization.data.name;
@@ -118,7 +118,7 @@ app.controller('postControllerUpdate', function ($scope, $http, $location) {
 
 });
 
-app.controller('postControllerDelete', function ($scope, $http, $location) {
+app.controller('postOrganizationsControllerDelete', function ($scope, $http, $location) {
 
     $scope.showOrganization = false;
 
@@ -136,9 +136,15 @@ app.controller('postControllerDelete', function ($scope, $http, $location) {
         };
 
         $http.post(url, data, config).then(function (response) {
-            $scope.postResultMessage = "Sucessful!";
+            $scope.message = response.data.status;
+            if (response.data.status == "success") {
+               // $scope.postResultMessage = "Sucessful!!!";
+                $scope.showOrganization = true;
+                $scope.allorganizations = response.data;
+            }
         }, function (response) {
             $scope.postResultMessage = "Fail!";
+
         });
 
     }
@@ -163,15 +169,16 @@ app.controller('postOrganizationsControllerList', function ($scope, $http, $loca
             isActive: $scope.isActive
         };
         $http.post(url, data, config).then(function (response) {
-            $scope.postResultMessage = "Sucessful!";
-            if (response.data.status == "Done") {
+            $scope.postResultMessage = response.data.status;
+            $scope.showAllOrganizations = false;
+            if (response.data.status == "success") {
                 $scope.allorganizations = response.data;
                 $scope.showAllOrganizations = true;
             } else {
                 $scope.getResultMessage = "get All Organizations Data Error!";
             }
         }, function (response) {
-
+            $scope.showAllOrganizations = false;
             $scope.postResultMessage = "Fail!";
         });
 
@@ -193,10 +200,9 @@ app.controller('getAllOrganizationsControllerBrief', function ($scope, $http, $l
                 'Content-Type': 'application/json;charset=utf-8;'
             }
         }
-
         $http.get(url, config).then(function (response) {
-            //$http.get(url, config).success(function(response) {
-            if (response.data.status == "Done") {
+
+            if (response.data.status == "success") {
                 $scope.allOrganizations = response.data;
                 $scope.showAllOrganizations = true;
             } else {
@@ -207,14 +213,16 @@ app.controller('getAllOrganizationsControllerBrief', function ($scope, $http, $l
 
         });
     }
-    //getAllOrganizations();
+
+
 });
 
 app.controller('getAllOrganizationsController', function ($scope, $http, $location) {
 
-    $scope.showAllOrganizations = false;
+    $scope.showAllOrganizationsFull = false;
+    $scope.showAllOrganizationsBrief = false;
 
-    $scope.getAllOrganizations = function () {
+    $scope.getAllOrganizationsFull = function () {
         var url = $location.absUrl() + "/api/organization"; // "findall";
 
         var config = {
@@ -224,9 +232,9 @@ app.controller('getAllOrganizationsController', function ($scope, $http, $locati
         }
 
         $http.get(url, config).then(function (response) {
-            if (response.data.status == "Done") {
-                $scope.allorganizations = response.data;
-                $scope.showAllOrganizations = true;
+            if (response.data.status == "success") {
+                $scope.allOrganizations = response.data;
+                $scope.showAllOrganizationsFull = true;
             } else {
                 $scope.getResultMessage = "get All Organizations Data Error!";
             }
@@ -234,9 +242,15 @@ app.controller('getAllOrganizationsController', function ($scope, $http, $locati
             $scope.getResultMessage = "Fail!";
         });
     }
-    //getAllOrganizations();
-});
+    $scope.getAllOrganizationsBrief = function () {
+        if ($scope.showAllOrganizationsBrief == true) {
+            $scope.showAllOrganizationsBrief = false;
+        } else {
+            $scope.showAllOrganizationsBrief = true;
+        }
+    }
 
+});
 
 app.controller('getOrganizationControllerById', function ($scope, $http, $location) {
 
@@ -253,7 +267,7 @@ app.controller('getOrganizationControllerById', function ($scope, $http, $locati
 
         $http.get(url, config).then(function (response) {
 
-            if (response.data.status == "Done") {
+            if (response.data.status == "success") {
                 $scope.organization = response.data;
                 $scope.showOrganization = true;
 
@@ -268,9 +282,12 @@ app.controller('getOrganizationControllerById', function ($scope, $http, $locati
     }
 });
 
-app.controller('getControllerByName', function ($scope, $http, $location) {
-    $scope.fillForm = function () {
-        var url = $location.absUrl() + "/api/organiazation/name";
+app.controller('getAllOfficesController', function ($scope, $http, $location) {
+
+    $scope.showAllOffices = false;
+
+    $scope.getAllOrganizations = function () {
+        var url = $location.absUrl() + "/api/office"; // "findall";
 
         var config = {
             headers: {
@@ -278,32 +295,19 @@ app.controller('getControllerByName', function ($scope, $http, $location) {
             }
         }
 
-        var data = {
-            id: $scope.id,
-            name: $scope.name,
-            fullName: $scope.fullName,
-            inn: $scope.inn,
-            kpp: $scope.kpp,
-            address: $scope.address,
-            phone: $scope.phone,
-            isActive: $scope.isActive
-        };
-
-
         $http.get(url, config).then(function (response) {
-
-            if (response.data.status == "Done") {
-                $scope.organization = response.data;
-                $scope.showOrganization = true;
-
+            if (response.data.status == "success") {
+                $scope.allOffices = response.data;
+                $scope.showAllOffices = true;
             } else {
-                $scope.getResultMessage = "Organization Data Error!";
+                $scope.getResultMessage = "get All Offices Data Error!";
             }
-
         }, function (response) {
             $scope.getResultMessage = "Fail!";
         });
     }
+    //getAllOrganizations();
 });
+
 
 

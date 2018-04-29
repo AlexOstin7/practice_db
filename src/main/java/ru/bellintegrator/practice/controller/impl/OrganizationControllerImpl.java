@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import ru.bellintegrator.practice.controller.OrganizationController;
+import ru.bellintegrator.practice.exception.CustomNotFoundException;
+import ru.bellintegrator.practice.message.Message;
 import ru.bellintegrator.practice.message.Response;
 import ru.bellintegrator.practice.model.Country;
 import ru.bellintegrator.practice.model.Organization;
@@ -40,8 +42,9 @@ public class OrganizationControllerImpl implements OrganizationController {
             @ApiResponse(code = 405, message = "I don't know"),
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/organiazation/save", method = {POST})
-    public void organization(@RequestBody OrganizationView organization) {
+    public Response organization(@RequestBody OrganizationView organization) {
         organizationService.add(organization);
+        return new Response("success");
     }
 
     @Override
@@ -52,8 +55,9 @@ public class OrganizationControllerImpl implements OrganizationController {
             @ApiResponse(code = 405, message = "I don't know"),
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/organization/update", method = {POST})
-    public void updateOrganizaton(@RequestBody OrganizationView organization) {
+    public Response updateOrganizaton(@RequestBody OrganizationView organization) {
         organizationService.updateOrganization(organization);
+        return new Response("success");
     }
     @Override
     @ApiOperation(value = "listOrganizations", nickname = "listOrganizations", httpMethod = "POST")
@@ -64,7 +68,12 @@ public class OrganizationControllerImpl implements OrganizationController {
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/organization/list", method = {POST})
     public Response organizations(@RequestBody OrganizationView organization) {
-        return new Response("Done", organizationService.listOrganizations(organization));
+        List<OrganizationView> view = organizationService.listOrganizations(organization);
+        if (view.isEmpty()) {
+            throw new CustomNotFoundException("Not found");
+        } else {
+            return new Response("success", view);
+        }
     }
 
     @Override
@@ -75,34 +84,24 @@ public class OrganizationControllerImpl implements OrganizationController {
             @ApiResponse(code = 405, message = "I don't know"),
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/organization/delete", method = {POST})
-    public void deleteOrganizaton(@RequestBody OrganizationView organization) {
+    public Response deleteOrganizaton(@RequestBody OrganizationView organization) {
         organizationService.deleteOrganization(organization);
+        return new Response("success");
     }
-
 
     @Override
     @ApiOperation(value = "getOrganizationsFull", nickname = "getOrganizationsFull", httpMethod = "GET")
     @RequestMapping(value = "/organization", method = {GET})
-    public Response organizations() {
-        return new Response("Done", organizationService.organizations());
+    public Message organizations() {
+        return new Response("success", organizationService.organizations());
     }
-
-
 
     @Override
     @ApiOperation(value = "getOrganizationById", nickname = "getOrganizationById", httpMethod = "GET")
     //@RequestMapping(value = "/organization/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
     @RequestMapping(value = "/organization/{id}", method = {GET})
     public Response getOrganizationById(@PathVariable(value = "id") Long id) {
-        return new Response("Done", organizationService.getOrganizationById(id));
+        return new Response("success", organizationService.getOrganizationById(id));
     }
-
-    @Override
-    @ApiOperation(value = "getOrganizationByName", nickname = "getOrganizationByName", httpMethod = "GET")
-    @RequestMapping(value = "/organization/name", method = {GET})
-    public Response getOrganizationByName(String name) {
-        return new Response("Done", organizationService.getOrganizationByName(name));
-    }
-
 
 }

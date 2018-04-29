@@ -1,6 +1,8 @@
 package ru.bellintegrator.practice.service;
 
+import ru.bellintegrator.practice.model.Office;
 import ru.bellintegrator.practice.model.Organization;
+import ru.bellintegrator.practice.view.OfficeView;
 import ru.bellintegrator.practice.view.OrganizationView;
 
 
@@ -21,10 +23,9 @@ public interface OrganizationService {
 
     List<OrganizationView> organizations();
 
-    //List<OrganizationView> organizations(String name, Long inn, Boolean isActive);
-
     Organization getOrganizationById(Long id);
 
-    Organization getOrganizationByName(String name);
+   // Organization getOrganizationByName(String name);
+
 
 }

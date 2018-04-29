@@ -1,11 +1,18 @@
 package ru.bellintegrator.practice.message;
 
-public class Response {
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Response implements Message {
 	private String status;
 	private Object data;
 
 	public Response() {
 
+	}
+
+	public Response (String status) {
+		this.status = status;
 	}
 
 	public Response(String status, Object data) {

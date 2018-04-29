@@ -28,7 +28,7 @@
 <div class="container" ng-app="app">
     <!--h1>Practice</h1-->
     <div class="row">
-        <div ng-controller="postControllerSave" class="col-md-3">
+        <div ng-controller="postOrganizationsControllerSave" class="col-md-3">
             <form name="organizationForm" ng-submit="submitForm()">
                 <h3>Save Organizations</h3>
                 <label>Name</label>
@@ -51,7 +51,7 @@
             <p>{{postResultMessage}}</p>
         </div>
 
-        <div ng-controller="postControllerUpdate" class="col-md-3">
+        <div ng-controller="postOrganizationsControllerUpdate" class="col-md-3">
 
             <form name="organizationFormUpdate" ng-submit="submitForm()">
                 <h3>Update Organizations</h3>
@@ -78,12 +78,13 @@
         </div>
 
 
-        <div ng-controller="postControllerDelete" class="col-md-3">
+        <div ng-controller="postOrganizationsControllerDelete" class="col-md-3">
             <h3>Delete organization</h3>
             <label>Id:</label>
             <input type="text" class="form-control" style="width: 100px;" ng-model="organizationId"/> <br/>
             <button ng-click="deleteOrganizationById()">Delete Organizations by Id</button>
             <p>{{postResultMessage}}</p>
+            <p>{{message}}</p>
         </div>
 
         <div ng-controller="postOrganizationsControllerList" class="col-md-3">
@@ -120,30 +121,32 @@
         <div ng-controller="getAllOrganizationsController" class="col-md-3">
             <h3>All Organizations</h3>
 
-            <button ng-click="getAllOrganizations()">Get All Organizations</button>
+            <button ng-click="getAllOrganizationsFull()">Get All Organizations</button>
+            <button ng-click="getAllOrganizationsBrief()">full</button>
 
-            <div ng-show="showAllOrganizations">
+            <div ng-show="showAllOrganizationsFull">
                 <ul class="list-group">
-                    <li ng-repeat="organization in allorganizations.data"><h4 class="list-group-item">
+                    <li ng-repeat="organization in allOrganizations.data"><h4 class="list-group-item">
                         <strong>Organizations {{$index}}</strong><br/>
                         Id: {{organization.id}}<br/>
                         Name: {{organization.name}}<br/>
-                        FullName: {{organization.fullName}}<br/>
+                        <p ng-show="showAllOrganizationsBrief">FullName:{{organization.fullName}}<br/></p>
                         Inn: {{organization.inn}}<br/>
-                        Kpp: {{organization.kpp}}<br/>
-                        Address: {{organization.address}}<br/>
-                        Phone: {{organization.phone}}<br/>
+                        <p ng-show="showAllOrganizationsBrief">Kpp: {{organization.kpp}}<br/></p>
+                        <p ng-show="showAllOrganizationsBrief">Address: {{organization.address}}<br/></p>
+                        <p ng-show="showAllOrganizationsBrief">Phone: {{organization.phone}}<br/></p>
                         Active: {{organization.isActive}}<br/>
                     </h4></li>
                 </ul>
             </div>
+
             <p>{{getResultMessage}}</p>
         </div>
 
         <div ng-controller="getAllOrganizationsControllerBrief" class="col-md-3">
             <h3>All Organizations brief</h3>
 
-            <button ng-click="getAllOrganizations()">Get All Organizations</button>
+            <button ng-click="getAllOrganizations()">Get All Organizations brief</button>
 
             <div ng-show="showAllOrganizations">
                 <ul class="list-group">

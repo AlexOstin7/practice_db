@@ -8,11 +8,14 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bellintegrator.practice.dao.OrganizationDAO;
+import ru.bellintegrator.practice.exception.CustomNotFoundException;
 import ru.bellintegrator.practice.model.Organization;
 import ru.bellintegrator.practice.service.OrganizationService;
+import ru.bellintegrator.practice.view.OfficeView;
 import ru.bellintegrator.practice.view.OrganizationView;
 
 import java.util.Collections;
+import java.util.Formatter;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -62,7 +65,10 @@ public class OrganizationServiceImpl implements OrganizationService {
     public void deleteOrganization(OrganizationView view) {
         Organization organization = dao.loadById(Long.valueOf(view.getId()));
         log.info(view.toString());
-        dao.remove(organization);
+        if (organization == null) {
+            throw new CustomNotFoundException("Not found organizaton with Id is " + view.getId());
+        }
+            dao.remove(organization);
     }
 
     @Override
@@ -94,7 +100,6 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional(readOnly = true)
     public List<OrganizationView> listOrganizations(OrganizationView organization) {
         List<Organization> all = dao.all();
-
         Function<Organization, OrganizationView> mapOrganization = p -> {
             OrganizationView view = new OrganizationView();
                 view.id = String.valueOf(p.getId());
@@ -107,7 +112,8 @@ public class OrganizationServiceImpl implements OrganizationService {
             return view;
         };
         if (organization.getName() != null && !organization.getName().isEmpty()) {
-            return all.stream().map(mapOrganization)
+           return
+                   all.stream().map(mapOrganization)
                     .filter(p -> (
                                     ( p.getActive() == organization.getActive() && p.getName().contains(organization.getName()) && String.valueOf(p.getInn()).contains(String.valueOf(organization.getInn())) )
 
@@ -124,18 +130,13 @@ public class OrganizationServiceImpl implements OrganizationService {
                                 )
                     .collect(Collectors.toList());
         }
-            else return Collections.emptyList();
+            else {throw new CustomNotFoundException(String.format("Invalid request Name*- %s Inn- %s Active- %s ", organization.getId(), organization.getInn(), organization.isActive));//return Collections.emptyList();
+        }
     }
     @Override
     @Transactional(readOnly = true)
     public Organization getOrganizationById(Long id) {
         return dao.loadById(id);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Organization getOrganizationByName(String name){
-        return dao.loadByName(name);
     }
 
 }

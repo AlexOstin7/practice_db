@@ -37,31 +37,16 @@ public class OrganizationDAOImpl implements OrganizationDAO {
         return em.find(Organization.class, id);
     }
 
+
     @Override
-    public Organization loadByName(String name, Long inn, Boolean isActive) {
-        return em.find(Organization.class, name);
+    public void save(Organization organization) {
+        em.persist(organization);
     }
 
     @Override
-    public Organization loadByName(String name) {
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<Organization> criteria = builder.createQuery(Organization.class);
+    public void remove(Organization organization) {
+        em.remove(organization);//OrganizationDAOImpl
 
-        Root<Organization> Organization = criteria.from(Organization.class);
-        criteria.where(builder.equal(Organization.get("name"), name));
-
-        TypedQuery<Organization> query = em.createQuery(criteria);
-        return query.getSingleResult();
-    }
-
-    @Override
-    public void save(Organization Organization) {
-        em.persist(Organization);
-    }
-
-    @Override
-    public void remove(Organization Organization) {
-        em.remove(Organization);
     }
 
 }

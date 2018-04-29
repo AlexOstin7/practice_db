@@ -1,4 +1,4 @@
-package com.javasampleapproach.restcontrolleradvice.model;
+package ru.bellintegrator.practice.message;
 
 public class ResponseMsg {
 	private String message;

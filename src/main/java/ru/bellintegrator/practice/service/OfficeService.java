@@ -1,33 +1,37 @@
 package ru.bellintegrator.practice.service;
 
 import ru.bellintegrator.practice.model.Office;
-import ru.bellintegrator.practice.model.Organization;
 import ru.bellintegrator.practice.view.OfficeView;
-import ru.bellintegrator.practice.view.OrganizationView;
-
+import ru.bellintegrator.practice.view.OfficeView;
 
 import java.util.List;
 
 /**
  * Some service. Just for test
  */
-public interface OrganizationService {
+public interface OfficeService {
+    
+    List<OfficeView> listOffices(OfficeView office);
 
-    void add(OrganizationView organization);
+    List<OfficeView> offices();
 
-    void updateOrganization(OrganizationView organization);
+    Office getOfficeById(Long id);
+/*
+    void add(OfficeView office);
 
-    List<OrganizationView> listOrganizations(OrganizationView organization);
+    void updateOffice(OfficeView office);
 
-    void deleteOrganization(OrganizationView organization);
-
-    List<OrganizationView> organizations();
-
-    Organization getOrganizationById(Long id);
-
-   // Organization getOrganizationByName(String name);
+    
+    void deleteOffice(OfficeView office);
 
 
-    List<OfficeView> listOrganizations(OfficeView officeView);
+
+
+
+   // Office getOfficeByName(String name);
+
+
+
+    */
 
 }

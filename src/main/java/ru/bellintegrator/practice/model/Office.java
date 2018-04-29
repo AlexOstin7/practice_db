@@ -1,10 +1,13 @@
 package ru.bellintegrator.practice.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "Office")
+@Table(name = "office")
 public class Office {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,13 +23,12 @@ public class Office {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "org_Id")
+    @JsonManagedReference
     private Organization organization;
 
     @OneToMany(mappedBy = "office", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private List<User> users;
-
-    public Office() {
-    }
 
     public Long getId() {
         return id;
@@ -52,11 +54,11 @@ public class Office {
         this.address = address;
     }
 
-    public int getPhone() {
+    public Integer getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(Integer phone) {
         this.phone = phone;
     }
 
@@ -82,5 +84,13 @@ public class Office {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public Office() {
+    }
+
+    @Override
+    public String toString() {
+        return "Office{" + "id=" + id + ", name='" + name + '\'' + ", address='" + address + '\'' + ", phone=" + phone + ", isActive=" + isActive + ", organization=" + organization + ", users=" + users + '}';
     }
 }
