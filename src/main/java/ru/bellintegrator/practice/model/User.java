@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -13,32 +14,37 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "firstName")
+    @Column(name = "first_Name")
     private String firstName;
-    @Column(name = "lastName")
+    @Column(name = "last_Name")
     private String lastName;
-    @Column(name = "middleName")
+    @Column(name = "middle_Name")
     private String middleName;
     @Column(name = "possition")
     private String possition;
-    @Column(name = "docNumber")
+    @Column(name = "doc_Number")
     private Integer docNumber;
-    @Column(name = "docDate")
-    private Integer docDate;
+    @Column(name = "doc_Date")
+    private Date docDate;
     @Column(name = "phone")
     private Integer phone;
-    @Column(name = "isActive")
-    private Boolean isActive = true;
+    @Column(name = "is_Identified")
+    private Boolean isIdentified= true;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "officeId")
+    @JoinColumn(name = "office_Id")
     @JsonManagedReference
     private Office office;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Country> countries;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Doc> docs;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "country_Id")
+    @JsonManagedReference
+    private Country country;
+
+   // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+   // @JsonBackReference
+    //private List<Country> countries;
+
 
     public Long getId() {
         return id;
@@ -88,11 +94,11 @@ public class User {
         this.docNumber = docNumber;
     }
 
-    public Integer getDocDate() {
+    public Date getDocDate() {
         return docDate;
     }
 
-    public void setDocDate(Integer docDate) {
+    public void setDocDate(Date docDate) {
         this.docDate = docDate;
     }
 
@@ -104,12 +110,12 @@ public class User {
         this.phone = phone;
     }
 
-    public Boolean getActive() {
-        return isActive;
+    public Boolean getIdentified() {
+        return isIdentified;
     }
 
-    public void setActive(Boolean active) {
-        isActive = active;
+    public void setIdentified(Boolean identified) {
+        isIdentified = identified;
     }
 
     public Office getOffice() {
@@ -120,24 +126,16 @@ public class User {
         this.office = office;
     }
 
-    public List<Country> getCountries() {
-        return countries;
+    public Country getCountry() {
+        return country;
     }
 
-    public void setCountries(List<Country> countries) {
-        this.countries = countries;
-    }
-
-    public List<Doc> getDocs() {
-        return docs;
-    }
-
-    public void setDocs(List<Doc> docs) {
-        this.docs = docs;
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", middleName='" + middleName + '\'' + ", possition='" + possition + '\'' + ", docNumber=" + docNumber + ", docDate=" + docDate + ", phone=" + phone + ", isActive=" + isActive + '}';
+        return "User{" + "id=" + id + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", middleName='" + middleName + '\'' + ", possition='" + possition + '\'' + ", docNumber=" + docNumber + ", docDate=" + docDate + ", phone=" + phone + ", isIdentified=" + isIdentified + ", office=" + office + ", country=" + country + '}';
     }
 }

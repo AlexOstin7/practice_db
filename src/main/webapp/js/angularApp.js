@@ -221,6 +221,7 @@ app.controller('getAllOrganizationsController', function ($scope, $http, $locati
 
     $scope.showAllOrganizationsFull = false;
     $scope.showAllOrganizationsBrief = false;
+    $scope.button = "Full";
 
     $scope.getAllOrganizationsFull = function () {
         var url = $location.absUrl() + "/api/organization"; // "findall";
@@ -245,8 +246,10 @@ app.controller('getAllOrganizationsController', function ($scope, $http, $locati
     $scope.getAllOrganizationsBrief = function () {
         if ($scope.showAllOrganizationsBrief == true) {
             $scope.showAllOrganizationsBrief = false;
+            $scope.button = "Full";
         } else {
             $scope.showAllOrganizationsBrief = true;
+            $scope.button = "Brief";
         }
     }
 

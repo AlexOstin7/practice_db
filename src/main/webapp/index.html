@@ -121,8 +121,8 @@
         <div ng-controller="getAllOrganizationsController" class="col-md-3">
             <h3>All Organizations</h3>
 
-            <button ng-click="getAllOrganizationsFull()">Get All Organizations</button>
-            <button ng-click="getAllOrganizationsBrief()">full</button>
+            <button ng-click="getAllOrganizationsFull()">All Organizations</button>
+            <button ng-click="getAllOrganizationsBrief()">{{button}}</button>
 
             <div ng-show="showAllOrganizationsFull">
                 <ul class="list-group">
@@ -130,7 +130,7 @@
                         <strong>Organizations {{$index}}</strong><br/>
                         Id: {{organization.id}}<br/>
                         Name: {{organization.name}}<br/>
-                        <p ng-show="showAllOrganizationsBrief">FullName:{{organization.fullName}}<br/></p>
+                        <p ng-show="showAllOrganizationsBrief">FullName:{{organization.fullName}}</p>
                         Inn: {{organization.inn}}<br/>
                         <p ng-show="showAllOrganizationsBrief">Kpp: {{organization.kpp}}<br/></p>
                         <p ng-show="showAllOrganizationsBrief">Address: {{organization.address}}<br/></p>

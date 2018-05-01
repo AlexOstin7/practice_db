@@ -1,6 +1,9 @@
 package ru.bellintegrator.practice.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "doc")
@@ -13,9 +16,25 @@ public class Doc {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "docId")
-    private User user;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name="country_doc",
+            joinColumns=@JoinColumn(name="doc_id"),
+            inverseJoinColumns=@JoinColumn(name="country_id"))
+    private List<Country> countries;
+
+    public Doc() {
+    }
+
+    public Doc(Integer code, String name) {
+        this.code = code;
+        this.name = name;
+    }
+
+    public Doc(Integer code, String name, List<Country> countries) {
+        this.code = code;
+        this.name = name;
+        this.countries = countries;
+    }
 
     public Long getId() {
         return id;
@@ -41,16 +60,16 @@ public class Doc {
         this.name = name;
     }
 
-    public User getUser() {
-        return user;
+    public List<Country> getCountries() {
+        return countries;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCountries(List<Country> countries) {
+        this.countries = countries;
     }
 
     @Override
     public String toString() {
-        return "Doc{" + "code='" + code + '\'' + ", name='" + name + '\'' + '}';
+        return "Doc{" + "id=" + id + ", code=" + code + ", name='" + name + '\'' + ", countries=" + countries + '}';
     }
 }
