@@ -313,4 +313,23 @@ app.controller('getAllOfficesController', function ($scope, $http, $location) {
 });
 
 
+app.service('Products', function () {
+    this.Items = function() {
+        // if we want can get data from database
+        product = { product: '', price: '' }
+    };
+    return this;
+});
+
+app.controller("Ctrl1", ['$scope', 'Products',
+    function ($scope, Products) {
+        $scope.Product = Products.Items;
+        //some other code
+    }]);
+
+app.controller("Ctrl2", ['$scope', 'Products',
+    function ($scope, Products) {
+        $scope.Product = Products.Items;
+        //some other code
+    }]);
 

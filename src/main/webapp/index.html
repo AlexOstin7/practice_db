@@ -144,6 +144,27 @@
         </div>
 
     </div>
+
+
+    <div ng-controller='Ctrl1' class='well'>
+        <h4>Controller 1</h4>
+        <div>
+            <input type='text' ng-model='Product.product' placeholder='Enter product name' />
+            <input type='text' ng-model='Product.price' placeholder='Enter price' />
+        </div>
+        <div>Name: {{Product.product}}</div>
+        <div>Price: {{Product.price}}</div>
+    </div>
+
+    <div ng-controller='Ctrl2' class='well'>
+        <h4>Controller 2</h4>
+        <div>
+            <input type='text' ng-model='Product.product' placeholder='Enter product name' />
+            <input type='text' ng-model='Product.price' placeholder='Enter price' />
+        </div>
+        <div>Name: {{Product.product}}</div>
+        <div>Price: {{Product.price}}</div>
+    </div>
 </div>
 
 </html>
