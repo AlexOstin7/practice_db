@@ -1,6 +1,7 @@
 package ru.bellintegrator.practice.service;
 
 import ru.bellintegrator.practice.model.Office;
+import ru.bellintegrator.practice.view.OfficeFilterView;
 import ru.bellintegrator.practice.view.OfficeView;
 import ru.bellintegrator.practice.view.OfficeView;
 
@@ -16,13 +17,20 @@ public interface OfficeService {
     List<OfficeView> offices();
 
     Office getOfficeById(Long id);
-/*
-    void add(OfficeView office);
+
+    List<OfficeFilterView> filterOfficeList(OfficeFilterView office);
 
     void updateOffice(OfficeView office);
 
-    
     void deleteOffice(OfficeView office);
+
+    /*
+    void add(OfficeView office);
+
+
+
+    
+
 
 
 

@@ -58,7 +58,7 @@ app.controller('postOrganizationsControllerUpdate', function ($scope, $http, $lo
 
         $http.get(url, config).then(function (response) {
 
-            if (response.data.status == "success") {
+            if (response.data.result == "success") {
                 $scope.organization = response.data;
                 $scope.showOrganization = true;
                 $scope.name = $scope.organization.data.name;
@@ -136,8 +136,8 @@ app.controller('postOrganizationsControllerDelete', function ($scope, $http, $lo
         };
 
         $http.post(url, data, config).then(function (response) {
-            $scope.message = response.data.status;
-            if (response.data.status == "success") {
+            $scope.message = response.data.result;
+            if (response.data.result == "success") {
                // $scope.postResultMessage = "Sucessful!!!";
                 $scope.showOrganization = true;
                 $scope.allorganizations = response.data;
@@ -169,9 +169,9 @@ app.controller('postOrganizationsControllerList', function ($scope, $http, $loca
             isActive: $scope.isActive
         };
         $http.post(url, data, config).then(function (response) {
-            $scope.postResultMessage = response.data.status;
+            $scope.postResultMessage = response.data.result;
             $scope.showAllOrganizations = false;
-            if (response.data.status == "success") {
+            if (response.data.result == "success") {
                 $scope.allorganizations = response.data;
                 $scope.showAllOrganizations = true;
             } else {
@@ -202,7 +202,7 @@ app.controller('getAllOrganizationsControllerBrief', function ($scope, $http, $l
         }
         $http.get(url, config).then(function (response) {
 
-            if (response.data.status == "success") {
+            if (response.data.result == "success") {
                 $scope.allOrganizations = response.data;
                 $scope.showAllOrganizations = true;
             } else {
@@ -233,7 +233,7 @@ app.controller('getAllOrganizationsController', function ($scope, $http, $locati
         }
 
         $http.get(url, config).then(function (response) {
-            if (response.data.status == "success") {
+            if (response.data.result == "success") {
                 $scope.allOrganizations = response.data;
                 $scope.showAllOrganizationsFull = true;
             } else {
@@ -270,7 +270,7 @@ app.controller('getOrganizationControllerById', function ($scope, $http, $locati
 
         $http.get(url, config).then(function (response) {
 
-            if (response.data.status == "success") {
+            if (response.data.result == "success") {
                 $scope.organization = response.data;
                 $scope.showOrganization = true;
 
@@ -299,7 +299,7 @@ app.controller('getAllOfficesController', function ($scope, $http, $location) {
         }
 
         $http.get(url, config).then(function (response) {
-            if (response.data.status == "success") {
+            if (response.data.result == "success") {
                 $scope.allOffices = response.data;
                 $scope.showAllOffices = true;
             } else {

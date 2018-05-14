@@ -1,5 +1,7 @@
 package ru.bellintegrator.practice.service.Impl;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import javassist.compiler.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +10,16 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bellintegrator.practice.dao.OfficeDAO;
+import ru.bellintegrator.practice.exception.CustomErrorException;
 import ru.bellintegrator.practice.exception.CustomNotFoundException;
 import ru.bellintegrator.practice.model.Office;
+import ru.bellintegrator.practice.model.Organization;
 import ru.bellintegrator.practice.service.OfficeService;
-import ru.bellintegrator.practice.view.OfficeView;
+import ru.bellintegrator.practice.view.OfficeFilterView;
 import ru.bellintegrator.practice.view.OfficeView;
 
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -40,32 +46,15 @@ public class OfficeServiceImpl implements OfficeService {
             view.name = p.getName();
             view.phone = p.getPhone();
             view.isActive = p.getActive();
+            view.orgId = p.getOrganization().getId();
 
             log.info(view.toString());
 
             return view;
         };
-        if (office.getName() != null && !office.getName().isEmpty()) {
-            return all.stream().map(mapOffice)
-                    .filter(p -> (
-                                    ( p.getActive() == office.getActive() && p.getName().contains(office.getName()) && String.valueOf(p.getPhone()).contains(String.valueOf(office.getPhone())) )
-
-                                            || (
-                                            p.getName().contains(office.getName()) && office.getActive() == null && p.getName().contains(office.getName()) && office.getPhone() == null )
-                            )
-                                    ||      (
-                                    (String.valueOf(p.getPhone()).contains(String.valueOf(office.getPhone())) && p.getName().contains(office.getName()) && office.getActive() == null)
-                            )
-
-                                    ||      (
-                                    p.getName().contains(office.getName()) && p.getActive() == office.getActive() && office.getPhone() == null
-                            )
-                    )
-                    .collect(Collectors.toList());
-        }
-
-        else {throw new CustomNotFoundException(String.format("Not found organizaton with Id Phone Active are %s %l %b ", office.getId(), office.getPhone(), office.isActive));//return Collections.emptyList();
-        }
+        // if (office.getName() != null && !office.getName().isEmpty()) {
+        return all.stream().map(mapOffice).collect(Collectors.toList());
+        //}
     }
 
     @Override
@@ -80,15 +69,13 @@ public class OfficeServiceImpl implements OfficeService {
             view.address = p.getAddress();
             view.phone = p.getPhone();
             view.isActive = p.getActive();
-            //view.orgId = p.getOrganization()
+            view.orgId = p.getOrganization().getId();
 
             log.info(view.toString());
 
             return view;
         };
-        return all.stream()
-                .map(mapOffice)
-                .collect(Collectors.toList());
+        return all.stream().map(mapOffice).collect(Collectors.toList());
     }
 
     @Override
@@ -96,24 +83,40 @@ public class OfficeServiceImpl implements OfficeService {
     public Office getOfficeById(Long id) {
         return dao.loadById(id);
     }
-/*
-    @Override
-    @Transactional
-    public void add(OfficeView view) {
-        Office office = new Office(view.name, view.fullName, view.inn, view.kpp, view.address, view.phone, view.isActive);
-        dao.save(office);
-    }
 
+    @Override
+    public List<OfficeFilterView> filterOfficeList(OfficeFilterView officeFilterView) {
+
+        if (officeFilterView.getOrgId() == null || !(officeFilterView.getOrgId() > 0)) {
+            throw new CustomErrorException(String.format("Missing parametr- ogrId* is %s", officeFilterView.getOrgId()));
+        }
+
+        List<Office> all = dao.filterOfficeList(officeFilterView);
+        List<OfficeFilterView> officesView = new ArrayList<>();
+
+        Function<Office, OfficeFilterView> mapOffice = p -> {
+            OfficeFilterView view = new OfficeFilterView();
+            //view.id = String.valueOf(p.getId());
+            view.name = p.getName();
+            view.phone = p.getPhone();
+            view.isActive = p.getActive();
+            //view.orgId = p.getOrganization().getId();
+
+            log.info(view.toString());
+
+            return view;
+        };
+
+            return all.stream().map(mapOffice).collect(Collectors.toList());
+
+    }
     @Override
     @Transactional
     public void updateOffice(OfficeView view) {
         Office office = dao.loadById(Long.valueOf(view.id));
         office.setName(view.name);
-        office.setFullName(view.fullName);
-        office.setInn(view.inn);
-        office.setKpp(view.kpp);
-        office.setAddress(view.address);
         office.setPhone(view.phone);
+        office.setAddress(view.address);
         office.setActive(view.isActive);
 
         log.info(view.toString());
@@ -131,9 +134,21 @@ public class OfficeServiceImpl implements OfficeService {
             throw new CustomNotFoundException("Not found organizaton with Id is " + view.getId());
         }
         //else {
-            dao.remove(office);
+        dao.remove(office);
         //}
     }
+
+    /*
+    @Override
+    @Transactional
+    public void add(OfficeView view) {
+        Office office = new Office(view.name, view.fullName, view.inn, view.kpp, view.address, view.phone, view.isActive);
+        dao.save(office);
+    }
+
+
+
+
 
 
 

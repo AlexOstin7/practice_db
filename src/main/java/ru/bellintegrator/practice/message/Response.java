@@ -1,4 +1,7 @@
 package ru.bellintegrator.practice.message;
 
-public interface Message {
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public interface Response {
 }

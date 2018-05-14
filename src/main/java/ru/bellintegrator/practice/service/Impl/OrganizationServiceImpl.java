@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bellintegrator.practice.dao.OrganizationDAO;
+import ru.bellintegrator.practice.exception.CustomErrorException;
 import ru.bellintegrator.practice.exception.CustomNotFoundException;
 import ru.bellintegrator.practice.model.Organization;
 import ru.bellintegrator.practice.service.OrganizationService;
@@ -66,7 +67,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         Organization organization = dao.loadById(Long.valueOf(view.getId()));
         log.info(view.toString());
         if (organization == null) {
-            throw new CustomNotFoundException("Not found organizaton with Id is " + view.getId());
+            throw new CustomErrorException("Not found organizaton with Id is " + view.getId());
         }
             dao.remove(organization);
     }
@@ -118,7 +119,7 @@ public class OrganizationServiceImpl implements OrganizationService {
                                     ( p.getActive() == organization.getActive() && p.getName().contains(organization.getName()) && String.valueOf(p.getInn()).contains(String.valueOf(organization.getInn())) )
 
                                     || (
-                                            p.getName().contains(organization.getName()) && organization.getActive() == null && p.getName().contains(organization.getName()) && organization.getInn() == null )
+                                            p.getName().contains(organization.getName()) && organization.getActive() == null  && organization.getInn() == null )
                                         )
                             ||      (
                                     (String.valueOf(p.getInn()).contains(String.valueOf(organization.getInn())) && p.getName().contains(organization.getName()) && organization.getActive() == null)

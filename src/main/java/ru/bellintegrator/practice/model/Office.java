@@ -24,6 +24,7 @@ public class Office {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "org_Id")
     @JsonManagedReference
+
     private Organization organization;
 
     @OneToMany(mappedBy = "office", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -1,8 +1,8 @@
 package ru.bellintegrator.practice.exception;
 
-public class CustomNotFoundException extends RuntimeException{
+public class CustomErrorException extends RuntimeException{
 
-	public CustomNotFoundException(String msg) {
+	public CustomErrorException(String msg) {
 		super(msg);
 	}
 }

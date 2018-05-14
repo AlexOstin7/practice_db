@@ -8,15 +8,11 @@ import org.springframework.web.bind.annotation.*;
 
 import ru.bellintegrator.practice.controller.OrganizationController;
 import ru.bellintegrator.practice.exception.CustomNotFoundException;
-import ru.bellintegrator.practice.message.Message;
 import ru.bellintegrator.practice.message.Response;
-import ru.bellintegrator.practice.model.Country;
-import ru.bellintegrator.practice.model.Organization;
+import ru.bellintegrator.practice.message.ResponseSuccess;
 import ru.bellintegrator.practice.service.OrganizationService;
 import ru.bellintegrator.practice.view.OrganizationView;
-import ru.bellintegrator.practice.view.OrganizationViewByName;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -44,7 +40,7 @@ public class OrganizationControllerImpl implements OrganizationController {
     @RequestMapping(value = "/organiazation/save", method = {POST})
     public Response organization(@RequestBody OrganizationView organization) {
         organizationService.add(organization);
-        return new Response("success");
+        return new ResponseSuccess("success");
     }
 
     @Override
@@ -57,7 +53,7 @@ public class OrganizationControllerImpl implements OrganizationController {
     @RequestMapping(value = "/organization/update", method = {POST})
     public Response updateOrganizaton(@RequestBody OrganizationView organization) {
         organizationService.updateOrganization(organization);
-        return new Response("success");
+        return new ResponseSuccess("success");
     }
     @Override
     @ApiOperation(value = "listOrganizations", nickname = "listOrganizations", httpMethod = "POST")
@@ -72,7 +68,7 @@ public class OrganizationControllerImpl implements OrganizationController {
         if (view.isEmpty()) {
             throw new CustomNotFoundException("Not found");
         } else {
-            return new Response("success", view);
+            return new ResponseSuccess("success", view);
         }
     }
 
@@ -86,14 +82,14 @@ public class OrganizationControllerImpl implements OrganizationController {
     @RequestMapping(value = "/organization/delete", method = {POST})
     public Response deleteOrganizaton(@RequestBody OrganizationView organization) {
         organizationService.deleteOrganization(organization);
-        return new Response("success");
+        return new ResponseSuccess("success");
     }
 
     @Override
     @ApiOperation(value = "getOrganizationsFull", nickname = "getOrganizationsFull", httpMethod = "GET")
     @RequestMapping(value = "/organization", method = {GET})
-    public Message organizations() {
-        return new Response("success", organizationService.organizations());
+    public Response organizations() {
+        return new ResponseSuccess("success", organizationService.organizations());
     }
 
     @Override
@@ -101,7 +97,7 @@ public class OrganizationControllerImpl implements OrganizationController {
     //@RequestMapping(value = "/organization/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
     @RequestMapping(value = "/organization/{id}", method = {GET})
     public Response getOrganizationById(@PathVariable(value = "id") Long id) {
-        return new Response("success", organizationService.getOrganizationById(id));
+        return new ResponseSuccess("success", organizationService.getOrganizationById(id));
     }
 
 }

@@ -1,14 +1,12 @@
 package ru.bellintegrator.practice.view;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
-
-public class OfficeView {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class OfficeFilterView {
     @ApiModelProperty(hidden = true)
-    public String id;
 
     public String name;
-
-    public String address;
 
     public Integer phone;
 
@@ -16,48 +14,35 @@ public class OfficeView {
 
     public Long orgId;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public OfficeFilterView() {
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public Integer getPhone() {
         return phone;
-    }
-
-    public void setPhone(Integer phone) {
-        this.phone = phone;
     }
 
     public Boolean getActive() {
         return isActive;
     }
 
-    public void setActive(Boolean IsActive) {
-        isActive = isActive;
-    }
-
     public Long getOrgId() {
         return orgId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPhone(Integer phone) {
+        this.phone = phone;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 
     public void setOrgId(Long orgId) {
@@ -66,6 +51,6 @@ public class OfficeView {
 
     @Override
     public String toString() {
-        return "OfficeView{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", address='" + address + '\'' + ", phone=" + phone + ", isActive=" + isActive + ", orgId=" + orgId + '}';
+        return "OfficeFilterView{" + "name='" + name + '\'' + ", phone=" + phone + ", isActive=" + isActive + ", orgId=" + orgId + '}';
     }
 }

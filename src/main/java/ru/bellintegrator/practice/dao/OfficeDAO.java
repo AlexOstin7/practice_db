@@ -1,6 +1,7 @@
 package ru.bellintegrator.practice.dao;
 
 import ru.bellintegrator.practice.model.Office;
+import ru.bellintegrator.practice.view.OfficeFilterView;
 
 import java.util.List;
 
@@ -40,10 +41,23 @@ public interface OfficeDAO {
     /**
      * Сохранить Office
      *
-     * @param Office
+     * @param office
      */
-    void save(Office Office);
+    void save(Office office);
+    /**
+     * Удалить Office
+     *
+     * @param office
+     */
 
-    void remove(Office Office);
+    void remove(Office office);
+
+    /**
+     * Фильтр Offices by OrgId
+     *
+     * @param officeFilterView
+    */
+    //List<Office> filterOfficeByOrgId(Office office);
+    List<Office> filterOfficeList(OfficeFilterView officeFilterView);
 
 }

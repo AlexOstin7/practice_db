@@ -143,46 +143,6 @@
             <p>{{getResultMessage}}</p>
         </div>
 
-        <div ng-controller="getAllOrganizationsControllerBrief" class="col-md-3">
-            <h3>All Organizations brief</h3>
-
-            <button ng-click="getAllOrganizations()">Get All Organizations brief</button>
-
-            <div ng-show="showAllOrganizations">
-                <ul class="list-group">
-                    <li ng-repeat="organization in allOrganizations.data"><h4 class="list-group-item">
-                        <strong>Organizations {{$index}}</strong><br/>
-                        Id: {{organization.id}}<br/>
-                        Name: {{organization.name}}<br/>
-                        Inn: {{organization.inn}}
-                    </h4></li>
-                </ul>
-            </div>
-            <p>{{getResultMessage}}</p>
-            <p>{{error}}</p>
-        </div>
-
-        <div ng-controller="getOrganizationControllerById" class="col-md-3">
-            <h3>Organizations by ID</h3>
-
-            <input type="text" class="form-control" style="width: 100px;"
-                   ng-model="organizationId"/> <br/>
-            <button ng-click="getOrganization()">Get Organizations by Id</button>
-
-            <div ng-show="showOrganization">
-                <strong>Organizations {{$index}}</strong><br/>
-                Id: {{organization.data.id}}<br/>
-                Name: {{organization.data.name}}<br/>
-                FullName: {{organization.data.fullName}}<br/>
-                Inn: {{organization.data.inn}}<br/>
-                Kpp: {{organization.data.kpp}}<br/>
-                Address: {{organization.data.address}}<br/>
-                Phone: {{organization.data.phone}}<br/>
-                Active: {{organization.data.isActive}}<br/>
-            </div>
-            <p>{{getResultMessage}}</p>
-        </div>
-
     </div>
 </div>
 

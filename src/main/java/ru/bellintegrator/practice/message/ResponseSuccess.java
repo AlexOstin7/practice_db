@@ -3,19 +3,19 @@ package ru.bellintegrator.practice.message;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Response implements Message {
+public class ResponseSuccess implements Response {
 	private String result;
 	private Object data;
 
-	public Response() {
+	public ResponseSuccess() {
 
 	}
 
-	public Response (String result) {
+	public ResponseSuccess (String result) {
 		this.result = result;
 	}
 
-	public Response(String result, Object data) {
+	public ResponseSuccess(String result, Object data) {
 		this.result = result;
 		this.data = data;
 	}

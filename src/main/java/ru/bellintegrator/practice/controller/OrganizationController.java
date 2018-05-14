@@ -2,12 +2,8 @@ package ru.bellintegrator.practice.controller;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import ru.bellintegrator.practice.message.Message;
 import ru.bellintegrator.practice.message.Response;
-import ru.bellintegrator.practice.model.Organization;
 import ru.bellintegrator.practice.view.OrganizationView;
-
-import java.util.List;
 
 public interface OrganizationController {
 
@@ -15,9 +11,9 @@ public interface OrganizationController {
 
     Response updateOrganizaton(@RequestBody OrganizationView organization);
 
-    Message deleteOrganizaton(@RequestBody OrganizationView organization);
+    Response deleteOrganizaton(@RequestBody OrganizationView organization);
 
-    Message organizations();
+    Response organizations();
 
     Response organizations(@RequestBody OrganizationView organization);
 
