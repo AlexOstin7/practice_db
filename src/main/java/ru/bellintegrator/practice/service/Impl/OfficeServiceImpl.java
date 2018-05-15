@@ -38,6 +38,27 @@ public class OfficeServiceImpl implements OfficeService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<OfficeView> offices() {
+        List<Office> all = dao.all();
+
+        Function<Office, OfficeView> mapOffice = p -> {
+            OfficeView view = new OfficeView();
+            view.id = String.valueOf(p.getId());
+            view.name = p.getName();
+            view.address = p.getAddress();
+            view.phone = p.getPhone();
+            view.isActive = p.getActive();
+            view.orgId = p.getOrganization().getId();
+
+            log.info(view.toString());
+
+            return view;
+        };
+        return all.stream().map(mapOffice).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<OfficeView> listOffices(OfficeView office) {
         List<Office> all = dao.all();
         Function<Office, OfficeView> mapOffice = p -> {
@@ -57,26 +78,7 @@ public class OfficeServiceImpl implements OfficeService {
         //}
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<OfficeView> offices() {
-        List<Office> all = dao.all();
 
-        Function<Office, OfficeView> mapOffice = p -> {
-            OfficeView view = new OfficeView();
-            view.id = String.valueOf(p.getId());
-            view.name = p.getName();
-            view.address = p.getAddress();
-            view.phone = p.getPhone();
-            view.isActive = p.getActive();
-            view.orgId = p.getOrganization().getId();
-
-            log.info(view.toString());
-
-            return view;
-        };
-        return all.stream().map(mapOffice).collect(Collectors.toList());
-    }
 
     @Override
     @Transactional(readOnly = true)

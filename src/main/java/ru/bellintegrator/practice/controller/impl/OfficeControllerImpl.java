@@ -36,6 +36,17 @@ public class OfficeControllerImpl implements OfficeController {
     }
 
     @Override
+    @ApiOperation(value = "getOfficesFull", nickname = "getOfficesFull", httpMethod = "GET")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 405, message = "I don't know"),
+            @ApiResponse(code = 500, message = "Failure")})
+    @RequestMapping(value = "/office", method = {GET})
+    public Response offices() {
+        return new ResponseSuccess("success", officeService.offices());
+    }
+
+    @Override
     @ApiOperation(value = "listOffices", nickname = "listOffices", httpMethod = "POST")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),
             @ApiResponse(code = 404, message = "Not Found"),
@@ -46,16 +57,6 @@ public class OfficeControllerImpl implements OfficeController {
         return new ResponseSuccess("success", officeService.listOffices(office));
     }
 
-    @Override
-    @ApiOperation(value = "getOfficesFull", nickname = "getOfficesFull", httpMethod = "GET")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),
-            @ApiResponse(code = 404, message = "Not Found"),
-            @ApiResponse(code = 405, message = "I don't know"),
-            @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(value = "/office", method = {GET})
-    public Response offices() {
-        return new ResponseSuccess("success", officeService.offices());
-    }
 
     @Override
     @ApiOperation(value = "getOfficeById", nickname = "getOfficeById", httpMethod = "GET")

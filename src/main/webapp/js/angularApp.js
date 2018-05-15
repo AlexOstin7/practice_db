@@ -217,44 +217,6 @@ app.controller('getAllOrganizationsControllerBrief', function ($scope, $http, $l
 
 });
 
-app.controller('getAllOrganizationsController', function ($scope, $http, $location) {
-
-    $scope.showAllOrganizationsFull = false;
-    $scope.showAllOrganizationsBrief = false;
-    $scope.button = "Full";
-
-    $scope.getAllOrganizationsFull = function () {
-        var url = $location.absUrl() + "/api/organization"; // "findall";
-
-        var config = {
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8;'
-            }
-        }
-
-        $http.get(url, config).then(function (response) {
-            if (response.data.result == "success") {
-                $scope.allOrganizations = response.data;
-                $scope.showAllOrganizationsFull = true;
-            } else {
-                $scope.getResultMessage = "get All Organizations Data Error!";
-            }
-        }, function (response) {
-            $scope.getResultMessage = "Fail!";
-        });
-    }
-    $scope.getAllOrganizationsBrief = function () {
-        if ($scope.showAllOrganizationsBrief == true) {
-            $scope.showAllOrganizationsBrief = false;
-            $scope.button = "Full";
-        } else {
-            $scope.showAllOrganizationsBrief = true;
-            $scope.button = "Brief";
-        }
-    }
-
-});
-
 app.controller('getOrganizationControllerById', function ($scope, $http, $location) {
 
     $scope.showOrganization = false;
@@ -285,11 +247,60 @@ app.controller('getOrganizationControllerById', function ($scope, $http, $locati
     }
 });
 
+app.controller('getAllOrganizationsController', function ($scope, $http, $location) {
+
+    $scope.showAll = false;
+    $scope.showAllOrganizationsBrief = false;
+    $scope.buttonSize = "Full";
+    $scope.buttonView = "Show";
+
+    $scope.getAllOrganizationsFull = function () {
+        var url = $location.absUrl() + "/api/organization"; // "findall";
+
+        var config = {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8;'
+            }
+        }
+        if ($scope.showAll == false) {
+        $http.get(url, config).then(function (response) {
+            if (response.data.result == "success") {
+                $scope.allOrganizations = response.data;
+                $scope.showAll = true;
+                $scope.buttonView = "Hide";
+            } else {
+                $scope.getResultMessage = "get All Organizations Data Error!";
+            }
+        }, function (response) {
+            $scope.getResultMessage = "Fail!";
+        });
+        } else {
+            $scope.showAll = false;
+            $scope.buttonView = "Show";
+        }
+    }
+    $scope.getAllOrganizationsBrief = function () {
+        if ($scope.showAll == true) {
+            if ($scope.showAllOrganizationsBrief == true) {
+                $scope.showAllOrganizationsBrief = false;
+                $scope.buttonSize = "Full";
+            } else {
+                $scope.showAllOrganizationsBrief = true;
+                $scope.buttonSize = "Brief";
+            }
+        }
+    }
+
+});
+
 app.controller('getAllOfficesController', function ($scope, $http, $location) {
 
-    $scope.showAllOffices = false;
+    $scope.showAll = false;
+    $scope.showAllOfficesBrief = false;
+    $scope.buttonSize = "Full";
+    $scope.buttonView = "Show";
 
-    $scope.getAllOrganizations = function () {
+    $scope.getAllOfficesFull = function () {
         var url = $location.absUrl() + "/api/office"; // "findall";
 
         var config = {
@@ -297,19 +308,36 @@ app.controller('getAllOfficesController', function ($scope, $http, $location) {
                 'Content-Type': 'application/json;charset=utf-8;'
             }
         }
+        if ($scope.showAll == false) {
+            $http.get(url, config).then(function (response) {
+                if (response.data.result == "success") {
+                    $scope.allOffices = response.data;
+                    $scope.showAll = true;
+                    $scope.buttonView = "Hide";
 
-        $http.get(url, config).then(function (response) {
-            if (response.data.result == "success") {
-                $scope.allOffices = response.data;
-                $scope.showAllOffices = true;
-            } else {
-                $scope.getResultMessage = "get All Offices Data Error!";
-            }
-        }, function (response) {
-            $scope.getResultMessage = "Fail!";
-        });
+                } else {
+                    $scope.getResultMessage = "get All Offices Data Error!";
+                }
+            }, function (response) {
+                $scope.getResultMessage = "Fail!";
+            });
+        } else {
+            $scope.showAll = false;
+            $scope.buttonView = "Show";
+        }
     }
-    //getAllOrganizations();
+    $scope.getAllOfficesBrief = function () {
+        if ($scope.showAll == true) {
+            if ($scope.showAllOfficesBrief == true) {
+                $scope.showAllOfficesBrief = false;
+                $scope.buttonSize = "Full";
+            }
+            else {
+                $scope.showAllOfficesBrief = true;
+                $scope.buttonSize = "Brief";
+            }
+        }
+    }
 });
 
 
