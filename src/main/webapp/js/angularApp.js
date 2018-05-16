@@ -341,23 +341,43 @@ app.controller('getAllOfficesController', function ($scope, $http, $location) {
 });
 
 
-app.service('Products', function () {
-    this.Items = function() {
+app.service('ServiceIdOrg', function () {
+    this.Id = function() {
         // if we want can get data from database
-        product = { product: '', price: '' }
+
+        id = $scope.id;
     };
     return this;
+
 });
 
-app.controller("Ctrl1", ['$scope', 'Products',
-    function ($scope, Products) {
-        $scope.Product = Products.Items;
+app.controller("Ctrl1", ['$scope', 'ServiceIdOrg',
+    function ($scope, ServiceIdOrg) {
+        $scope.IdOrg = ServiceIdOrg.Id;
+        //some other code
+
+    }]);
+
+app.controller("Ctrl2", ['$scope', 'ServiceIdOrg',
+    function ($scope, ServiceIdOrg) {
+        $scope.IdOrg = ServiceIdOrg.Id;
         //some other code
     }]);
 
-app.controller("Ctrl2", ['$scope', 'Products',
-    function ($scope, Products) {
-        $scope.Product = Products.Items;
-        //some other code
-    }]);
+app.factory('FactoryOrgId', function() {
+    return {
+        organization: {
+            id: ''
+        }
+    };
+});
+
+app.controller('FirstCtrl', function($scope, FactoryOrgId) {
+    $scope.model = FactoryOrgId.organization;
+});
+
+app.controller('SecondCtrl', function($scope, FactoryOrgId) {
+    $scope.model = FactoryOrgId.organization;
+});
+
 
