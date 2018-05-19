@@ -34,12 +34,12 @@ app.controller('postOrganizationsControllerSave', function ($scope, $http, $loca
     }
 });
 
-app.controller('postOrganizationsControllerUpdate', function ($scope, $http, $location) {
-
+app.controller('postOrganizationsControllerUpdate', function ($scope, $http, $location, FactoryOrgId) {
+    $scope.model = FactoryOrgId.organization;
     $scope.showOrganization = false;
 
     $scope.getOrganization = function () {
-        var url = $location.absUrl() + "/api/organization/" + $scope.organizationId;
+        var url = $location.absUrl() + "/api/organization/" + FactoryOrgId.organization.id; //$scope.organizationId;
 
         var config = {
             headers: {
@@ -59,15 +59,18 @@ app.controller('postOrganizationsControllerUpdate', function ($scope, $http, $lo
         $http.get(url, config).then(function (response) {
 
             if (response.data.result == "success") {
-                $scope.organization = response.data;
+                //$scope.organization = response.data;
+                var list = response.data;
                 $scope.showOrganization = true;
-                $scope.name = $scope.organization.data.name;
-                $scope.fullName = $scope.organization.data.fullName;
-                $scope.inn = $scope.organization.data.inn;
-                $scope.kpp = $scope.organization.data.kpp;
-                $scope.address = $scope.organization.data.address;
-                $scope.phone = $scope.organization.data.phone;
-                $scope.isActive = $scope.organization.data.isActive;
+                //$scope.name = $scope.organization.data.name;
+                $scope.name = list.data.name;
+                $scope.fullName = list.data.fullName;
+                $scope.inn = list.data.inn;
+                $scope.kpp = list.data.kpp;
+                $scope.address = list.data.address;
+                $scope.phone = list.data.phone;
+                $scope.isActive = list.data.active;
+                //$scope.isActive = $scope.organization.data.isActive;
 
             } else {
                 $scope.getResultMessage = "Organization Data Error!";
@@ -138,7 +141,7 @@ app.controller('postOrganizationsControllerDelete', function ($scope, $http, $lo
         $http.post(url, data, config).then(function (response) {
             $scope.message = response.data.result;
             if (response.data.result == "success") {
-               // $scope.postResultMessage = "Sucessful!!!";
+                // $scope.postResultMessage = "Sucessful!!!";
                 $scope.showOrganization = true;
                 $scope.allorganizations = response.data;
             }
@@ -263,17 +266,17 @@ app.controller('getAllOrganizationsController', function ($scope, $http, $locati
             }
         }
         if ($scope.showAll == false) {
-        $http.get(url, config).then(function (response) {
-            if (response.data.result == "success") {
-                $scope.allOrganizations = response.data;
-                $scope.showAll = true;
-                $scope.buttonView = "Hide";
-            } else {
-                $scope.getResultMessage = "get All Organizations Data Error!";
-            }
-        }, function (response) {
-            $scope.getResultMessage = "Fail!";
-        });
+            $http.get(url, config).then(function (response) {
+                if (response.data.result == "success") {
+                    $scope.allOrganizations = response.data;
+                    $scope.showAll = true;
+                    $scope.buttonView = "Hide";
+                } else {
+                    $scope.getResultMessage = "get All Organizations Data Error!";
+                }
+            }, function (response) {
+                $scope.getResultMessage = "Fail!";
+            });
         } else {
             $scope.showAll = false;
             $scope.buttonView = "Show";
@@ -340,11 +343,50 @@ app.controller('getAllOfficesController', function ($scope, $http, $location) {
     }
 });
 
+app.controller('postOfficeControllerGetById', function ($scope, $http, $location, FactoryOrgId, FactoryOffice) {
+    $scope.model = FactoryOrgId.organization;
+    $scope.office = FactoryOffice.office;
+    $scope.show = false;
+
+    $scope.getOfficeById = function () {
+        var url = $location.absUrl() + "/api/office/" + $scope.office.id;
+
+        var config = {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8;'
+            }
+        }
+        var data = {
+            name: $scope.name,
+            address: $scope.address,
+            phone: $scope.phone,
+            isActive: $scope.isActive,
+            orgId: FactoryOrgId.organization.id
+        };
+
+        $http.get(url, config).then(function (response) {
+
+            if (response.data.result == "success") {
+                var list = response.data;
+                $scope.show = true;
+                $scope.name = response.data.data.name;
+                $scope.address = list.data.address;
+                $scope.phone = list.data.phone;
+                $scope.isActive = list.data.active;
+
+            } else {
+                $scope.getResultMessage = "Offices Data Error!";
+            }
+
+        }, function (response) {
+            $scope.getResultMessage = "Fail!";
+        });
+    }
+});
 
 app.service('ServiceIdOrg', function () {
-    this.Id = function() {
+    this.Id = function () {
         // if we want can get data from database
-
         id = $scope.id;
     };
     return this;
@@ -364,7 +406,7 @@ app.controller("Ctrl2", ['$scope', 'ServiceIdOrg',
         //some other code
     }]);
 
-app.factory('FactoryOrgId', function() {
+app.factory('FactoryOrgId', function () {
     return {
         organization: {
             id: ''
@@ -372,11 +414,30 @@ app.factory('FactoryOrgId', function() {
     };
 });
 
-app.controller('FirstCtrl', function($scope, FactoryOrgId) {
+app.factory('FactoryOffice', function () {
+    return {
+        office: {
+            id: '',
+            name: '',
+            address: '',
+            phone: '',
+            isActive: ''
+        },
+        updateOfficeData: function (id, name, address, phone, isActive) {
+            this.office.id = id;
+            this.office.name = name;
+            this.office.address = address;
+            this.office.phone = phone;
+            this.office.isActive = isActive;
+        }
+    }
+});
+app.controller('FirstCtrl', function ($scope, FactoryOrgId, FactoryOffice) {
     $scope.model = FactoryOrgId.organization;
+    $scope.office = FactoryOffice.office;
 });
 
-app.controller('SecondCtrl', function($scope, FactoryOrgId) {
+app.controller('SecondCtrl', function ($scope, FactoryOrgId) {
     $scope.model = FactoryOrgId.organization;
 });
 
