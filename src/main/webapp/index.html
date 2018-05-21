@@ -74,6 +74,7 @@
             </form>
             <input type="text" class="form-control" style="width: 100px;" ng-model="model.id"/> <br/>
             <button ng-click="getOrganization()">Get Organizations by Id</button>
+           <p>{{model.id}}</p>
             <p>{{postResultMessage}}</p>
         </div>
 
@@ -171,27 +172,40 @@
         </div>
 
 
-        <div  ng-controller="postOfficesControllerGetById" class="col-md-3">
+        <div  ng-controller="postOfficeControllerGetById" class="col-md-3">
                 <h3>Office</h3>
                 <!--label>orgId {{model.id}}</label><br/-->
                 <label>Name</label>
-                <input type="text" name="name" class="form-control" ng-model="name"/>
+                <input type="text" name="name" class="form-control" ng-model="office.name"/>
                 <label>Address</label>
-                <input type="text" name="address" class="form-control" ng-model="address"/>
+                <input type="text" name="address" class="form-control" ng-model="office.address"/>
                 <label>Phone</label>
-                <input type="text" name="phone" class="form-control" ng-model="phone"/>
+                <input type="text" name="phone" class="form-control" ng-model="office.phone"/>
                 <label>isActive</label>
-                <input type="text" name="isActive" class="form-control" ng-model="isActive"/>
+                <input type="text" name="isActive" class="form-control" ng-model="office.isActive"/>
                 <!--button type="submit" class="btn btn-primary">Submit</button-->
-            {{office}}
-
-        </div>
-        <div ng-controller="postOfficeControllerGetById">
             <input type="text" class="form-control" style="width: 100px;" ng-model="office.id"/> <br/>
             <button ng-click="getOfficeById()">Get Office by Id</button>
             <p>{{office}}</p>
             <p>{{postResultMessage}}</p>
+            {{office}}
         </div>
+        <div ng-controller="postOfficeControllerListbyOrgId" class="col-md-3">
+            <button ng-click="getOfficeListByOrgId()">List Offices by OrgId</button>
+            <div ng-show="showAll">
+                <ul class="list-group">
+                    <li ng-repeat="office in allOffices.data"><h4 class="list-group-item">
+                        <strong>Offices {{$index}}</strong><br/>
+                        OrgId: {{model.id}}<br/>
+                        Id: {{office.id}}<br/>
+                        Name: {{office.name}}<br/>
+                        Inn: {{office.phone}}<br/>
+                        Active: {{office.isActive}}<br/>
+                    </h4></li>
+                </ul>
+            </div>
+        </div>
+
     </div>
 
     <div ng-controller='Ctrl1' class='well'>
@@ -223,6 +237,7 @@
     <div ng-controller="SecondCtrl">
         Org Id <input type="text" ng-model="model.id"/><br/>
         {{model.id}}
+        {{office.id}}
     </div>
     <br/>
 </div>

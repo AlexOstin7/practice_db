@@ -356,23 +356,16 @@ app.controller('postOfficeControllerGetById', function ($scope, $http, $location
                 'Content-Type': 'application/json;charset=utf-8;'
             }
         }
-        var data = {
-            name: $scope.name,
-            address: $scope.address,
-            phone: $scope.phone,
-            isActive: $scope.isActive,
-            orgId: FactoryOrgId.organization.id
-        };
 
         $http.get(url, config).then(function (response) {
 
             if (response.data.result == "success") {
-                var list = response.data;
                 $scope.show = true;
-                $scope.name = response.data.data.name;
-                $scope.address = list.data.address;
-                $scope.phone = list.data.phone;
-                $scope.isActive = list.data.active;
+                var list = response.data;
+                $scope.office.name = list.data.name;
+                $scope.office.address = list.data.address;
+                $scope.office.phone = list.data.phone;
+                $scope.office.isActive = list.data.active;
 
             } else {
                 $scope.getResultMessage = "Offices Data Error!";
@@ -381,6 +374,45 @@ app.controller('postOfficeControllerGetById', function ($scope, $http, $location
         }, function (response) {
             $scope.getResultMessage = "Fail!";
         });
+    }
+});
+
+app.controller('postOfficeControllerListbyOrgId', function ($scope, $http, $location, FactoryOrgId, FactoryOffice) {
+    $scope.model = FactoryOrgId.organization;
+    $scope.office = FactoryOffice.office;
+    $scope.showAllOrganizations = false;
+
+    $scope.getOfficeListByOrgId = function () {
+        var url = $location.absUrl() + "/api/office/list";
+
+        var config = {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8;'
+            }
+        }
+        var data = {
+            orgId: FactoryOrgId.organization.id,
+            name: $scope.office.name,
+            phone: $scope.office.phone,
+            isActive: $scope.office.isActive
+        };
+        $http.post(url, data, config).then(function (response) {
+            $scope.postResultMessage = response.data.result;
+            $scope.showAll = false;
+            if (response.data.result == "success") {
+                $scope.allOffices = response.data;
+                $scope.showAll = true;
+            } else {
+                $scope.getResultMessage = "Filter Offices Data Error!";
+            }
+        }, function (response) {
+            $scope.showAll = false;
+            $scope.postResultMessage = "Fail!";
+        });
+
+        $scope.office.name = "";
+        $scope.office.phone = "";
+        $scope.isActive = "";
     }
 });
 
@@ -437,8 +469,9 @@ app.controller('FirstCtrl', function ($scope, FactoryOrgId, FactoryOffice) {
     $scope.office = FactoryOffice.office;
 });
 
-app.controller('SecondCtrl', function ($scope, FactoryOrgId) {
+app.controller('SecondCtrl', function ($scope, FactoryOrgId, FactoryOffice) {
     $scope.model = FactoryOrgId.organization;
+    $scope.office = FactoryOffice.office;
 });
 
 
