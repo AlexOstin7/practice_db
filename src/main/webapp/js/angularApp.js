@@ -159,7 +159,7 @@ app.controller('postOrganizationsControllerList', function ($scope, $http, $loca
     $scope.showAllOrganizations = false;
 
     $scope.submitForm = function () {
-        var url = $location.absUrl() + "/api/organization/list";
+        var url = $location.absUrl() + "/api/organization/lists";
 
         var config = {
             headers: {
@@ -343,7 +343,7 @@ app.controller('getAllOfficesController', function ($scope, $http, $location) {
     }
 });
 
-app.controller('postOfficeControllerGetById', function ($scope, $http, $location, FactoryOrgId, FactoryOffice) {
+app.controller('getOfficeControllerGetById', function ($scope, $http, $location, FactoryOrgId, FactoryOffice) {
     $scope.model = FactoryOrgId.organization;
     $scope.office = FactoryOffice.office;
     $scope.show = false;
@@ -380,8 +380,12 @@ app.controller('postOfficeControllerGetById', function ($scope, $http, $location
 app.controller('postOfficeControllerListbyOrgId', function ($scope, $http, $location, FactoryOrgId, FactoryOffice) {
     $scope.model = FactoryOrgId.organization;
     $scope.office = FactoryOffice.office;
-    $scope.showAllOrganizations = false;
-
+    //$scope.showAll = FactoryOffice.showAll;
+    $scope.modelOffice = FactoryOffice.modelOffice;
+    $scope.modelOffice.showAll = false;
+    //$scope.listOfficeByOrgId = FactoryOffice.listOfficeByOrgId;
+    //$scope.listOfficeByOrgId = FactoryOffice.listOfficeByOrgId;
+    //$scope.listOfficeByOrgId.name = "FFF";
     $scope.getOfficeListByOrgId = function () {
         var url = $location.absUrl() + "/api/office/list";
 
@@ -397,46 +401,40 @@ app.controller('postOfficeControllerListbyOrgId', function ($scope, $http, $loca
             isActive: $scope.office.isActive
         };
         $http.post(url, data, config).then(function (response) {
-            $scope.postResultMessage = response.data.result;
-            $scope.showAll = false;
+            $scope.resultMessage = response.data.result;
+            //$scope.modelOffice.showAll = false;
             if (response.data.result == "success") {
                 $scope.allOffices = response.data;
-                $scope.showAll = true;
+                $scope.name = response.data.data.name;
+                //FactoryOffice.listOfficeByOrgId.name = "HHH";
+                //$scope.listOfficeByOrgId =  response.data;
+                FactoryOffice.modelOffice.listOfficeByOrgId.length = 0;
+                FactoryOffice.modelOffice.orgId = FactoryOrgId.organization.id;
+                FactoryOffice.modelOffice.listOfficeByOrgId.push($scope.allOffices.data);
+                FactoryOffice.modelOffice.showAll = true;
+               // $scope.showAll = true;
+                //FactoryOffice.updatelistOfficeByOrgId(response.data.data.name, $scope.allOffices.data.phone, $scope.allOffices.data.isActive)
             } else {
-                $scope.getResultMessage = "Filter Offices Data Error!";
+                $scope.resultMessage = response.data.error;//"Filter Offices Data Error!";
             }
         }, function (response) {
             $scope.showAll = false;
-            $scope.postResultMessage = "Fail!";
+            $scope.resultMessage = "Fail!";
         });
-
-        $scope.office.name = "";
-        $scope.office.phone = "";
-        $scope.isActive = "";
+        $scope.address = "";
     }
 });
 
-app.service('ServiceIdOrg', function () {
-    this.Id = function () {
-        // if we want can get data from database
-        id = $scope.id;
-    };
-    return this;
+app.controller('officeController', function ($scope, $http, $location, FactoryOrgId, FactoryOffice) {
+    $scope.model = FactoryOrgId.organization;
+    $scope.office = FactoryOffice.office;
+    //$scope.showAll = false;
 
+    $scope.showAll = FactoryOffice.showAll;
 });
 
-app.controller("Ctrl1", ['$scope', 'ServiceIdOrg',
-    function ($scope, ServiceIdOrg) {
-        $scope.IdOrg = ServiceIdOrg.Id;
-        //some other code
 
-    }]);
 
-app.controller("Ctrl2", ['$scope', 'ServiceIdOrg',
-    function ($scope, ServiceIdOrg) {
-        $scope.IdOrg = ServiceIdOrg.Id;
-        //some other code
-    }]);
 
 app.factory('FactoryOrgId', function () {
     return {
@@ -448,12 +446,25 @@ app.factory('FactoryOrgId', function () {
 
 app.factory('FactoryOffice', function () {
     return {
+
         office: {
             id: '',
             name: '',
             address: '',
             phone: '',
             isActive: ''
+        },
+        modelOffice: {
+            showAll: '',
+            orgId: '',
+            listOfficeByOrgId: [{}]
+        },
+        updatelistOfficeByOrgId: function (name, phone, isActive) {
+            {
+                this.listOfficeByOrgId.name =  name,
+                this.listOfficeByOrgId.phone = phone,
+                this.listOfficeByOrgId.isActive = isActive
+            }
         },
         updateOfficeData: function (id, name, address, phone, isActive) {
             this.office.id = id;
@@ -463,15 +474,6 @@ app.factory('FactoryOffice', function () {
             this.office.isActive = isActive;
         }
     }
-});
-app.controller('FirstCtrl', function ($scope, FactoryOrgId, FactoryOffice) {
-    $scope.model = FactoryOrgId.organization;
-    $scope.office = FactoryOffice.office;
-});
-
-app.controller('SecondCtrl', function ($scope, FactoryOrgId, FactoryOffice) {
-    $scope.model = FactoryOrgId.organization;
-    $scope.office = FactoryOffice.office;
 });
 
 

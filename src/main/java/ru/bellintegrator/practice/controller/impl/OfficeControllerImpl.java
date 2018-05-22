@@ -52,7 +52,7 @@ public class OfficeControllerImpl implements OfficeController {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 405, message = "I don't know"),
             @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(value = "/office/list", method = {POST})
+    @RequestMapping(value = "/office/lists", method = {POST})
     public Response offices(@RequestBody OfficeView office) {
         return new ResponseSuccess("success", officeService.listOffices(office));
     }

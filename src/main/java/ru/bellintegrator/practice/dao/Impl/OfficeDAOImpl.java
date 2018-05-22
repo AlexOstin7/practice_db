@@ -77,7 +77,7 @@ public class OfficeDAOImpl implements OfficeDAO {
         //criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()), builder.like(Office.get("name"), "%" + officeFilterView.getName() + "%"), builder.like(Office.get("phone").as(String.class), "%" + String.valueOf(officeFilterView.getPhone()) + "%"), builder.equal(Office.get("isActive"), officeFilterView.getActive())));
         if (officeFilterView.getName() != null && officeFilterView.getPhone()!= null && officeFilterView.getActive() != null) {
             criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()),
-                    builder.like(Office.get("name"), "%" + officeFilterView.getName() + "%"),
+                    builder.like(builder.lower(Office.get("name")), "%" + officeFilterView.getName().toLowerCase() + "%"),
                     builder.like(Office.get("phone").as(String.class), "%" + String.valueOf(officeFilterView.getPhone()) + "%"),
                     builder.equal(Office.get("isActive"), officeFilterView.getActive())));
         } else
@@ -88,12 +88,12 @@ public class OfficeDAOImpl implements OfficeDAO {
         } else
         if (officeFilterView.getName() != null && officeFilterView.getPhone() == null && officeFilterView.getActive() != null) {
             criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()),
-                    builder.like(Office.get("name"), "%" + officeFilterView.getName() + "%"),
+                    builder.like(builder.lower(Office.get("name")), "%" + officeFilterView.getName().toLowerCase() + "%"),
                     builder.equal(Office.get("isActive"), officeFilterView.getActive())));
         } else
         if (officeFilterView.getName() != null && officeFilterView.getPhone()!= null && officeFilterView.getActive() == null) {
             criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()),
-                    builder.like(Office.get("name"), "%" + officeFilterView.getName() + "%"),
+                    builder.like(builder.lower(Office.get("name")), "%" + officeFilterView.getName().toLowerCase() + "%"),
                     builder.like(Office.get("phone").as(String.class), "%" + String.valueOf(officeFilterView.getPhone()) + "%")));
         } else
         if (officeFilterView.getName() == null && officeFilterView.getPhone()== null && officeFilterView.getActive() != null) {
@@ -106,7 +106,7 @@ public class OfficeDAOImpl implements OfficeDAO {
         } else
         if (officeFilterView.getName() != null && officeFilterView.getPhone()== null && officeFilterView.getActive() == null) {
             criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()),
-                    builder.like(Office.get("name"), "%" + officeFilterView.getName() + "%")));
+                    builder.like(builder.lower(Office.get("name")), "%" + officeFilterView.getName().toLowerCase() + "%")));
         }
         TypedQuery<Office> query = em.createQuery(criteria);
         return query.getResultList();

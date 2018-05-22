@@ -51,3 +51,35 @@ var clearFields = function () {
     $("#name").val('');
     $("#inn").val('');
 };
+
+app.service('ServiceIdOrg', function () {
+    this.Id = function () {
+        // if we want can get data from database
+        id = $scope.id;
+    };
+    return this;
+
+});
+
+app.controller("Ctrl1", ['$scope', 'ServiceIdOrg',
+    function ($scope, ServiceIdOrg) {
+        $scope.IdOrg = ServiceIdOrg.Id;
+        //some other code
+
+    }]);
+
+app.controller("Ctrl2", ['$scope', 'ServiceIdOrg',
+    function ($scope, ServiceIdOrg) {
+        $scope.IdOrg = ServiceIdOrg.Id;
+        //some other code
+    }]);
+
+app.controller('FirstCtrl', function ($scope, FactoryOrgId, FactoryOffice) {
+    $scope.model = FactoryOrgId.organization;
+    $scope.office = FactoryOffice.office;
+});
+
+app.controller('SecondCtrl', function ($scope, FactoryOrgId, FactoryOffice) {
+    $scope.model = FactoryOrgId.organization;
+    $scope.office = FactoryOffice.office;
+});
