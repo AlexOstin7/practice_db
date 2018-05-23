@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 public class OfficeFilterView {
     @ApiModelProperty(hidden = true)
 
+    public String id;
+
     public String name;
 
     public Integer phone;
@@ -15,6 +17,14 @@ public class OfficeFilterView {
     public Long orgId;
 
     public OfficeFilterView() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -51,6 +61,6 @@ public class OfficeFilterView {
 
     @Override
     public String toString() {
-        return "OfficeFilterView{" + "name='" + name + '\'' + ", phone=" + phone + ", isActive=" + isActive + ", orgId=" + orgId + '}';
+        return "OfficeFilterView{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", phone=" + phone + ", isActive=" + isActive + ", orgId=" + orgId + '}';
     }
 }

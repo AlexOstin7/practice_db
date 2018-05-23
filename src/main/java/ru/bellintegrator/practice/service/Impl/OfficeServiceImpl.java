@@ -98,9 +98,8 @@ public class OfficeServiceImpl implements OfficeService {
 
         Function<Office, OfficeFilterView> mapOffice = p -> {
             OfficeFilterView view = new OfficeFilterView();
-            //view.id = String.valueOf(p.getId());
+            view.id = String.valueOf(p.getId());
             view.name = p.getName();
-            view.phone = p.getPhone();
             view.isActive = p.getActive();
             //view.orgId = p.getOrganization().getId();
 
