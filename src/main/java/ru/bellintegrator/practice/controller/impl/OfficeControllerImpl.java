@@ -3,6 +3,8 @@ package ru.bellintegrator.practice.controller.impl;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +14,7 @@ import ru.bellintegrator.practice.exception.CustomNotFoundException;
 import ru.bellintegrator.practice.message.Response;
 import ru.bellintegrator.practice.message.ResponseSuccess;
 import ru.bellintegrator.practice.model.Office;
+import ru.bellintegrator.practice.service.Impl.OfficeServiceImpl;
 import ru.bellintegrator.practice.service.OfficeService;
 import ru.bellintegrator.practice.view.OfficeFilterView;
 import ru.bellintegrator.practice.view.OfficeView;
@@ -28,6 +31,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RequestMapping(value = "/api", produces = APPLICATION_JSON_VALUE)
 public class OfficeControllerImpl implements OfficeController {
 
+    private final Logger log = LoggerFactory.getLogger(OfficeServiceImpl.class);
     private final OfficeService officeService;
 
     @Autowired
@@ -41,7 +45,7 @@ public class OfficeControllerImpl implements OfficeController {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 405, message = "I don't know"),
             @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(value = "/office", method = {GET})
+    @RequestMapping(value = "/offices", method = {GET})
     public Response offices() {
         return new ResponseSuccess("success", officeService.offices());
     }
@@ -65,12 +69,11 @@ public class OfficeControllerImpl implements OfficeController {
             @ApiResponse(code = 405, message = "I don't know"),
             @ApiResponse(code = 500, message = "Failure")})
     //@RequestMapping(value = "/office/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-    @RequestMapping(value = "/office/{id}", method = {GET})
+    @RequestMapping(value = "/office/{id:.+}", method = {GET})
     public Response getOfficeById(@PathVariable(value = "id") Long id) {
+        log.info("before ID!!!!!!!!!!!!!! "+ id.toString());
         Office office = officeService.getOfficeById(id);
-        if (office == null) {
-            throw new CustomErrorException("Not found office by id" + id);
-        }
+        log.info("after ID!!!!!!!!!!!!!! "+ id.toString());
         return new ResponseSuccess("success", office);
     }
 
@@ -83,9 +86,7 @@ public class OfficeControllerImpl implements OfficeController {
     @RequestMapping(value = "/office/list", method = {POST})
     public Response offices(@RequestBody OfficeFilterView office) {
         List<OfficeFilterView> officeFilterViewList = officeService.filterOfficeList(office);
-        if (officeFilterViewList.isEmpty()) {
-            throw new CustomNotFoundException("Not found");
-        }
+
         return new ResponseSuccess("success", officeFilterViewList);
     }
     @Override

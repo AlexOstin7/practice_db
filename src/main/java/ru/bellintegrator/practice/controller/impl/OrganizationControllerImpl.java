@@ -86,18 +86,19 @@ public class OrganizationControllerImpl implements OrganizationController {
     }
 
     @Override
-    @ApiOperation(value = "getOrganizationsFull", nickname = "getOrganizationsFull", httpMethod = "GET")
-    @RequestMapping(value = "/organization", method = {GET})
-    public Response organizations() {
-        return new ResponseSuccess("success", organizationService.organizations());
-    }
-
-    @Override
     @ApiOperation(value = "getOrganizationById", nickname = "getOrganizationById", httpMethod = "GET")
     //@RequestMapping(value = "/organization/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
     @RequestMapping(value = "/organization/{id}", method = {GET})
     public Response getOrganizationById(@PathVariable(value = "id") Long id) {
         return new ResponseSuccess("success", organizationService.getOrganizationById(id));
     }
+
+    @Override
+    @ApiOperation(value = "getOrganizationsFull", nickname = "getOrganizationsFull", httpMethod = "GET")
+    @RequestMapping(value = "/organizations", method = {GET})
+    public Response organizations() {
+        return new ResponseSuccess("success", organizationService.organizations());
+    }
+
 
 }

@@ -123,7 +123,11 @@
 
         <div ng-controller="officeController" class="col-md-3">
             <h3>Office controller </h3>
-            <p> Результ: {{resultMessage}}</p>
+            {{showAll}}
+            {{modelOffice.showAll}}
+            {{modelOffice.office}}
+            <p> Результат: {{modelOffice.resultMessage}}</p>
+            {{getResultMessage}}
             <h4>orgId {{model.id}}</h4>
             <label>Name</label>
             <input type="text" name="name" class="form-control" ng-model="office.name"/>
@@ -137,11 +141,12 @@
             <div ng-controller="getOfficeControllerGetById">
                 <input type="text" class="form-control" style="width: 100px;" ng-model="office.id"/> <br/>
                 <button ng-click="getOfficeById()">Get Offices by Id</button>
+                {{office}}
             </div>
 
             <div ng-controller="postOfficeControllerListbyOrgId">
                 <button ng-click="getOfficeListByOrgId()">List Offices by OrgId</button>
-
+                <p> Результат: {{resultMessage}}</p>
             </div>
 
 
@@ -152,6 +157,7 @@
             {{modelOffice.showAll}}
             {{modelOffice.orgId}}
             {{modelOffice.listOfficeByOrgId}}
+            <p> Результат: {{modelOffice.resultMessage}}</p>
 
             <div ng-show="modelOffice.showAll">
 

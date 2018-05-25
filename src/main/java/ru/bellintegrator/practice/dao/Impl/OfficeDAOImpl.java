@@ -3,6 +3,7 @@ package ru.bellintegrator.practice.dao.Impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.bellintegrator.practice.dao.OfficeDAO;
+import ru.bellintegrator.practice.exception.CustomErrorException;
 import ru.bellintegrator.practice.exception.CustomNotFoundException;
 import ru.bellintegrator.practice.model.Office;
 import ru.bellintegrator.practice.view.OfficeFilterView;
@@ -36,7 +37,13 @@ public class OfficeDAOImpl implements OfficeDAO {
 
     @Override
     public Office loadById(Long id) {
-        return em.find(Office.class, id);
+        if (id > 0 ) {
+            return   em.find(Office.class, id);
+
+        } else {
+            throw new CustomErrorException(String.format("Missing parametr- Id* is %s", id));
+        }
+
     }
 
 
@@ -75,38 +82,20 @@ public class OfficeDAOImpl implements OfficeDAO {
 
         Root<Office> Office = criteria.from(Office.class);
         //criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()), builder.like(Office.get("name"), "%" + officeFilterView.getName() + "%"), builder.like(Office.get("phone").as(String.class), "%" + String.valueOf(officeFilterView.getPhone()) + "%"), builder.equal(Office.get("isActive"), officeFilterView.getActive())));
-        if (officeFilterView.getName() != null && officeFilterView.getPhone()!= null && officeFilterView.getActive() != null) {
-            criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()),
-                    builder.like(builder.lower(Office.get("name")), "%" + officeFilterView.getName().toLowerCase() + "%"),
-                    builder.like(Office.get("phone").as(String.class), "%" + String.valueOf(officeFilterView.getPhone()) + "%"),
-                    builder.equal(Office.get("isActive"), officeFilterView.getActive())));
-        } else
-        if (officeFilterView.getName() == null && officeFilterView.getPhone()!= null && officeFilterView.getActive() != null) {
-            criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()),
-                    builder.like(Office.get("phone").as(String.class), "%" + String.valueOf(officeFilterView.getPhone()) + "%"),
-                    builder.equal(Office.get("isActive"), officeFilterView.getActive())));
-        } else
-        if (officeFilterView.getName() != null && officeFilterView.getPhone() == null && officeFilterView.getActive() != null) {
-            criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()),
-                    builder.like(builder.lower(Office.get("name")), "%" + officeFilterView.getName().toLowerCase() + "%"),
-                    builder.equal(Office.get("isActive"), officeFilterView.getActive())));
-        } else
-        if (officeFilterView.getName() != null && officeFilterView.getPhone()!= null && officeFilterView.getActive() == null) {
-            criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()),
-                    builder.like(builder.lower(Office.get("name")), "%" + officeFilterView.getName().toLowerCase() + "%"),
-                    builder.like(Office.get("phone").as(String.class), "%" + String.valueOf(officeFilterView.getPhone()) + "%")));
-        } else
-        if (officeFilterView.getName() == null && officeFilterView.getPhone()== null && officeFilterView.getActive() != null) {
-            criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()),
-                    builder.equal(Office.get("isActive"), officeFilterView.getActive())));
-        } else
-        if (officeFilterView.getName() == null && officeFilterView.getPhone()!= null && officeFilterView.getActive() == null) {
-            criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()),
-                    builder.like(Office.get("phone").as(String.class), "%" + String.valueOf(officeFilterView.getPhone()) + "%")));
-        } else
-        if (officeFilterView.getName() != null && officeFilterView.getPhone()== null && officeFilterView.getActive() == null) {
-            criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()),
-                    builder.like(builder.lower(Office.get("name")), "%" + officeFilterView.getName().toLowerCase() + "%")));
+        if (officeFilterView.getName() != null && officeFilterView.getPhone() != null && officeFilterView.getActive() != null) {
+            criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()), builder.like(builder.lower(Office.get("name")), "%" + officeFilterView.getName().toLowerCase() + "%"), builder.like(Office.get("phone").as(String.class), "%" + String.valueOf(officeFilterView.getPhone()) + "%"), builder.equal(Office.get("isActive"), officeFilterView.getActive())));
+        } else if (officeFilterView.getName() == null && officeFilterView.getPhone() != null && officeFilterView.getActive() != null) {
+            criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()), builder.like(Office.get("phone").as(String.class), "%" + String.valueOf(officeFilterView.getPhone()) + "%"), builder.equal(Office.get("isActive"), officeFilterView.getActive())));
+        } else if (officeFilterView.getName() != null && officeFilterView.getPhone() == null && officeFilterView.getActive() != null) {
+            criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()), builder.like(builder.lower(Office.get("name")), "%" + officeFilterView.getName().toLowerCase() + "%"), builder.equal(Office.get("isActive"), officeFilterView.getActive())));
+        } else if (officeFilterView.getName() != null && officeFilterView.getPhone() != null && officeFilterView.getActive() == null) {
+            criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()), builder.like(builder.lower(Office.get("name")), "%" + officeFilterView.getName().toLowerCase() + "%"), builder.like(Office.get("phone").as(String.class), "%" + String.valueOf(officeFilterView.getPhone()) + "%")));
+        } else if (officeFilterView.getName() == null && officeFilterView.getPhone() == null && officeFilterView.getActive() != null) {
+            criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()), builder.equal(Office.get("isActive"), officeFilterView.getActive())));
+        } else if (officeFilterView.getName() == null && officeFilterView.getPhone() != null && officeFilterView.getActive() == null) {
+            criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()), builder.like(Office.get("phone").as(String.class), "%" + String.valueOf(officeFilterView.getPhone()) + "%")));
+        } else if (officeFilterView.getName() != null && officeFilterView.getPhone() == null && officeFilterView.getActive() == null) {
+            criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()), builder.like(builder.lower(Office.get("name")), "%" + officeFilterView.getName().toLowerCase() + "%")));
         }
         TypedQuery<Office> query = em.createQuery(criteria);
         return query.getResultList();

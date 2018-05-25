@@ -83,14 +83,19 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     @Transactional(readOnly = true)
     public Office getOfficeById(Long id) {
-        return dao.loadById(id);
+        if (id > 0) {
+            return dao.loadById(id);
+            
+        } else {
+            throw new CustomErrorException(String.format("Mismatch parametr- Id* is %s", id) );
+        }
     }
 
     @Override
     public List<OfficeFilterView> filterOfficeList(OfficeFilterView officeFilterView) {
 
         if (officeFilterView.getOrgId() == null || !(officeFilterView.getOrgId() > 0)) {
-            throw new CustomErrorException(String.format("Missing parametr- ogrId* is %s", officeFilterView.getOrgId()));
+            throw new CustomErrorException(String.format("Mismatch parametr- ogrId* is %s", officeFilterView.getOrgId()));
         }
 
         List<Office> all = dao.filterOfficeList(officeFilterView);
