@@ -103,7 +103,6 @@ app.controller('postOrganizationsControllerUpdate', function ($scope, $http, $lo
 
         $http.post(url, data, config).then(function (response) {
             $scope.postResultMessage = "Sucessful!";
-            console.log(response.data);
             $scope.list = response.data;
 
         }, function (response) {
@@ -346,10 +345,15 @@ app.controller('getAllOfficesController', function ($scope, $http, $location) {
 app.controller('getOfficeControllerGetById', function ($scope, $http, $location, FactoryOrgId, FactoryOffice) {
     $scope.model = FactoryOrgId.organization;
     $scope.office = FactoryOffice.office;
+    //$scope.name = FactoryOffice.office.name;
+    //$scope.address = FactoryOffice.office.address;
+    $scope.phone = FactoryOffice.office.phone;
+    $scope.isActive = FactoryOffice.office.isActive;
     $scope.show = false;
-
+    $scope.show = true;
+   // alert("111999");
     $scope.getOfficeById = function () {
-        var url = $location.absUrl() + "/api/office/" + $scope.office.id;
+        var url = $location.absUrl() + "/api/office/" + $scope.id;
 
         var config = {
             headers: {
@@ -358,14 +362,18 @@ app.controller('getOfficeControllerGetById', function ($scope, $http, $location,
         }
 
         $http.get(url, config).then(function (response) {
-
+//alert('000!!!');
             if (response.data.result == "success") {
+                // alert('111000!!!');
                 $scope.show = true;
-                var list = response.data;
-                $scope.office.name = list.data.name;
-                $scope.office.address = list.data.address;
-                $scope.office.phone = list.data.phone;
-                $scope.office.isActive = list.data.active;
+                var list = response.data.data;
+                //$scope.name = list.data.name;
+                //FactoryOffice.office.name = list.data.name;
+                $scope.list2 = list.name;
+                $scope.setView($scope.id, list.name, list.address, list.phone, list.active);
+
+                FactoryOffice.updateOfficeData($scope.id, list.name, list.address, list.phone, list.active);
+                //alert($scope.id, response.data, list.address, list.phone, list.active);
                 FactoryOffice.modelOffice.resultMessage = response.data.result;
             } else {
                 //$scope.getResultMessage = "Offices Data Error!";
@@ -383,13 +391,10 @@ app.controller('getOfficeControllerGetById', function ($scope, $http, $location,
 app.controller('postOfficeControllerListbyOrgId', function ($scope, $http, $location, FactoryOrgId, FactoryOffice) {
     $scope.model = FactoryOrgId.organization;
     $scope.office = FactoryOffice.office;
-    //$scope.showAll = FactoryOffice.showAll;
     $scope.modelOffice = FactoryOffice.modelOffice;
     $scope.modelOffice.showAll = FactoryOffice.modelOffice.showAll;
-    //$scope.listOfficeByOrgId = FactoryOffice.listOfficeByOrgId;
-    //$scope.listOfficeByOrgId = FactoryOffice.listOfficeByOrgId;
-    //$scope.listOfficeByOrgId.name = "FFF";
-    $scope.getOfficeListByOrgId = function () {
+
+    $scope.postOfficeListByOrgId = function () {
         var url = $location.absUrl() + "/api/office/list";
 
         var config = {
@@ -399,9 +404,9 @@ app.controller('postOfficeControllerListbyOrgId', function ($scope, $http, $loca
         }
         var data = {
             orgId: FactoryOrgId.organization.id,
-            name: $scope.office.name,
-            phone: $scope.office.phone,
-            isActive: $scope.office.isActive
+            name: $scope.name,
+            phone: $scope.phone,
+            isActive: $scope.isActive
         };
         $http.post(url, data, config).then(function (response) {
 
@@ -409,42 +414,90 @@ app.controller('postOfficeControllerListbyOrgId', function ($scope, $http, $loca
             if (response.data.result == "success") {
                 $scope.allOffices = response.data;
 
-                //FactoryOffice.modelOffice.resultMessage = response.data.result;
-                //$scope.resultMessage = FactoryOffice.modelOffice.resultMessage;
                 FactoryOffice.modelOffice.listOfficeByOrgId.length = 0;
                 FactoryOffice.modelOffice.orgId = FactoryOrgId.organization.id;
                 FactoryOffice.modelOffice.listOfficeByOrgId.push($scope.allOffices.data);
                 FactoryOffice.modelOffice.showAll = true;
 
-                //FactoryOffice.setName('JK');
-                // $scope.showAll = true;
-                //FactoryOffice.updatelistOfficeByOrgId(response.data.data.name, $scope.allOffices.data.phone, $scope.allOffices.data.isActive)
             } else {
-                $scope.resultMessage = response.data.error;//"Filter Offices Data Error!";
+                //$scope.resultMessage = response.data.error;//"Filter Offices Data Error!";
                 FactoryOffice.modelOffice.resultMessage = response.data.error;
             }
         }, function (response) {
-            $scope.showAll = false;
-            $scope.resultMessage = "Fail!";
+            //$scope.showAll = false;
+            //$scope.resultMessage = "Fail!";
+            FactoryOffice.modelOffice.resultMessage = response.data.error;
         });
         $scope.address = "";
     }
 });
+
+app.controller('postOfficeControllerUpdate', function ($scope, $http, $location, FactoryOrgId, FactoryOffice) {
+
+    $scope.model = FactoryOrgId.organization;
+    //$scope.office = FactoryOffice.office;
+    $scope.modelOffice = FactoryOffice.modelOffice;
+    $scope.modelOffice.showAll = FactoryOffice.modelOffice.showAll;
+    //$scope.id = FactoryOffice.office.id;
+    // alert("000999");
+    $scope.postOfficeUpdate = function () {
+        //alert("000999888");
+        var url = $location.absUrl() + "/api/office/update";
+
+        var config = {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8;'
+            }
+        }
+        var data = {
+            id: id,//$scope.id,
+            name: $scope.name,
+            address: $scope.office.address, //$scope.address,
+            phone: $scope.office.phone,//$scope.phone,
+            isActive: $scope.office.isActive,//$scope.isActive
+            orgId: FactoryOrgId.organization.id
+        };
+
+        $http.post(url, config).then(function (response) {
+
+            if (response.data.result == "success") {
+                //$scope.list = response.data.data;
+                // FactoryOffice.updateOfficeData(list.id, list.name, list.address, list.phone, list.active);
+                FactoryOffice.modelOffice.showAll = true;
+            } else {
+                //$scope.getResultMessage = "Organization Data Error!";
+                FactoryOffice.modelOffice.resultMessage = response.data.error;
+                FactoryOffice.modelOffice.showAll = false;
+            }
+
+        }, function (response) {
+
+            FactoryOffice.modelOffice.showAll = false;
+            FactoryOffice.modelOffice.resultMessage = response.data.error;
+            //$scope.getResultMessage = "Fail!";
+        });
+
+    }
+});
+
 app.controller('officeController', function ($scope, $http, $location, FactoryOrgId, FactoryOffice) {
     $scope.model = FactoryOrgId.organization;
     $scope.modelOffice = FactoryOffice.modelOffice;
     $scope.office = FactoryOffice.office;
-    //$scope.showAll = false;
-    //$scope.resultMessage = FactoryOffice.getName();
-    //$scope.resultMessage = FactoryOffice.modelOffice.resultMessage;
-    //$scope.showAll = FactoryOffice.modelOffice.showAll;
-    //$scope.modelOffice.showAll = FactoryOffice.modelOffice.showAll;
-//FactoryOffice.getName();
+    $scope.address = FactoryOffice.office.address;
+
+    $scope.setName = function (name) {
+        $scope.name = name;
+    };
+    $scope.setView = function (id, name, address, phone, isActive) {
+        $scope.id = id;
+        $scope.name = name;
+        $scope.address = address;
+        $scope.phone = phone;
+        $scope.isActive = isActive;
+    }
 
 });
-
-
-
 
 app.factory('FactoryOrgId', function () {
     return {
@@ -479,9 +532,9 @@ app.factory('FactoryOffice', function () {
         },
         updatelistOfficeByOrgId: function (name, phone, isActive) {
             {
-                this.listOfficeByOrgId.name =  name,
-                this.listOfficeByOrgId.phone = phone,
-                this.listOfficeByOrgId.isActive = isActive
+                    this.listOfficeByOrgId.name = name,
+                    this.listOfficeByOrgId.phone = phone,
+                    this.listOfficeByOrgId.isActive = isActive
             }
         },
         updateOfficeData: function (id, name, address, phone, isActive) {

@@ -58,6 +58,7 @@ public class OfficeControllerImpl implements OfficeController {
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/office/lists", method = {POST})
     public Response offices(@RequestBody OfficeView office) {
+        log.info("view-list" + office.toString());
         return new ResponseSuccess("success", officeService.listOffices(office));
     }
 
@@ -85,6 +86,7 @@ public class OfficeControllerImpl implements OfficeController {
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/office/list", method = {POST})
     public Response offices(@RequestBody OfficeFilterView office) {
+        log.info("view-listByOrgId" + office.toString());
         List<OfficeFilterView> officeFilterViewList = officeService.filterOfficeList(office);
 
         return new ResponseSuccess("success", officeFilterViewList);
@@ -97,6 +99,7 @@ public class OfficeControllerImpl implements OfficeController {
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/office/update", method = {POST})
     public Response updateOffice(@RequestBody OfficeView office) {
+        log.info("view-update" + office.toString());
         officeService.updateOffice(office);
         return new ResponseSuccess("success");
     }

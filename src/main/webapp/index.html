@@ -120,35 +120,46 @@
 
     <div class="row">
 
-
         <div ng-controller="officeController" class="col-md-3">
             <h3>Office controller </h3>
             {{showAll}}
             {{modelOffice.showAll}}
             {{modelOffice.office}}
+            office --{{office}}
+            Id {{id}} name {{name}} address {{address}} isActive {{isActive}}
             <p> Результат: {{modelOffice.resultMessage}}</p>
             {{getResultMessage}}
             <h4>orgId {{model.id}}</h4>
             <label>Name</label>
-            <input type="text" name="name" class="form-control" ng-model="office.name"/>
+            <input type="text" name="name" class="form-control" ng-model="name"/>
             <label>Address</label>
-            <input type="text" name="address" class="form-control" ng-model="office.address"/>
+            <input type="text" name="address" class="form-control" ng-model="address"/>
             <label>Phone</label>
-            <input type="text" name="phone" class="form-control" ng-model="office.phone"/>
+            <input type="text" name="phone" class="form-control" ng-model="phone"/>
             <label>isActive</label>
-            <input type="text" name="isActive" class="form-control" ng-model="office.isActive"/>
+            <input type="text" name="isActive" class="form-control" ng-model="isActive"/>
 
             <div ng-controller="getOfficeControllerGetById">
-                <input type="text" class="form-control" style="width: 100px;" ng-model="office.id"/> <br/>
+                <input type="text" class="form-control" style="width: 100px;" ng-model="id"/> <br/>
                 <button ng-click="getOfficeById()">Get Offices by Id</button>
                 {{office}}
             </div>
 
             <div ng-controller="postOfficeControllerListbyOrgId">
-                <button ng-click="getOfficeListByOrgId()">List Offices by OrgId</button>
-                <p> Результат: {{resultMessage}}</p>
+
+                <button ng-click="postOfficeListByOrgId()">List Offices by OrgId</button>
             </div>
 
+            <div ng-controller="postOfficeControllerUpdate">
+                office update--{{office}}
+                Id {{id}} name {{name}} address {{address}} isActive {{isActive}}
+
+                <button ng-click="postOfficeUpdate()">Update Office</button>
+                <p> Результат update: {{modelOffice.resultMessage}}</p>
+            </div>
+
+
+    </div>
 
         </div>
 
@@ -249,8 +260,8 @@
     Controller 1:
     <div ng-controller="FirstCtrl">
         Org Id <input type="text" ng-model="model.id"/><br/>
-        Office Id <input type="text" ng-model="office.id"/><br/>
-        Name <input type="text" ng-model="office.name"/><br/>
+        Office Id <input type="text" ng-model=".id"/><br/>
+        Name <input type="text" ng-model=".name"/><br/>
         {{model}}
         {{office}}
     </div>
