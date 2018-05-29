@@ -1,39 +1,5 @@
 var app = angular.module('app', []);
 
-app.controller('postOrganizationsControllerSave', function ($scope, $http, $location) {
-    $scope.submitForm = function () {
-        var url = $location.absUrl() + "/api/organiazation/save";
-
-        var config = {
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8;'
-            }
-        }
-        var data = {
-            name: $scope.name,
-            fullName: $scope.fullName,
-            inn: $scope.inn,
-            kpp: $scope.kpp,
-            address: $scope.address,
-            phone: $scope.phone,
-            isActive: $scope.isActive
-        };
-        $http.post(url, data, config).then(function (response) {
-            $scope.postResultMessage = "Sucessful!";
-        }, function (response) {
-            $scope.postResultMessage = "Fail!";
-        });
-
-        $scope.name = "";
-        $scope.fullName = "";
-        $scope.inn = "";
-        $scope.kpp = "";
-        $scope.address = "";
-        $scope.phone = "";
-        $scope.isActive = "";
-    }
-});
-
 app.controller('postOrganizationsControllerUpdate', function ($scope, $http, $location, FactoryOrgId) {
     $scope.model = FactoryOrgId.organization;
     $scope.showOrganization = false;
@@ -118,6 +84,40 @@ app.controller('postOrganizationsControllerUpdate', function ($scope, $http, $lo
         $scope.isActive = "";
     }
 
+});
+
+app.controller('postOrganizationsControllerSave', function ($scope, $http, $location) {
+    $scope.submitForm = function () {
+        var url = $location.absUrl() + "/api/organiazation/save";
+
+        var config = {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8;'
+            }
+        }
+        var data = {
+            name: $scope.name,
+            fullName: $scope.fullName,
+            inn: $scope.inn,
+            kpp: $scope.kpp,
+            address: $scope.address,
+            phone: $scope.phone,
+            isActive: $scope.isActive
+        };
+        $http.post(url, data, config).then(function (response) {
+            $scope.postResultMessage = "Sucessful!";
+        }, function (response) {
+            $scope.postResultMessage = "Fail!";
+        });
+
+        $scope.name = "";
+        $scope.fullName = "";
+        $scope.inn = "";
+        $scope.kpp = "";
+        $scope.address = "";
+        $scope.phone = "";
+        $scope.isActive = "";
+    }
 });
 
 app.controller('postOrganizationsControllerDelete', function ($scope, $http, $location) {
@@ -340,6 +340,7 @@ app.controller('getAllOfficesController', function ($scope, $http, $location) {
             }
         }
     }
+
 });
 
 app.controller('getOfficeControllerGetById', function ($scope, $http, $location, FactoryOrgId, FactoryOffice) {
@@ -392,8 +393,9 @@ app.controller('postOfficeControllerListbyOrgId', function ($scope, $http, $loca
     $scope.model = FactoryOrgId.organization;
     $scope.office = FactoryOffice.office;
     $scope.modelOffice = FactoryOffice.modelOffice;
-    $scope.modelOffice.showAll = FactoryOffice.modelOffice.showAll;
+    $scope.modelOffice.showAll = false;
 
+    $scope.showAllOrgId = false;
     $scope.postOfficeListByOrgId = function () {
         var url = $location.absUrl() + "/api/office/list";
 
@@ -410,25 +412,26 @@ app.controller('postOfficeControllerListbyOrgId', function ($scope, $http, $loca
         };
         $http.post(url, data, config).then(function (response) {
 
-            //$scope.modelOffice.showAll = false;
             if (response.data.result == "success") {
+                $scope.modelOffice.showAll = true;
                 $scope.allOffices = response.data;
 
                 FactoryOffice.modelOffice.listOfficeByOrgId.length = 0;
                 FactoryOffice.modelOffice.orgId = FactoryOrgId.organization.id;
                 FactoryOffice.modelOffice.listOfficeByOrgId.push($scope.allOffices.data);
-                FactoryOffice.modelOffice.showAll = true;
+
+                $scope.clearFormAddress();
 
             } else {
                 //$scope.resultMessage = response.data.error;//"Filter Offices Data Error!";
                 FactoryOffice.modelOffice.resultMessage = response.data.error;
+               // $scope.showAllOrgId = false;
             }
         }, function (response) {
-            //$scope.showAll = false;
-            //$scope.resultMessage = "Fail!";
             FactoryOffice.modelOffice.resultMessage = response.data.error;
+           // $scope.showAllOrgId = false;
         });
-        $scope.address = "";
+
     }
 });
 
@@ -450,19 +453,18 @@ app.controller('postOfficeControllerUpdate', function ($scope, $http, $location,
             }
         }
         var data = {
-            id: id,//$scope.id,
+            id: $scope.id,//$scope.id,
             name: $scope.name,
-            address: $scope.office.address, //$scope.address,
-            phone: $scope.office.phone,//$scope.phone,
-            isActive: $scope.office.isActive,//$scope.isActive
-            orgId: FactoryOrgId.organization.id
+            address: $scope.address, //$scope.address,
+            phone: $scope.phone,//$scope.phone,
+            isActive: $scope.isActive,//$scope.isActive
+            //orgId: FactoryOrgId.organization.id
         };
 
-        $http.post(url, config).then(function (response) {
+        $http.post(url, data, config).then(function (response) {
 
             if (response.data.result == "success") {
-                //$scope.list = response.data.data;
-                // FactoryOffice.updateOfficeData(list.id, list.name, list.address, list.phone, list.active);
+
                 FactoryOffice.modelOffice.showAll = true;
             } else {
                 //$scope.getResultMessage = "Organization Data Error!";
@@ -486,9 +488,6 @@ app.controller('officeController', function ($scope, $http, $location, FactoryOr
     $scope.office = FactoryOffice.office;
     $scope.address = FactoryOffice.office.address;
 
-    $scope.setName = function (name) {
-        $scope.name = name;
-    };
     $scope.setView = function (id, name, address, phone, isActive) {
         $scope.id = id;
         $scope.name = name;
@@ -496,7 +495,9 @@ app.controller('officeController', function ($scope, $http, $location, FactoryOr
         $scope.phone = phone;
         $scope.isActive = isActive;
     }
-
+    $scope.clearFormAddress = function () {
+        $scope.address = "";
+    }
 });
 
 app.factory('FactoryOrgId', function () {

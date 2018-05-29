@@ -41,7 +41,7 @@ public class OfficeDAOImpl implements OfficeDAO {
             return   em.find(Office.class, id);
 
         } else {
-            throw new CustomErrorException(String.format("Missing parametr- Id* is %s", id));
+            throw new CustomErrorException(String.format("Mismached parametr- Id* is %s", id));
         }
 
     }
@@ -96,6 +96,9 @@ public class OfficeDAOImpl implements OfficeDAO {
             criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()), builder.like(Office.get("phone").as(String.class), "%" + String.valueOf(officeFilterView.getPhone()) + "%")));
         } else if (officeFilterView.getName() != null && officeFilterView.getPhone() == null && officeFilterView.getActive() == null) {
             criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()), builder.like(builder.lower(Office.get("name")), "%" + officeFilterView.getName().toLowerCase() + "%")));
+        }  else if (officeFilterView.getName() == null && officeFilterView.getPhone() == null && officeFilterView.getActive() == null) {
+            criteria.where(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()));
+            147896325
         }
         TypedQuery<Office> query = em.createQuery(criteria);
         return query.getResultList();

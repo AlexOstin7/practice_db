@@ -28,28 +28,6 @@
 <div class="container" ng-app="app">
     <!--h1>Practice</h1-->
     <div class="row">
-        <div ng-controller="postOrganizationsControllerSave" class="col-md-3">
-            <form name="organizationForm" ng-submit="submitForm()">
-                <h3>Save Organizations</h3>
-                <label>Name</label>
-                <input type="text" name="name" class="form-control" ng-model="name"/>
-                <label>FullName</label>
-                <input type="text" name="fullName" class="form-control" ng-model="fullName"/>
-                <label>Inn</label>
-                <input type="text" name="inn" class="form-control" ng-model="inn"/>
-                <label>Kpp</label>
-                <input type="text" name="kpp" class="form-control" ng-model="kpp"/>
-                <label>Address</label>
-                <input type="text" name="address" class="form-control" ng-model="address"/>
-                <label>Phone</label>
-                <input type="text" name="phone" class="form-control" ng-model="phone"/>
-                <label>isActive</label>
-                <input type="text" name="isActive" class="form-control" ng-model="isActive"/>
-
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-            <p>{{postResultMessage}}</p>
-        </div>
 
         <div ng-controller="postOrganizationsControllerUpdate" class="col-md-3">
 
@@ -72,12 +50,33 @@
                 <input type="text" name="isActive" class="form-control" ng-model="isActive"/>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
-            <input type="text" class="form-control" style="width: 100px;" ng-model="model.id"/> <br/>
+            <label>Org Id</label>
+            <input type="text" class="form-control" style="width: 110px;" ng-model="model.id" placeholder='Enter Org Id'/> <br/>
             <button ng-click="getOrganization()">Get Organizations by Id</button>
-            <p>{{model.id}}</p>
-            <p>{{postResultMessage}}</p>
         </div>
 
+        <div ng-controller="postOrganizationsControllerSave" class="col-md-3">
+            <form name="organizationForm" ng-submit="submitForm()">
+                <h3>Save Organizations</h3>
+                <label>Name</label>
+                <input type="text" name="name" class="form-control" ng-model="name"/>
+                <label>FullName</label>
+                <input type="text" name="fullName" class="form-control" ng-model="fullName"/>
+                <label>Inn</label>
+                <input type="text" name="inn" class="form-control" ng-model="inn"/>
+                <label>Kpp</label>
+                <input type="text" name="kpp" class="form-control" ng-model="kpp"/>
+                <label>Address</label>
+                <input type="text" name="address" class="form-control" ng-model="address"/>
+                <label>Phone</label>
+                <input type="text" name="phone" class="form-control" ng-model="phone"/>
+                <label>isActive</label>
+                <input type="text" name="isActive" class="form-control" ng-model="isActive"/>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <p>{{postResultMessage}}</p>
+        </div>
 
         <div ng-controller="postOrganizationsControllerDelete" class="col-md-3">
             <h3>Delete organization</h3>
@@ -122,13 +121,9 @@
 
         <div ng-controller="officeController" class="col-md-3">
             <h3>Office controller </h3>
-            {{showAll}}
-            {{modelOffice.showAll}}
-            {{modelOffice.office}}
-            office --{{office}}
-            Id {{id}} name {{name}} address {{address}} isActive {{isActive}}
+
             <p> Результат: {{modelOffice.resultMessage}}</p>
-            {{getResultMessage}}
+
             <h4>orgId {{model.id}}</h4>
             <label>Name</label>
             <input type="text" name="name" class="form-control" ng-model="name"/>
@@ -140,38 +135,29 @@
             <input type="text" name="isActive" class="form-control" ng-model="isActive"/>
 
             <div ng-controller="getOfficeControllerGetById">
-                <input type="text" class="form-control" style="width: 100px;" ng-model="id"/> <br/>
+                <label>Office Id</label>
+                <input type="text" class="form-control" style="width: 120px;" ng-model="id" placeholder='Enter Office Id'/> <br/>
                 <button ng-click="getOfficeById()">Get Offices by Id</button>
-                {{office}}
             </div>
 
             <div ng-controller="postOfficeControllerListbyOrgId">
 
                 <button ng-click="postOfficeListByOrgId()">List Offices by OrgId</button>
+
             </div>
 
             <div ng-controller="postOfficeControllerUpdate">
-                office update--{{office}}
-                Id {{id}} name {{name}} address {{address}} isActive {{isActive}}
 
                 <button ng-click="postOfficeUpdate()">Update Office</button>
-                <p> Результат update: {{modelOffice.resultMessage}}</p>
+
             </div>
-
-
-    </div>
 
         </div>
 
         <div ng-controller="postOfficeControllerListbyOrgId" class="col-md-3">
-            <h3>List by orgId</h3>
-            {{modelOffice.showAll}}
-            {{modelOffice.orgId}}
-            {{modelOffice.listOfficeByOrgId}}
-            <p> Результат: {{modelOffice.resultMessage}}</p>
 
             <div ng-show="modelOffice.showAll">
-
+                <h3>List by orgId</h3>
                 <ul class="list-group">
                     <ul ng-repeat="item in modelOffice.listOfficeByOrgId">
                         <label>OrgId: {{modelOffice.orgId}}</label>
@@ -188,6 +174,8 @@
         </div>
 
     </div>
+
+
 <div class="row">
     <div ng-controller="getAllOrganizationsController" class="col-md-3">
         <h3>All Organizations</h3>
@@ -241,38 +229,39 @@
         <p>{{getResultMessage}}</p>
     </div>
 </div>
-    <div ng-controller='Ctrl1' class='well'>
-        <h4>Controller 1</h4>
-        <div>
-            <input type='text' ng-model='IdOrg.id' placeholder='Enter Id'/>
-        </div>
-        <div>Id: {{IdOrg.id}}</div>
-    </div>
 
-    <div ng-controller='Ctrl2' class='well'>
-        <h4>Controller 2</h4>
-        <div>
-            <input type='text' ng-model='IdOrg.id' placeholder='Enter Id'/>
-        </div>
-        <div>Id: {{IdOrg.id}}</div>
+<div ng-controller='Ctrl1' class='well'>
+    <h4>Controller 1</h4>
+    <div>
+        <input type='text' ng-model='IdOrg.id' placeholder='Enter Id'/>
     </div>
-
-    Controller 1:
-    <div ng-controller="FirstCtrl">
-        Org Id <input type="text" ng-model="model.id"/><br/>
-        Office Id <input type="text" ng-model=".id"/><br/>
-        Name <input type="text" ng-model=".name"/><br/>
-        {{model}}
-        {{office}}
-    </div>
-    <br/>
-    Controller 2:
-    <div ng-controller="SecondCtrl">
-        Org Id <input type="text" ng-model="model.id"/><br/>
-        {{model.id}}
-        {{office.id}}
-    </div>
-    <br/>
+    <div>Id: {{IdOrg.id}}</div>
 </div>
 
+<div ng-controller='Ctrl2' class='well'>
+    <h4>Controller 2</h4>
+    <div>
+        <input type='text' ng-model='IdOrg.id' placeholder='Enter Id'/>
+    </div>
+    <div>Id: {{IdOrg.id}}</div>
+</div>
+
+Controller 1:
+<div ng-controller="FirstCtrl">
+    Org Id <input type="text" ng-model="model.id"/><br/>
+    Office Id <input type="text" ng-model="office.id"/><br/>
+    Name <input type="text" ng-model="office.name"/><br/>
+    {{model}}
+    {{office}}
+</div>
+<br/>
+Controller 2:
+<div ng-controller="SecondCtrl">
+    Org Id <input type="text" ng-model="model.id"/><br/>
+    {{model.id}}
+    {{office.id}}
+</div>
+<br/>
+
+</div>
 </html>

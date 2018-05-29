@@ -79,49 +79,53 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
 
-
     @Override
     @Transactional(readOnly = true)
     public Office getOfficeById(Long id) {
-        if (id > 0) {
-            return dao.loadById(id);
-            
-        } else {
-            throw new CustomErrorException(String.format("Mismatch parametr- Id* is %s", id) );
+        Office office = dao.loadById(id);
+        if (office == null) {
+            throw new CustomErrorException(String.format("Mismatch parametr- Id* is %s", id));
         }
+        if (id < 1) {
+            throw new CustomErrorException(String.format("Mismatch parametr- Id* is %s", id));
+        }
+        return office;
     }
 
     @Override
     public List<OfficeFilterView> filterOfficeList(OfficeFilterView officeFilterView) {
 
-        if (officeFilterView.getOrgId() == null || !(officeFilterView.getOrgId() > 0)) {
+        if (officeFilterView.getOrgId() == null || (officeFilterView.getOrgId() < 1)) {
             throw new CustomErrorException(String.format("Mismatch parametr- ogrId* is %s", officeFilterView.getOrgId()));
         }
+        log.info("before DAO filtr "+ officeFilterView.toString());
 
         List<Office> all = dao.filterOfficeList(officeFilterView);
+      //  log.info("before all filtr"+ all);
         List<OfficeFilterView> officesView = new ArrayList<>();
+log.info("before filtrOfficeList"+ officeFilterView.toString());
 
-        Function<Office, OfficeFilterView> mapOffice = p -> {
+Function<Office, OfficeFilterView> mapOffice = p -> {
             OfficeFilterView view = new OfficeFilterView();
             view.id = String.valueOf(p.getId());
             view.name = p.getName();
             view.isActive = p.getActive();
             //view.orgId = p.getOrganization().getId();
 
-            log.info(view.toString());
+            log.info("after filtr" +view.toString());
 
             return view;
         };
 
-            return all.stream().map(mapOffice).collect(Collectors.toList());
+        return all.stream().map(mapOffice).collect(Collectors.toList());
 
     }
+
     @Override
     @Transactional
     public void updateOffice(OfficeView view) {
-        Office office = dao.loadById(Long.valueOf(1));
-        log.info("111000");
-        log.info("before " + view.toString());
+        Office office = dao.loadById(Long.valueOf(view.getId()));
+        log.info("before service update " + view.toString());
         office.setName(view.name);
         office.setPhone(view.phone);
         office.setAddress(view.address);

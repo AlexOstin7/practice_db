@@ -72,9 +72,9 @@ public class OfficeControllerImpl implements OfficeController {
     //@RequestMapping(value = "/office/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
     @RequestMapping(value = "/office/{id:.+}", method = {GET})
     public Response getOfficeById(@PathVariable(value = "id") Long id) {
-        log.info("before ID!!!!!!!!!!!!!! "+ id.toString());
+        log.info("controller before service.getOfficeByID "+ id.toString());
         Office office = officeService.getOfficeById(id);
-        log.info("after ID!!!!!!!!!!!!!! "+ id.toString());
+        log.info("controller after service.getOfficeByID "+ id.toString());
         return new ResponseSuccess("success", office);
     }
 
