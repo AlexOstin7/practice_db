@@ -136,7 +136,9 @@
 
             <div ng-controller="getOfficeControllerGetById">
                 <label>Office Id</label>
-                <input type="text" class="form-control" style="width: 120px;" ng-model="id" placeholder='Enter Office Id'/> <br/>
+                <!--input type="text" class="form-control" style="width: 120px;" ng-model="id" placeholder='Enter Office Id' [(ngModel)]="id" (keyup)="valuechange()"/> <br/-->
+                <input type="text" class="form-control" style="width: 120px;" ng-model="office.id" placeholder='Enter Office Id' ng-change="getOfficeById()"/> <br/>
+                <!--input type="text" class="form-control" style="width: 120px;" ng-model="id" placeholder='Enter Office Id'/> <br/-->
                 <button ng-click="getOfficeById()">Get Offices by Id</button>
             </div>
 
@@ -149,6 +151,12 @@
             <div ng-controller="postOfficeControllerUpdate">
 
                 <button ng-click="postOfficeUpdate()">Update Office</button>
+
+            </div>
+
+            <div ng-controller="postOfficeControllerDelete">
+
+                <button ng-click="deleteOfficeById()">Delete Office</button>
 
             </div>
 

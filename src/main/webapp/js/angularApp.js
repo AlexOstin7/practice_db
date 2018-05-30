@@ -346,15 +346,10 @@ app.controller('getAllOfficesController', function ($scope, $http, $location) {
 app.controller('getOfficeControllerGetById', function ($scope, $http, $location, FactoryOrgId, FactoryOffice) {
     $scope.model = FactoryOrgId.organization;
     $scope.office = FactoryOffice.office;
-    //$scope.name = FactoryOffice.office.name;
-    //$scope.address = FactoryOffice.office.address;
-    $scope.phone = FactoryOffice.office.phone;
-    $scope.isActive = FactoryOffice.office.isActive;
-    $scope.show = false;
-    $scope.show = true;
-   // alert("111999");
+    $scope.modelOffice = FactoryOffice.modelOffice;
+
     $scope.getOfficeById = function () {
-        var url = $location.absUrl() + "/api/office/" + $scope.id;
+        var url = $location.absUrl() + "/api/office/" + $scope.office.id;
 
         var config = {
             headers: {
@@ -363,28 +358,30 @@ app.controller('getOfficeControllerGetById', function ($scope, $http, $location,
         }
 
         $http.get(url, config).then(function (response) {
-//alert('000!!!');
-            if (response.data.result == "success") {
-                // alert('111000!!!');
-                $scope.show = true;
-                var list = response.data.data;
-                //$scope.name = list.data.name;
-                //FactoryOffice.office.name = list.data.name;
-                $scope.list2 = list.name;
-                $scope.setView($scope.id, list.name, list.address, list.phone, list.active);
 
-                FactoryOffice.updateOfficeData($scope.id, list.name, list.address, list.phone, list.active);
-                //alert($scope.id, response.data, list.address, list.phone, list.active);
+            if (response.data.result == "success") {
+
+                //$scope.show = true;
+                var list = response.data.data;
+
+                $scope.setView($scope.office.id, list.name, list.address, list.phone, list.active);
+
+                FactoryOffice.updateOfficeData($scope.office.id, list.name, list.address, list.phone, list.active);
                 FactoryOffice.modelOffice.resultMessage = response.data.result;
+                //FactoryOrgId.setOrgId($scope.modelOffice.orgId);
+                FactoryOrgId.setOrgId(response.data.data.organization.id);
             } else {
                 //$scope.getResultMessage = "Offices Data Error!";
                 FactoryOffice.modelOffice.resultMessage = response.data.error;
-
+                $scope.setView('', '', '', '', '');
+                FactoryOrgId.setOrgId('');
             }
 
         }, function (response) {
             //$scope.getResultMessage = "Fail!";
             FactoryOffice.modelOffice.resultMessage = response.data.error;
+            $scope.setView('', '', '', '', '');
+            FactoryOrgId.setOrgId('');
         });
     }
 });
@@ -419,6 +416,7 @@ app.controller('postOfficeControllerListbyOrgId', function ($scope, $http, $loca
                 FactoryOffice.modelOffice.listOfficeByOrgId.length = 0;
                 FactoryOffice.modelOffice.orgId = FactoryOrgId.organization.id;
                 FactoryOffice.modelOffice.listOfficeByOrgId.push($scope.allOffices.data);
+                FactoryOffice.modelOffice.resultMessage = response.data.result;
 
                 $scope.clearFormAddress();
 
@@ -438,13 +436,11 @@ app.controller('postOfficeControllerListbyOrgId', function ($scope, $http, $loca
 app.controller('postOfficeControllerUpdate', function ($scope, $http, $location, FactoryOrgId, FactoryOffice) {
 
     $scope.model = FactoryOrgId.organization;
-    //$scope.office = FactoryOffice.office;
     $scope.modelOffice = FactoryOffice.modelOffice;
     $scope.modelOffice.showAll = FactoryOffice.modelOffice.showAll;
-    //$scope.id = FactoryOffice.office.id;
-    // alert("000999");
+
     $scope.postOfficeUpdate = function () {
-        //alert("000999888");
+
         var url = $location.absUrl() + "/api/office/update";
 
         var config = {
@@ -453,23 +449,24 @@ app.controller('postOfficeControllerUpdate', function ($scope, $http, $location,
             }
         }
         var data = {
-            id: $scope.id,//$scope.id,
+            id: $scope.id,
             name: $scope.name,
-            address: $scope.address, //$scope.address,
-            phone: $scope.phone,//$scope.phone,
-            isActive: $scope.isActive,//$scope.isActive
+            address: $scope.address,
+            phone: $scope.phone,
+            isActive: $scope.isActive,
             //orgId: FactoryOrgId.organization.id
         };
 
         $http.post(url, data, config).then(function (response) {
 
             if (response.data.result == "success") {
-
+                FactoryOffice.modelOffice.resultMessage = response.data.result;
                 FactoryOffice.modelOffice.showAll = true;
             } else {
                 //$scope.getResultMessage = "Organization Data Error!";
                 FactoryOffice.modelOffice.resultMessage = response.data.error;
                 FactoryOffice.modelOffice.showAll = false;
+
             }
 
         }, function (response) {
@@ -482,12 +479,51 @@ app.controller('postOfficeControllerUpdate', function ($scope, $http, $location,
     }
 });
 
+app.controller('postOfficeControllerDelete', function ($scope, $http, $location, FactoryOffice, FactoryOrgId) {
+    $scope.office = FactoryOffice.office;
+    $scope.showAll = true;
+    //$scope.id = FactoryOffice.office.id;
+
+    $scope.deleteOfficeById = function () {
+       // $scope.setView($scope.id, list.name, list.address, list.phone, list.active);
+        var url = $location.absUrl() + "/api/office/delete";
+
+        var config = {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8;'
+            }
+        }
+
+        var data = {
+            id: FactoryOffice.office.id//$scope.id
+        };
+
+        $http.post(url, data, config).then(function (response) {
+            if (response.data.result == "success") {
+                FactoryOffice.modelOffice.resultMessage = response.data.result;
+                $scope.setView('', '', '', '', '');
+                FactoryOrgId.setOrgId('');
+            } else {
+                FactoryOffice.modelOffice.resultMessage = response.data.error;
+            }
+        }, function (response) {
+            //$scope.postResultMessage = "Fail!";
+            FactoryOffice.modelOffice.resultMessage = response.data.error;
+        });
+
+    }
+
+});
+
 app.controller('officeController', function ($scope, $http, $location, FactoryOrgId, FactoryOffice) {
     $scope.model = FactoryOrgId.organization;
     $scope.modelOffice = FactoryOffice.modelOffice;
     $scope.office = FactoryOffice.office;
     $scope.address = FactoryOffice.office.address;
 
+    //$scope.setId= function (id) {
+    //$scope.id = id;
+    //}
     $scope.setView = function (id, name, address, phone, isActive) {
         $scope.id = id;
         $scope.name = name;
@@ -504,6 +540,9 @@ app.factory('FactoryOrgId', function () {
     return {
         organization: {
             id: ''
+        },
+        setOrgId: function (id) {
+            this.organization.id = id;
         }
     };
 });
@@ -544,6 +583,9 @@ app.factory('FactoryOffice', function () {
             this.office.address = address;
             this.office.phone = phone;
             this.office.isActive = isActive;
+        },
+        setId: function () {
+            this.office.id = $scope.id;
         }
     }
 });

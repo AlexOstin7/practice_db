@@ -98,7 +98,6 @@ public class OfficeDAOImpl implements OfficeDAO {
             criteria.where(builder.and(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()), builder.like(builder.lower(Office.get("name")), "%" + officeFilterView.getName().toLowerCase() + "%")));
         }  else if (officeFilterView.getName() == null && officeFilterView.getPhone() == null && officeFilterView.getActive() == null) {
             criteria.where(builder.equal(Office.get("organization").get("id"), officeFilterView.getOrgId()));
-            147896325
         }
         TypedQuery<Office> query = em.createQuery(criteria);
         return query.getResultList();

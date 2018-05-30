@@ -139,11 +139,17 @@ Function<Office, OfficeFilterView> mapOffice = p -> {
     @Override
     @Transactional
     public void deleteOffice(OfficeView view) {
+        log.info("delete-view 1 " +view.toString());
+        if (view.getId().isEmpty()) {
+            throw new CustomErrorException("Mismatch parameter- Id is empty");
+        }
         Office office = dao.loadById(Long.valueOf(view.getId()));
-        log.info(view.toString());
+        log.info("delete-view 2" +view.toString());
         if (office == null) {
-            //throw new CustomNotFoundException("Not found organizaton with Id is " + view.getId());
-            throw new CustomNotFoundException("Not found organizaton with Id is " + view.getId());
+            throw new CustomErrorException("Mismatch parameter- Id is " + view.getId().toString());
+        }
+        if (Long.valueOf(view.getId()) < 1) {
+            throw new CustomErrorException("Mismatch parameter- Id is " + view.getId().toString());
         }
         //else {
         dao.remove(office);
