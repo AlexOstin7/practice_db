@@ -1,6 +1,7 @@
 package ru.bellintegrator.practice.view;
 
 import io.swagger.annotations.ApiModelProperty;
+import ru.bellintegrator.practice.model.Organization;
 
 public class OfficeView {
     @ApiModelProperty(hidden = true)
@@ -63,6 +64,8 @@ public class OfficeView {
     public void setOrgId(Long orgId) {
         this.orgId = orgId;
     }
+
+
 
     @Override
     public String toString() {

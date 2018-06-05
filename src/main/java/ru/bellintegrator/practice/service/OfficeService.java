@@ -24,22 +24,10 @@ public interface OfficeService {
 
     void deleteOffice(OfficeView office);
 
-    /*
+
     void add(OfficeView office);
-
-
-
-    
-
-
-
-
-
 
    // Office getOfficeByName(String name);
 
-
-
-    */
 
 }

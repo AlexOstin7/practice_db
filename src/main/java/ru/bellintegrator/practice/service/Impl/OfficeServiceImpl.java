@@ -98,21 +98,21 @@ public class OfficeServiceImpl implements OfficeService {
         if (officeFilterView.getOrgId() == null || (officeFilterView.getOrgId() < 1)) {
             throw new CustomErrorException(String.format("Mismatch parametr- ogrId* is %s", officeFilterView.getOrgId()));
         }
-        log.info("before DAO filtr "+ officeFilterView.toString());
+        log.info("before DAO filtr " + officeFilterView.toString());
 
         List<Office> all = dao.filterOfficeList(officeFilterView);
-      //  log.info("before all filtr"+ all);
+        //  log.info("before all filtr"+ all);
         List<OfficeFilterView> officesView = new ArrayList<>();
-log.info("before filtrOfficeList"+ officeFilterView.toString());
+        log.info("before filtrOfficeList" + officeFilterView.toString());
 
-Function<Office, OfficeFilterView> mapOffice = p -> {
+        Function<Office, OfficeFilterView> mapOffice = p -> {
             OfficeFilterView view = new OfficeFilterView();
             view.id = String.valueOf(p.getId());
             view.name = p.getName();
             view.isActive = p.getActive();
             //view.orgId = p.getOrganization().getId();
 
-            log.info("after filtr" +view.toString());
+            log.info("after filtr" + view.toString());
 
             return view;
         };
@@ -139,12 +139,12 @@ Function<Office, OfficeFilterView> mapOffice = p -> {
     @Override
     @Transactional
     public void deleteOffice(OfficeView view) {
-        log.info("delete-view 1 " +view.toString());
+        log.info("delete-view 1 " + view.toString());
         if (view.getId().isEmpty()) {
             throw new CustomErrorException("Mismatch parameter- Id is empty");
         }
         Office office = dao.loadById(Long.valueOf(view.getId()));
-        log.info("delete-view 2" +view.toString());
+        log.info("delete-view 2" + view.toString());
         if (office == null) {
             throw new CustomErrorException("Mismatch parameter- Id is " + view.getId().toString());
         }
@@ -152,26 +152,32 @@ Function<Office, OfficeFilterView> mapOffice = p -> {
             throw new CustomErrorException("Mismatch parameter- Id is " + view.getId().toString());
         }
         //else {
+        Organization organization = office.getOrganization();
+        organization.removeOffice(office);
         dao.remove(office);
         //}
     }
 
-    /*
     @Override
     @Transactional
     public void add(OfficeView view) {
-        Office office = new Office(view.name, view.fullName, view.inn, view.kpp, view.address, view.phone, view.isActive);
+        Office office = new Office(view.name, view.address, view.phone, view.isActive);
+
+        /*Person person = dao.loadById(1L);
+        House house = person.getHouses().iterator().next();
+        person.removeHouse(house);*/
+
+        Organization organization = office.getOrganization();
+        organization.addOffice(office);
+
         dao.save(office);
+
+    /*@Override
+    @Transactional
+    public void add(OfficeView view) {
+        Office office = new Office(view.name, view.address, view.phone, view.isActive);
+        dao.save(office);
+    }*/
+
     }
-
-
-
-
-
-
-
-
-
-
-    */
 }

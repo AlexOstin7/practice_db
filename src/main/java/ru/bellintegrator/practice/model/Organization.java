@@ -29,7 +29,7 @@ public class Organization {
 
     @OneToMany(mappedBy = "organization", cascade = CascadeType.PERSIST, orphanRemoval = true)
     @JsonBackReference
-    private List<Office> office;
+    private List<Office> offices;
 
     public Long getId() {
         return id;
@@ -96,13 +96,22 @@ public class Organization {
     }
 
     public List<Office> getOffice() {
-        return office;
+        return offices;
     }
 
-    public void setOffice(List<Office> office) {
-        this.office = office;
+    public void setOffice(List<Office> offices) {
+        this.offices = offices;
     }
 
+    public void addOffice(Office office) {
+        offices.add(office);
+        office.setOrganization(this);
+    }
+
+    public void removeOffice(Office office) {
+        offices.remove(office);
+        office.setOrganization(null);
+    }
     public Organization() {
     }
 
@@ -126,5 +135,6 @@ public class Organization {
         this.inn = inn;
         this.isActive = isActive;
     }
+
 
 }

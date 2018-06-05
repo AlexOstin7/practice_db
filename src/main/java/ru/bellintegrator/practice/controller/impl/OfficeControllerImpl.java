@@ -16,6 +16,7 @@ import ru.bellintegrator.practice.message.ResponseSuccess;
 import ru.bellintegrator.practice.model.Office;
 import ru.bellintegrator.practice.service.Impl.OfficeServiceImpl;
 import ru.bellintegrator.practice.service.OfficeService;
+import ru.bellintegrator.practice.service.OrganizationService;
 import ru.bellintegrator.practice.view.OfficeFilterView;
 import ru.bellintegrator.practice.view.OfficeView;
 
@@ -33,6 +34,7 @@ public class OfficeControllerImpl implements OfficeController {
 
     private final Logger log = LoggerFactory.getLogger(OfficeServiceImpl.class);
     private final OfficeService officeService;
+    //private final OrganizationService organizationService;
 
     @Autowired
     public OfficeControllerImpl(OfficeService officeService) {
@@ -61,7 +63,6 @@ public class OfficeControllerImpl implements OfficeController {
         log.info("view-list" + office.toString());
         return new ResponseSuccess("success", officeService.listOffices(office));
     }
-
 
     @Override
     @ApiOperation(value = "getOfficeById", nickname = "getOfficeById", httpMethod = "GET")
@@ -116,25 +117,26 @@ public class OfficeControllerImpl implements OfficeController {
         return new ResponseSuccess("success");
     }
 
-    /*
+
     @Override
     @ApiOperation(value = "saveOffice", nickname = "saveOffice", httpMethod = "POST")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class), @ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 405, message = "I don't know"), @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(value = "/organiazation/save", method = {POST})
+    @RequestMapping(value = "/office/save", method = {POST})
     public Response office(@RequestBody OfficeView office) {
         officeService.add(office);
-        return new Response("success");
+        return new ResponseSuccess("success");
     }
 
 
 
 
+/*
     @Override
     @ApiOperation(value = "getOfficeByName", nickname = "getOfficeByName", httpMethod = "GET")
     @RequestMapping(value = "/office/name", method = {GET})
     public Response getOfficeByName(String name) {
         return new Response("success", officeService.getOfficeByName(name));
     }
-    */
+*/
 }
 

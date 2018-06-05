@@ -38,12 +38,17 @@ public interface OfficeDAO {
      */
     Office loadByName(String name, Long inn, Boolean isActive);
 
+
+
     /**
      * Сохранить Office
      *
      * @param office
      */
     void save(Office office);
+
+
+
     /**
      * Удалить Office
      *

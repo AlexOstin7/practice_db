@@ -51,7 +51,7 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
             <label>Org Id</label>
-            <input type="text" class="form-control" style="width: 110px;" ng-model="model.id" placeholder='Enter Org Id'/> <br/>
+            <input type="text" class="form-control" style="width: 110px;" ng-model="model.id" placeholder='Enter Org Id' ng-change="getOrganization()"/> <br/>
             <button ng-click="getOrganization()">Get Organizations by Id</button>
         </div>
 
@@ -158,6 +158,13 @@
 
                 <button ng-click="deleteOfficeById()">Delete Office</button>
 
+            </div>
+
+            <div ng-controller="postOfficeControllerSave" class="col-md-3">
+                
+                    <button ng-click="postOfficeSave()">Save</button>
+
+                <p>{{postResultMessage}}</p>
             </div>
 
         </div>

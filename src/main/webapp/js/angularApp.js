@@ -449,7 +449,7 @@ app.controller('postOfficeControllerUpdate', function ($scope, $http, $location,
             }
         }
         var data = {
-            id: $scope.id,
+           // id: $scope.id,
             name: $scope.name,
             address: $scope.address,
             phone: $scope.phone,
@@ -513,6 +513,48 @@ app.controller('postOfficeControllerDelete', function ($scope, $http, $location,
 
     }
 
+});
+
+app.controller('postOfficeControllerSave', function ($scope, $http, $location, FactoryOffice, FactoryOrgId) {
+    $scope.model = FactoryOrgId.organization;
+    $scope.modelOffice = FactoryOffice.modelOffice;
+
+    $scope.postOfficeSave = function () {
+
+        var url = $location.absUrl() + "/api/office/save";
+
+        var config = {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8;'
+            }
+        }
+        var data = {
+            name: $scope.name,
+            address: $scope.address,
+            phone: $scope.phone,
+            isActive: $scope.isActive
+        };
+        $http.post(url, data, config).then(function (response) {
+            if (response.data.result == "success") {
+                FactoryOffice.modelOffice.resultMessage = response.data.result;
+                //$scope.setView('', '', '', '', '');
+                //FactoryOrgId.setOrgId('');
+            } else {
+                FactoryOffice.modelOffice.resultMessage = response.data.error;
+            }
+        }, function (response) {
+            //$scope.postResultMessage = "Fail!";
+            FactoryOffice.modelOffice.resultMessage = response.data.error;
+        });
+
+        // $scope.name = "";
+        // $scope.fullName = "";
+        // $scope.inn = "";
+        // $scope.kpp = "";
+        // $scope.address = "";
+        // $scope.phone = "";
+        // $scope.isActive = "";
+    }
 });
 
 app.controller('officeController', function ($scope, $http, $location, FactoryOrgId, FactoryOffice) {

@@ -31,6 +31,18 @@ public class Office {
     @JsonBackReference
     private List<User> users;
 
+    public Office(String name, String address, Integer phone, Boolean isActive) {
+    }
+
+    public Office(String name, String address, Integer phone, Boolean isActive, Organization organization, List<User> users) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.isActive = isActive;
+        this.organization = organization;
+        this.users = users;
+    }
+
     public Long getId() {
         return id;
     }

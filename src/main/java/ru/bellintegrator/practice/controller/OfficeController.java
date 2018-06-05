@@ -19,6 +19,8 @@ public interface OfficeController {
 
     Response deleteOffice(@RequestBody OfficeView office);
 
+    Response office(@RequestBody OfficeView office);
+
  /*
 
 
