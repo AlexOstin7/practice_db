@@ -40,7 +40,9 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional
     public void add(OrganizationView view) {
+        log.info("org serv add before " + view.toString());
         Organization organization = new Organization(view.name, view.fullName, view.inn, view.kpp, view.address, view.phone, view.isActive);
+        log.info("org serv add before " + view.toString());
         dao.save(organization);
     }
 
@@ -137,7 +139,15 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional(readOnly = true)
     public Organization getOrganizationById(Long id) {
-        return dao.loadById(id);
+        Organization organization = dao.loadById(id);
+        if (organization == null) {
+            throw new CustomErrorException(String.format("Service says Mismatch parametr- Id* is %s", id));
+        }
+        if (id < 1) {
+            throw new CustomErrorException(String.format("Service says Mismatch parametr- Id* is %s", id));
+        }
+        log.info("organization service getId " + organization.toString());
+        return organization;
     }
 
 }

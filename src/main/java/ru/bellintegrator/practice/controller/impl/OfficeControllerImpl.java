@@ -51,7 +51,7 @@ public class OfficeControllerImpl implements OfficeController {
     public Response offices() {
         return new ResponseSuccess("success", officeService.offices());
     }
-
+    //FOR TEST ONLY!!!!
     @Override
     @ApiOperation(value = "listOffices", nickname = "listOffices", httpMethod = "POST")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),
@@ -71,11 +71,11 @@ public class OfficeControllerImpl implements OfficeController {
             @ApiResponse(code = 405, message = "I don't know"),
             @ApiResponse(code = 500, message = "Failure")})
     //@RequestMapping(value = "/office/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-    @RequestMapping(value = "/office/{id:.+}", method = {GET})
+    @RequestMapping(value = "/office/{id}", method = {GET})
     public Response getOfficeById(@PathVariable(value = "id") Long id) {
         log.info("controller before service.getOfficeByID "+ id.toString());
         Office office = officeService.getOfficeById(id);
-        log.info("controller after service.getOfficeByID "+ id.toString());
+        log.info("controller after service.getOfficeByID "+ id.toString() + " office - " + office.toString());
         return new ResponseSuccess("success", office);
     }
 
@@ -123,7 +123,9 @@ public class OfficeControllerImpl implements OfficeController {
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class), @ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 405, message = "I don't know"), @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/office/save", method = {POST})
     public Response office(@RequestBody OfficeView office) {
+        log.info("office contr save before " + office.toString());
         officeService.add(office);
+        log.info("office contr save after " + office.toString());
         return new ResponseSuccess("success");
     }
 

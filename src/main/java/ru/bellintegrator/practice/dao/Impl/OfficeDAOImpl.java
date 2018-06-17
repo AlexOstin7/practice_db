@@ -41,7 +41,7 @@ public class OfficeDAOImpl implements OfficeDAO {
             return   em.find(Office.class, id);
 
         } else {
-            throw new CustomErrorException(String.format("Mismached parametr- Id* is %s", id));
+            throw new CustomErrorException(String.format("DAO says Mismached parametr- Id* is %s", id));
         }
 
     }

@@ -4,7 +4,7 @@ app.controller('postOrganizationsControllerUpdate', function ($scope, $http, $lo
     $scope.model = FactoryOrgId.organization;
     $scope.showOrganization = false;
 
-    $scope.getOrganization = function () {
+    $scope.getByIdOrganization = function () {
         var url = $location.absUrl() + "/api/organization/" + FactoryOrgId.organization.id; //$scope.organizationId;
 
         var config = {
@@ -47,7 +47,7 @@ app.controller('postOrganizationsControllerUpdate', function ($scope, $http, $lo
         });
 
     }
-    $scope.submitForm = function () {
+    $scope.postUpdateOrganization = function () {
         var url = $location.absUrl() + "/api/organization/update";
 
         var config = {
@@ -57,7 +57,7 @@ app.controller('postOrganizationsControllerUpdate', function ($scope, $http, $lo
         }
 
         var data = {
-            id: $scope.organizationId,
+            id: FactoryOrgId.organization.id, //$scope.organizationId,
             name: $scope.name,
             fullName: $scope.fullName,
             inn: $scope.inn,
@@ -295,6 +295,7 @@ app.controller('getAllOrganizationsController', function ($scope, $http, $locati
 
 });
 
+
 app.controller('getAllOfficesController', function ($scope, $http, $location) {
 
     $scope.showAll = false;
@@ -449,18 +450,23 @@ app.controller('postOfficeControllerUpdate', function ($scope, $http, $location,
             }
         }
         var data = {
-           // id: $scope.id,
+            id: $scope.id,
             name: $scope.name,
             address: $scope.address,
             phone: $scope.phone,
             isActive: $scope.isActive,
-            //orgId: FactoryOrgId.organization.id
+            orgId: FactoryOrgId.organization.id
         };
 
         $http.post(url, data, config).then(function (response) {
 
             if (response.data.result == "success") {
-                FactoryOffice.modelOffice.resultMessage = response.data.result;
+                //var list = response.data.data;
+                //$scope.setView($scope.id, list.name, list.address, list.phone, list.active);
+
+                //FactoryOffice.updateOfficeData($scope.office.id, list.name, list.address, list.phone, list.active);
+
+                //FactoryOffice.modelOffice.resultMessage = response.data.result;
                 FactoryOffice.modelOffice.showAll = true;
             } else {
                 //$scope.getResultMessage = "Organization Data Error!";
@@ -532,10 +538,15 @@ app.controller('postOfficeControllerSave', function ($scope, $http, $location, F
             name: $scope.name,
             address: $scope.address,
             phone: $scope.phone,
-            isActive: $scope.isActive
+            isActive: $scope.isActive,
+            orgId: FactoryOrgId.organization.id
         };
         $http.post(url, data, config).then(function (response) {
             if (response.data.result == "success") {
+                var list = response.data.data;
+                $scope.setView('', list.name, list.address, list.phone, list.active);
+
+                FactoryOffice.updateOfficeData('', list.name, list.address, list.phone, list.active);
                 FactoryOffice.modelOffice.resultMessage = response.data.result;
                 //$scope.setView('', '', '', '', '');
                 //FactoryOrgId.setOrgId('');

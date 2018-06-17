@@ -65,7 +65,16 @@ public class OfficeView {
         this.orgId = orgId;
     }
 
+    public OfficeView() {
+    }
 
+    public OfficeView(String name, String address, Integer phone, Boolean isActive, Long orgId) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.isActive = isActive;
+        this.orgId = orgId;
+    }
 
     @Override
     public String toString() {

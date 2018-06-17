@@ -3,6 +3,8 @@ package ru.bellintegrator.practice.controller.impl;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +12,7 @@ import ru.bellintegrator.practice.controller.OrganizationController;
 import ru.bellintegrator.practice.exception.CustomNotFoundException;
 import ru.bellintegrator.practice.message.Response;
 import ru.bellintegrator.practice.message.ResponseSuccess;
+import ru.bellintegrator.practice.service.Impl.OfficeServiceImpl;
 import ru.bellintegrator.practice.service.OrganizationService;
 import ru.bellintegrator.practice.view.OrganizationView;
 
@@ -24,7 +27,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class OrganizationControllerImpl implements OrganizationController {
 
     private final OrganizationService organizationService;
-
+    private final Logger log = LoggerFactory.getLogger(OrganizationControllerImpl.class);
     @Autowired
     public OrganizationControllerImpl(OrganizationService organizationService) {
         this.organizationService = organizationService;
@@ -39,7 +42,9 @@ public class OrganizationControllerImpl implements OrganizationController {
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/organiazation/save", method = {POST})
     public Response organization(@RequestBody OrganizationView organization) {
+        log.info("org contr save befor " + organization.toString());
         organizationService.add(organization);
+        log.info("org contr save after " + organization.toString());
         return new ResponseSuccess("success");
     }
 
@@ -52,7 +57,9 @@ public class OrganizationControllerImpl implements OrganizationController {
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/organization/update", method = {POST})
     public Response updateOrganizaton(@RequestBody OrganizationView organization) {
+        log.info("org serv before update " + organization.toString());
         organizationService.updateOrganization(organization);
+        log.info("org serv past update " + organization.toString());
         return new ResponseSuccess("success");
     }
     @Override

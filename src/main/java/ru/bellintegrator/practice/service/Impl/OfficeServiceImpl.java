@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bellintegrator.practice.dao.OfficeDAO;
+import ru.bellintegrator.practice.dao.OrganizationDAO;
 import ru.bellintegrator.practice.exception.CustomErrorException;
 import ru.bellintegrator.practice.exception.CustomNotFoundException;
 import ru.bellintegrator.practice.model.Office;
@@ -30,11 +31,14 @@ public class OfficeServiceImpl implements OfficeService {
     private final Logger log = LoggerFactory.getLogger(OfficeServiceImpl.class);
 
     private final OfficeDAO dao;
+    private final OrganizationDAO daoOrg;
 
     @Autowired
-    public OfficeServiceImpl(OfficeDAO dao) {
+    public OfficeServiceImpl(OfficeDAO dao, OrganizationDAO daoOrg) {
         this.dao = dao;
+        this.daoOrg = daoOrg;
     }
+
 
     @Override
     @Transactional(readOnly = true)
@@ -82,13 +86,16 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     @Transactional(readOnly = true)
     public Office getOfficeById(Long id) {
+        log.info("before service getId " + id);
         Office office = dao.loadById(id);
+
         if (office == null) {
-            throw new CustomErrorException(String.format("Mismatch parametr- Id* is %s", id));
+            throw new CustomErrorException(String.format("Service says Mismatch parametr- Id* is %s", id));
         }
         if (id < 1) {
-            throw new CustomErrorException(String.format("Mismatch parametr- Id* is %s", id));
+            throw new CustomErrorException(String.format("Service says Mismatch parametr- Id* is %s", id));
         }
+        log.info("office service getId " + office.toString());
         return office;
     }
 
@@ -124,6 +131,7 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     @Transactional
     public void updateOffice(OfficeView view) {
+        log.info("before service update ID" + view.toString());
         Office office = dao.loadById(Long.valueOf(view.getId()));
         log.info("before service update " + view.toString());
         office.setName(view.name);
@@ -145,15 +153,13 @@ public class OfficeServiceImpl implements OfficeService {
         }
         Office office = dao.loadById(Long.valueOf(view.getId()));
         log.info("delete-view 2" + view.toString());
-        if (office == null) {
+        if (office == null || (Long.valueOf(view.getId()) < 1) ) {
             throw new CustomErrorException("Mismatch parameter- Id is " + view.getId().toString());
         }
-        if (Long.valueOf(view.getId()) < 1) {
-            throw new CustomErrorException("Mismatch parameter- Id is " + view.getId().toString());
-        }
+
         //else {
         Organization organization = office.getOrganization();
-        organization.removeOffice(office);
+       // organization.removeOffice(office);
         dao.remove(office);
         //}
     }
@@ -161,14 +167,39 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     @Transactional
     public void add(OfficeView view) {
-        Office office = new Office(view.name, view.address, view.phone, view.isActive);
+        log.info("office serv offview view  " + view.toString());
+
+        if ((Long.valueOf(view.getOrgId()) < 1) ) {
+            throw new CustomErrorException("Mismatch parameter- orgId is " + view.getOrgId().toString());
+        }
+
+      // Office office = new Office(view.name, view.address, view.phone, view.isActive, view.orgId);
+       // Office office = new Office("SSSSS","FFFFFFFFFFFF", 123, true, 1l);
+        Office office = new Office();
+        office.setName(view.name);
+        office.setAddress(view.address);
+        office.setPhone(view.phone);
+        office.setActive(view.isActive);
+
+        log.info("office serv offview before 2  " + office.toString());
+
+        Organization organization = daoOrg.loadById(view.orgId);
+        organization.addOffice(office);
+        //Organization organization = office.getOrganization();
+        log.info("office serv offview before office  " + office.toString());
+        log.info("office serv offview before org " + organization.toString());
+
+
+
+        //Office office = new Office("SSSSS","FFFFFFFFFFFF", 123, true);
+        log.info("office serv office after  " + office.toString());
 
         /*Person person = dao.loadById(1L);
         House house = person.getHouses().iterator().next();
         person.removeHouse(house);*/
 
-        Organization organization = office.getOrganization();
-        organization.addOffice(office);
+       // Organization organization = office.getOrganization();
+      //  organization.addOffice(office);
 
         dao.save(office);
 

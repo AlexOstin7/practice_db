@@ -23,15 +23,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script-->
 </head>
-
-
 <div class="container" ng-app="app">
     <!--h1>Practice</h1-->
     <div class="row">
 
         <div ng-controller="postOrganizationsControllerUpdate" class="col-md-3">
 
-            <form name="organizationFormUpdate" ng-submit="submitForm()">
+            <form name="organizationFormUpdate" ng-submit="postUpdateOrganization()">
                 <h3>Update Organizations</h3>
 
                 <label>Name</label>
@@ -51,8 +49,9 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
             <label>Org Id</label>
-            <input type="text" class="form-control" style="width: 110px;" ng-model="model.id" placeholder='Enter Org Id' ng-change="getOrganization()"/> <br/>
-            <button ng-click="getOrganization()">Get Organizations by Id</button>
+            <input type="text" class="form-control" style="width: 110px;" ng-model="model.id" placeholder='Enter Org Id'
+                   ng-change="getByIdOrganization()"/> <br/>
+            <button ng-click="getByIdOrganization()">Get Organizations by Id</button>
         </div>
 
         <div ng-controller="postOrganizationsControllerSave" class="col-md-3">
@@ -137,7 +136,8 @@
             <div ng-controller="getOfficeControllerGetById">
                 <label>Office Id</label>
                 <!--input type="text" class="form-control" style="width: 120px;" ng-model="id" placeholder='Enter Office Id' [(ngModel)]="id" (keyup)="valuechange()"/> <br/-->
-                <input type="text" class="form-control" style="width: 120px;" ng-model="office.id" placeholder='Enter Office Id' ng-change="getOfficeById()"/> <br/>
+                <input type="text" class="form-control" style="width: 120px;" ng-model="office.id"
+                       placeholder='Enter Office Id' ng-change="getOfficeById()"/> <br/>
                 <!--input type="text" class="form-control" style="width: 120px;" ng-model="id" placeholder='Enter Office Id'/> <br/-->
                 <button ng-click="getOfficeById()">Get Offices by Id</button>
             </div>
@@ -161,8 +161,9 @@
             </div>
 
             <div ng-controller="postOfficeControllerSave" class="col-md-3">
-                
-                    <button ng-click="postOfficeSave()">Save</button>
+
+                <button ng-click="postOfficeSave()">Save</button>
+                {{name}}
 
                 <p>{{postResultMessage}}</p>
             </div>
@@ -191,92 +192,93 @@
     </div>
 
 
-<div class="row">
-    <div ng-controller="getAllOrganizationsController" class="col-md-3">
-        <h3>All Organizations</h3>
+    <div class="row">
+        <div ng-controller="getAllOrganizationsController" class="col-md-3">
+            <h3>All Organizations</h3>
 
-        <button ng-click="getAllOrganizationsFull()">{{buttonView}}</button>
-        <button ng-click="getAllOrganizationsBrief()">{{buttonSize}}</button>
+            <button ng-click="getAllOrganizationsFull()">{{buttonView}}</button>
+            <button ng-click="getAllOrganizationsBrief()">{{buttonSize}}</button>
 
-        <div ng-show="showAll">
-            <ul class="list-group">
-                <li ng-repeat="organization in allOrganizations.data">
-                    <h4 class="list-group-item">
-                        <strong>Organizations {{$index}}</strong><br/>
-                        Id: {{organization.id}}<br/>
-                        Name: {{organization.name}}<br/>
-                        <p ng-show="showAllOrganizationsBrief">FullName:{{organization.fullName}}</p>
-                        Inn: {{organization.inn}}<br/>
-                        <p ng-show="showAllOrganizationsBrief">Kpp: {{organization.kpp}}<br/></p>
-                        <p ng-show="showAllOrganizationsBrief">Address: {{organization.address}}<br/></p>
-                        <p ng-show="showAllOrganizationsBrief">Phone: {{organization.phone}}<br/></p>
-                        Active: {{organization.isActive}}<br/>
-                    </h4>
-                </li>
-            </ul>
+            <div ng-show="showAll">
+                <ul class="list-group">
+                    <li ng-repeat="organization in allOrganizations.data">
+                        <h4 class="list-group-item">
+                            <strong>Organizations {{$index}}</strong><br/>
+                            Id: {{organization.id}}<br/>
+                            Name: {{organization.name}}<br/>
+                            <p ng-show="showAllOrganizationsBrief">FullName:{{organization.fullName}}</p>
+                            Inn: {{organization.inn}}<br/>
+                            <p ng-show="showAllOrganizationsBrief">Kpp: {{organization.kpp}}<br/></p>
+                            <p ng-show="showAllOrganizationsBrief">Address: {{organization.address}}<br/></p>
+                            <p ng-show="showAllOrganizationsBrief">Phone: {{organization.phone}}<br/></p>
+                            Active: {{organization.isActive}}<br/>
+                        </h4>
+                    </li>
+                </ul>
+            </div>
+
+            <p>{{getResultMessage}}</p>
         </div>
 
-        <p>{{getResultMessage}}</p>
-    </div>
+        <div ng-controller="getAllOfficesController" class="col-md-3">
+            <h3>All Offices</h3>
 
-    <div ng-controller="getAllOfficesController" class="col-md-3">
-        <h3>All Offices</h3>
+            <button ng-click="getAllOfficesFull()">{{buttonView}}</button>
+            <button ng-click="getAllOfficesBrief()">{{buttonSize}}</button>
 
-        <button ng-click="getAllOfficesFull()">{{buttonView}}</button>
-        <button ng-click="getAllOfficesBrief()">{{buttonSize}}</button>
+            <div ng-show="showAll">
+                <ul class="list-group">
+                    <li ng-repeat="office in allOffices.data">
+                        <h4 class="list-group-item">
+                            <strong>Offices {{$index}}</strong><br/>
+                            Id: {{office.id}}<br/>
+                            Name: {{office.name}}<br/>
+                            Phone: {{office.phone}}<br/></p>
+                            <p ng-show="showAllOfficesBrief">Address: {{office.address}}</p>
+                            Active: {{office.isActive}}<br/>
+                            OrgId: {{office.orgId}}
+                        </h4>
+                    </li>
+                </ul>
+            </div>
 
-        <div ng-show="showAll">
-            <ul class="list-group">
-                <li ng-repeat="office in allOffices.data">
-                    <h4 class="list-group-item">
-                        <strong>Offices {{$index}}</strong><br/>
-                        Id: {{office.id}}<br/>
-                        Name: {{office.name}}<br/>
-                        Phone: {{office.phone}}<br/></p>
-                        <p ng-show="showAllOfficesBrief">Address: {{office.address}}</p>
-                        Active: {{office.isActive}}<br/>
-                        OrgId: {{office.orgId}}
-                    </h4>
-                </li>
-            </ul>
+            <p>{{getResultMessage}}</p>
         </div>
-
-        <p>{{getResultMessage}}</p>
     </div>
-</div>
 
-<div ng-controller='Ctrl1' class='well'>
-    <h4>Controller 1</h4>
-    <div>
-        <input type='text' ng-model='IdOrg.id' placeholder='Enter Id'/>
+    <div ng-controller='Ctrl1' class='well'>
+        <h4>Controller 1</h4>
+        <div>
+            <input type='text' ng-model='IdOrg.id' placeholder='Enter Id'/>
+        </div>
+        <div>Id: {{IdOrg.id}}</div>
     </div>
-    <div>Id: {{IdOrg.id}}</div>
-</div>
 
-<div ng-controller='Ctrl2' class='well'>
-    <h4>Controller 2</h4>
-    <div>
-        <input type='text' ng-model='IdOrg.id' placeholder='Enter Id'/>
+    <div ng-controller='Ctrl2' class='well'>
+        <h4>Controller 2</h4>
+        <div>
+            <input type='text' ng-model='IdOrg.id' placeholder='Enter Id'/>
+        </div>
+        <div>Id: {{IdOrg.id}}</div>
     </div>
-    <div>Id: {{IdOrg.id}}</div>
-</div>
 
-Controller 1:
-<div ng-controller="FirstCtrl">
-    Org Id <input type="text" ng-model="model.id"/><br/>
-    Office Id <input type="text" ng-model="office.id"/><br/>
-    Name <input type="text" ng-model="office.name"/><br/>
-    {{model}}
-    {{office}}
-</div>
-<br/>
-Controller 2:
-<div ng-controller="SecondCtrl">
-    Org Id <input type="text" ng-model="model.id"/><br/>
-    {{model.id}}
-    {{office.id}}
-</div>
-<br/>
+    Controller 1:
+    <div ng-controller="FirstCtrl">
+        Org Id <input type="text" ng-model="model.id"/><br/>
+        Office Id <input type="text" ng-model="office.id"/><br/>
+        Name <input type="text" ng-model="office.name"/><br/>
+        {{model}}
+        {{office}}
+    </div>
+    <br/>
+    Controller 2:
+    <div ng-controller="SecondCtrl">
+        Org Id <input type="text" ng-model="model.id"/><br/>
+        {{model.id}}
+        {{office.id}}
+    </div>
+    <br/>
 
 </div>
+
 </html>

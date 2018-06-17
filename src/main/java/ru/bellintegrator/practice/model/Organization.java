@@ -1,14 +1,18 @@
 package ru.bellintegrator.practice.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+
+@Entity(name = "Organization")
 @Table(name = "organization")
 public class Organization {
-
+    private static final long serialVersionUID = -123451L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,8 +32,13 @@ public class Organization {
     private Boolean isActive = true;
 
     @OneToMany(mappedBy = "organization", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    @JsonBackReference
+    //@JsonBackReference("offices")
+    //@JsonIgnore
+    //@JsonBackReference
+    //@JsonManagedReference("offices")
+    @JsonManagedReference
     private List<Office> offices;
+
 
     public Long getId() {
         return id;
@@ -105,14 +114,16 @@ public class Organization {
 
     public void addOffice(Office office) {
         offices.add(office);
+
         office.setOrganization(this);
     }
 
-    public void removeOffice(Office office) {
+    /*public void removeOffice(Office office) {
         offices.remove(office);
         office.setOrganization(null);
-    }
+    }*/
     public Organization() {
+        offices = new ArrayList<Office>();
     }
 
     public Organization(String name, Long inn) {
@@ -136,5 +147,8 @@ public class Organization {
         this.isActive = isActive;
     }
 
-
+    @Override
+    public String toString() {
+        return "Organization{" + "id=" + id + ", name='" + name + '\'' + ", fullName='" + fullName + '\'' + ", inn=" + inn + ", kpp=" + kpp + ", address='" + address + '\'' + ", phone=" + phone + ", isActive=" + isActive + '}';
+    }
 }
