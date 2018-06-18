@@ -25,7 +25,7 @@ public class Office {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "org_Id")
-    @JsonBackReference
+    //@JsonBackReference
     //@JsonManagedReference("office")
     //@JsonManagedReference
     //@JsonIgnore

@@ -164,7 +164,6 @@
             <div ng-controller="postOfficeControllerSave" class="col-md-3">
 
                 <button ng-click="postOfficeSave()">Save</button>
-                {{name}}
 
                 <p>{{postResultMessage}}</p>
             </div>
@@ -172,9 +171,9 @@
         </div>
 
         <div ng-controller="postOfficeControllerListbyOrgId" class="col-md-3">
-
             <div ng-show="modelOffice.showAll">
                 <h3>List by orgId</h3>
+                <button ng-click="hideListByOrgId()">Hide</button>
                 <ul class="list-group">
                     <ul ng-repeat="item in modelOffice.listOfficeByOrgId">
                         <label>OrgId: {{modelOffice.orgId}}</label>

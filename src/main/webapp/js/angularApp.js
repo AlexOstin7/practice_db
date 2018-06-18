@@ -1,4 +1,4 @@
-var app = angular.module('app', []);
+var app = angular.module('app', []);//1
 
 app.controller('postOrganizationsControllerUpdate', function ($scope, $http, $location, FactoryOrgId) {
     $scope.model = FactoryOrgId.organization;
@@ -392,8 +392,12 @@ app.controller('postOfficeControllerListbyOrgId', function ($scope, $http, $loca
     $scope.office = FactoryOffice.office;
     $scope.modelOffice = FactoryOffice.modelOffice;
     $scope.modelOffice.showAll = false;
+    //$scope.showAllOrgId = false;
 
-    $scope.showAllOrgId = false;
+    $scope.hideListByOrgId = function () {
+        $scope.modelOffice.showAll = false;
+    }
+
     $scope.postOfficeListByOrgId = function () {
         var url = $location.absUrl() + "/api/office/list";
 
@@ -569,7 +573,6 @@ app.controller('officeController', function ($scope, $http, $location, FactoryOr
 
     $scope.setView = function (id, name, address, phone, isActive) {
         $scope.office.id = id;
-        //FactoryOffice.setId(id);
         $scope.name = name;
         $scope.address = address;
         $scope.phone = phone;

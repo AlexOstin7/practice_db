@@ -110,7 +110,7 @@ public class OfficeServiceImpl implements OfficeService {
         List<Office> all = dao.filterOfficeList(officeFilterView);
         //  log.info("before all filtr"+ all);
         List<OfficeFilterView> officesView = new ArrayList<>();
-        log.info("before filtrOfficeList" + officeFilterView.toString());
+        log.info("before filtrOfficeList " + officeFilterView.toString());
 
         Function<Office, OfficeFilterView> mapOffice = p -> {
             OfficeFilterView view = new OfficeFilterView();
@@ -167,7 +167,7 @@ public class OfficeServiceImpl implements OfficeService {
         }
 
         //else {
-        Organization organization = office.getOrganization();
+        //Organization organization = office.getOrganization();
        // organization.removeOffice(office);
         dao.remove(office);
         //}
