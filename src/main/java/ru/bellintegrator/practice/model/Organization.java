@@ -36,8 +36,8 @@ public class Organization {
     //@JsonIgnore
     //@JsonBackReference
     //@JsonManagedReference("offices")
-    @JsonManagedReference
-    private List<Office> offices;
+    //@JsonManagedReference
+    //private List<Office> offices;
 
 
     public Long getId() {
@@ -104,7 +104,7 @@ public class Organization {
         isActive = active;
     }
 
-    public List<Office> getOffice() {
+    /*public List<Office> getOffice() {
         return offices;
     }
 
@@ -116,14 +116,14 @@ public class Organization {
         offices.add(office);
 
         office.setOrganization(this);
-    }
+    }*/
 
     /*public void removeOffice(Office office) {
         offices.remove(office);
         office.setOrganization(null);
     }*/
     public Organization() {
-        offices = new ArrayList<Office>();
+        /*offices = new ArrayList<Office>();*/
     }
 
     public Organization(String name, Long inn) {

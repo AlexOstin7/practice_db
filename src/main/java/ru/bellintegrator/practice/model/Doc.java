@@ -1,5 +1,6 @@
 package ru.bellintegrator.practice.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class Doc {
     @JoinTable(name="country_doc",
             joinColumns=@JoinColumn(name="doc_id"),
             inverseJoinColumns=@JoinColumn(name="country_id"))
+    @JsonManagedReference
     private List<Country> countries;
 
     public Doc() {

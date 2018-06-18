@@ -424,11 +424,11 @@ app.controller('postOfficeControllerListbyOrgId', function ($scope, $http, $loca
             } else {
                 //$scope.resultMessage = response.data.error;//"Filter Offices Data Error!";
                 FactoryOffice.modelOffice.resultMessage = response.data.error;
-               // $scope.showAllOrgId = false;
+                // $scope.showAllOrgId = false;
             }
         }, function (response) {
             FactoryOffice.modelOffice.resultMessage = response.data.error;
-           // $scope.showAllOrgId = false;
+            // $scope.showAllOrgId = false;
         });
 
     }
@@ -466,12 +466,12 @@ app.controller('postOfficeControllerUpdate', function ($scope, $http, $location,
 
                 //FactoryOffice.updateOfficeData($scope.office.id, list.name, list.address, list.phone, list.active);
 
-                //FactoryOffice.modelOffice.resultMessage = response.data.result;
-                FactoryOffice.modelOffice.showAll = true;
+                FactoryOffice.modelOffice.resultMessage = response.data.result;
+                //FactoryOffice.modelOffice.showAll = true;
             } else {
                 //$scope.getResultMessage = "Organization Data Error!";
                 FactoryOffice.modelOffice.resultMessage = response.data.error;
-                FactoryOffice.modelOffice.showAll = false;
+                //FactoryOffice.modelOffice.showAll = false;
 
             }
 
@@ -491,7 +491,7 @@ app.controller('postOfficeControllerDelete', function ($scope, $http, $location,
     //$scope.id = FactoryOffice.office.id;
 
     $scope.deleteOfficeById = function () {
-       // $scope.setView($scope.id, list.name, list.address, list.phone, list.active);
+        // $scope.setView($scope.id, list.name, list.address, list.phone, list.active);
         var url = $location.absUrl() + "/api/office/delete";
 
         var config = {
@@ -544,9 +544,9 @@ app.controller('postOfficeControllerSave', function ($scope, $http, $location, F
         $http.post(url, data, config).then(function (response) {
             if (response.data.result == "success") {
                 var list = response.data.data;
-                $scope.setView('', list.name, list.address, list.phone, list.active);
-
-                FactoryOffice.updateOfficeData('', list.name, list.address, list.phone, list.active);
+                // $scope.setView('', list.name, list.address, list.phone, list.active);
+                $scope.setView('', $scope.name, $scope.address, $scope.phone, $scope.isActive);
+                FactoryOffice.updateOfficeData('', $scope.name, $scope.address, $scope.phone, $scope.isActive);
                 FactoryOffice.modelOffice.resultMessage = response.data.result;
                 //$scope.setView('', '', '', '', '');
                 //FactoryOrgId.setOrgId('');
@@ -558,13 +558,6 @@ app.controller('postOfficeControllerSave', function ($scope, $http, $location, F
             FactoryOffice.modelOffice.resultMessage = response.data.error;
         });
 
-        // $scope.name = "";
-        // $scope.fullName = "";
-        // $scope.inn = "";
-        // $scope.kpp = "";
-        // $scope.address = "";
-        // $scope.phone = "";
-        // $scope.isActive = "";
     }
 });
 
@@ -574,11 +567,9 @@ app.controller('officeController', function ($scope, $http, $location, FactoryOr
     $scope.office = FactoryOffice.office;
     $scope.address = FactoryOffice.office.address;
 
-    //$scope.setId= function (id) {
-    //$scope.id = id;
-    //}
     $scope.setView = function (id, name, address, phone, isActive) {
-        $scope.id = id;
+        $scope.office.id = id;
+        //FactoryOffice.setId(id);
         $scope.name = name;
         $scope.address = address;
         $scope.phone = phone;
@@ -586,6 +577,11 @@ app.controller('officeController', function ($scope, $http, $location, FactoryOr
     }
     $scope.clearFormAddress = function () {
         $scope.address = "";
+    }
+    $scope.cleanUp = function () {
+        $scope.setView('', '', '', '', '');
+        FactoryOrgId.setOrgId();
+       
     }
 });
 
@@ -625,7 +621,7 @@ app.factory('FactoryOffice', function () {
         },
         updatelistOfficeByOrgId: function (name, phone, isActive) {
             {
-                    this.listOfficeByOrgId.name = name,
+                this.listOfficeByOrgId.name = name,
                     this.listOfficeByOrgId.phone = phone,
                     this.listOfficeByOrgId.isActive = isActive
             }

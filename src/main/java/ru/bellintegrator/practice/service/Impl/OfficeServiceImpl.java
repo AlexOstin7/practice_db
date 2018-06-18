@@ -131,8 +131,17 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     @Transactional
     public void updateOffice(OfficeView view) {
+        if (view.getId() == null || view.getActive() == null || view.getAddress() == null || view.getName() == null || view.getPhone() == null || view.orgId == null) {
+            throw new CustomErrorException("Service says Mismatch one ore more parametr(s)- null  ");
+        }
+        if (Long.valueOf(view.getId()) < 1) {
+            throw new CustomErrorException(String.format("Service says Mismatch parametr- Id* is %s", view.getId()));
+        }
         log.info("before service update ID" + view.toString());
         Office office = dao.loadById(Long.valueOf(view.getId()));
+        if (office == null) {
+            throw new CustomErrorException(String.format("Service says Mismatch parametr- Id* is %s", view.getId()));
+        }
         log.info("before service update " + view.toString());
         office.setName(view.name);
         office.setPhone(view.phone);
@@ -168,7 +177,9 @@ public class OfficeServiceImpl implements OfficeService {
     @Transactional
     public void add(OfficeView view) {
         log.info("office serv offview view  " + view.toString());
-
+        if (view.getOrgId() == null) {
+            throw new CustomErrorException("Mismatch parameter- orgId is null ");
+        }
         if ((Long.valueOf(view.getOrgId()) < 1) ) {
             throw new CustomErrorException("Mismatch parameter- orgId is " + view.getOrgId().toString());
         }
@@ -176,39 +187,29 @@ public class OfficeServiceImpl implements OfficeService {
       // Office office = new Office(view.name, view.address, view.phone, view.isActive, view.orgId);
        // Office office = new Office("SSSSS","FFFFFFFFFFFF", 123, true, 1l);
         Office office = new Office();
-        office.setName(view.name);
-        office.setAddress(view.address);
-        office.setPhone(view.phone);
-        office.setActive(view.isActive);
+
 
         log.info("office serv offview before 2  " + office.toString());
 
         Organization organization = daoOrg.loadById(view.orgId);
-        organization.addOffice(office);
-        //Organization organization = office.getOrganization();
+        if (organization == null) {
+            throw new CustomErrorException(String.format("Service says Mismatch parametr- Id* is %s", view.orgId));
+        }
+
+        office.setName(view.name);
+        office.setAddress(view.address);
+        office.setPhone(view.phone);
+        office.setActive(view.isActive);
+        office.setOrganization(organization);
+
         log.info("office serv offview before office  " + office.toString());
         log.info("office serv offview before org " + organization.toString());
-
-
-
-        //Office office = new Office("SSSSS","FFFFFFFFFFFF", 123, true);
-        log.info("office serv office after  " + office.toString());
-
-        /*Person person = dao.loadById(1L);
-        House house = person.getHouses().iterator().next();
-        person.removeHouse(house);*/
-
+        //organization.addOffice(office);
+        //Organization organization = office.getOrganization();
        // Organization organization = office.getOrganization();
       //  organization.addOffice(office);
 
         dao.save(office);
-
-    /*@Override
-    @Transactional
-    public void add(OfficeView view) {
-        Office office = new Office(view.name, view.address, view.phone, view.isActive);
-        dao.save(office);
-    }*/
 
     }
 }

@@ -1,5 +1,6 @@
 package ru.bellintegrator.practice.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -27,6 +28,7 @@ public class Country {
     @JoinTable (name="country_doc",
             joinColumns=@JoinColumn (name="country_id"),
             inverseJoinColumns=@JoinColumn(name="doc_id"))
+    @JsonBackReference
     private List<Doc> docs;
 
     public Country() {
@@ -66,6 +68,6 @@ public class Country {
 
     @Override
     public String toString() {
-        return "Country{" + "id=" + id + ", code=" + code + ", name='" + name + '\'' + ", docs=" + docs + '}';
+        return "Country{" + "id=" + id + ", code=" + code + ", name='" + name + '\'' + '}';
     }
 }
