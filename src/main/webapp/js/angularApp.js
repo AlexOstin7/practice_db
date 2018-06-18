@@ -581,7 +581,7 @@ app.controller('officeController', function ($scope, $http, $location, FactoryOr
     $scope.cleanUp = function () {
         $scope.setView('', '', '', '', '');
         FactoryOrgId.setOrgId();
-       
+
     }
 });
 
