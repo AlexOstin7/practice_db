@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS office (
     phone      INTEGER NOT NULL,
     is_Active   BOOLEAN NOT NULL,
     org_Id      INTEGER NOT NULL,
-CONSTRAINT Organization_FKEY FOREIGN KEY(org_Id) REFERENCES PUBLIC.Organization (id)
+CONSTRAINT Organization_FKEY FOREIGN KEY(org_Id) REFERENCES PUBLIC.Organization (id) ON DELETE CASCADE
 );
 
 

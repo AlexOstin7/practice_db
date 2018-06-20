@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
  * Dummy data view
  * Just for test
  */
-public class OrganizationViewByName {
+public class OrganizationFilterView {
     @ApiModelProperty(hidden = true)
 
     public String name;
@@ -40,11 +40,11 @@ public class OrganizationViewByName {
     }
 
     //для jackson
-    public OrganizationViewByName() {
+    public OrganizationFilterView() {
 
     }
 
-    public OrganizationViewByName(String name, Long inn, Boolean isActive) {
+    public OrganizationFilterView(String name, Long inn, Boolean isActive) {
         this.name = name;
         this.inn = inn;
         this.isActive = isActive;

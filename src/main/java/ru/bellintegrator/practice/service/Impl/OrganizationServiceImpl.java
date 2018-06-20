@@ -7,9 +7,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.bellintegrator.practice.dao.OfficeDAO;
 import ru.bellintegrator.practice.dao.OrganizationDAO;
 import ru.bellintegrator.practice.exception.CustomErrorException;
 import ru.bellintegrator.practice.exception.CustomNotFoundException;
+import ru.bellintegrator.practice.model.Office;
 import ru.bellintegrator.practice.model.Organization;
 import ru.bellintegrator.practice.service.OrganizationService;
 import ru.bellintegrator.practice.view.OfficeView;
@@ -31,10 +33,12 @@ public class OrganizationServiceImpl implements OrganizationService {
     private final Logger log = LoggerFactory.getLogger(OrganizationServiceImpl.class);
 
     private final OrganizationDAO dao;
+    private final OfficeDAO daoOffice;
 
     @Autowired
-    public OrganizationServiceImpl(OrganizationDAO dao) {
+    public OrganizationServiceImpl(OrganizationDAO dao, OfficeDAO daoOffice) {
         this.dao = dao;
+        this.daoOffice = daoOffice;
     }
 
     @Override
@@ -67,10 +71,11 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional
     public void deleteOrganization(OrganizationView view) {
         Organization organization = dao.loadById(Long.valueOf(view.getId()));
-        log.info(view.toString());
+        log.info("Orgnanization serviece remove view " + view.toString());
         if (organization == null) {
             throw new CustomErrorException("Not found organizaton with Id is " + view.getId());
         }
+
             dao.remove(organization);
     }
 
@@ -136,6 +141,7 @@ public class OrganizationServiceImpl implements OrganizationService {
             else {throw new CustomNotFoundException(String.format("Invalid request Name*- %s Inn- %s Active- %s ", organization.getId(), organization.getInn(), organization.isActive));//return Collections.emptyList();
         }
     }
+
     @Override
     @Transactional(readOnly = true)
     public Organization getOrganizationById(Long id) {

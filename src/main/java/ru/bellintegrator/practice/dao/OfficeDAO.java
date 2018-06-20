@@ -58,11 +58,14 @@ public interface OfficeDAO {
     void remove(Office office);
 
     /**
-     * Фильтр Offices by OrgId
+     * Фильтр Offices by *OrgId, name, phone, active
      *
      * @param officeFilterView
     */
     //List<Office> filterOfficeByOrgId(Office office);
     List<Office> filterOfficeList(OfficeFilterView officeFilterView);
+
+
+
 
 }

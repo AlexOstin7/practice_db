@@ -27,7 +27,7 @@ public class Office {
     @JoinColumn(name = "org_Id")
     //@JsonBackReference
     //@JsonManagedReference("office")
-    //@JsonManagedReference
+    @JsonManagedReference
     //@JsonIgnore
     private Organization organization;
 

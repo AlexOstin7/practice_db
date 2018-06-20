@@ -103,4 +103,5 @@ public class OfficeDAOImpl implements OfficeDAO {
         return query.getResultList();
 
     }
+
 }

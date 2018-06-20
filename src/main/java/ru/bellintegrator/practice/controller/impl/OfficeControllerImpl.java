@@ -100,7 +100,7 @@ public class OfficeControllerImpl implements OfficeController {
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/office/update", method = {POST})
     public Response updateOffice(@RequestBody OfficeView office) {
-        log.info("view-update" + office.toString());
+        log.info("Office controller update view-update " + office.toString());
         officeService.updateOffice(office);
         return new ResponseSuccess("success");
     }

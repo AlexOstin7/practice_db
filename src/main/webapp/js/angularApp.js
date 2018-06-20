@@ -454,7 +454,7 @@ app.controller('postOfficeControllerUpdate', function ($scope, $http, $location,
             }
         }
         var data = {
-            id: $scope.id,
+            id: $scope.office.id,
             name: $scope.name,
             address: $scope.address,
             phone: $scope.phone,
@@ -465,10 +465,9 @@ app.controller('postOfficeControllerUpdate', function ($scope, $http, $location,
         $http.post(url, data, config).then(function (response) {
 
             if (response.data.result == "success") {
-                //var list = response.data.data;
-                //$scope.setView($scope.id, list.name, list.address, list.phone, list.active);
-
-                //FactoryOffice.updateOfficeData($scope.office.id, list.name, list.address, list.phone, list.active);
+               /* var list = response.data.data;
+                $scope.setView($scope.id, list.name, list.address, list.phone, list.active);
+                FactoryOffice.updateOfficeData($scope.office.id, list.name, list.address, list.phone, list.active);*/
 
                 FactoryOffice.modelOffice.resultMessage = response.data.result;
                 //FactoryOffice.modelOffice.showAll = true;

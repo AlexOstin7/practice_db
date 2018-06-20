@@ -31,7 +31,7 @@ public class Organization {
     @Column(name = "is_Active")
     private Boolean isActive = true;
 
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
     //@JsonBackReference("offices")
     //@JsonIgnore
     //@JsonBackReference
@@ -118,10 +118,11 @@ public class Organization {
         office.setOrganization(this);
     }*/
 
-    /*public void removeOffice(Office office) {
-        offices.remove(office);
+    public void removeOffice(Office office) {
+        //offices.remove(office);
         office.setOrganization(null);
-    }*/
+
+    }
     public Organization() {
         /*offices = new ArrayList<Office>();*/
     }

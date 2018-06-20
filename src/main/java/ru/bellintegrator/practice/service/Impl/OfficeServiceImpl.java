@@ -167,8 +167,8 @@ public class OfficeServiceImpl implements OfficeService {
         }
 
         //else {
-        //Organization organization = office.getOrganization();
-       // organization.removeOffice(office);
+       // Organization organization = office.getOrganization();
+        //organization.removeOffice(office);
         dao.remove(office);
         //}
     }

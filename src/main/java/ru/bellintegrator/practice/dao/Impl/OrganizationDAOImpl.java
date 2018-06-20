@@ -45,7 +45,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
 
     @Override
     public void remove(Organization organization) {
-        em.remove(organization);//OrganizationDAOImpl
+        em.remove(organization);
 
     }
 
