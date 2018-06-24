@@ -86,7 +86,7 @@ public class OfficeControllerImpl implements OfficeController {
             @ApiResponse(code = 405, message = "I don't know"),
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/office/list", method = {POST})
-    public Response offices(@RequestBody OfficeFilterView office) {
+    public Response filterOffices(@RequestBody OfficeFilterView office) {
         log.info("view-listByOrgId" + office.toString());
         List<OfficeFilterView> officeFilterViewList = officeService.filterOfficeList(office);
 

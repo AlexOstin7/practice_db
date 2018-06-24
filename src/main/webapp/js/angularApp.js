@@ -158,7 +158,7 @@ app.controller('postOrganizationsControllerList', function ($scope, $http, $loca
     $scope.showAllOrganizations = false;
 
     $scope.submitForm = function () {
-        var url = $location.absUrl() + "/api/organization/lists";
+        var url = $location.absUrl() + "/api/organization/list";
 
         var config = {
             headers: {
@@ -177,16 +177,15 @@ app.controller('postOrganizationsControllerList', function ($scope, $http, $loca
                 $scope.allorganizations = response.data;
                 $scope.showAllOrganizations = true;
             } else {
-                $scope.getResultMessage = "get All Organizations Data Error!";
+               // $scope.postResultMessage = "get All Organizations Data Error!";
+                $scope.postResultMessage = response.data.error;
             }
         }, function (response) {
             $scope.showAllOrganizations = false;
-            $scope.postResultMessage = "Fail!";
+            //$scope.postResultMessage = "Fail!";
+            $scope.postResultMessage = response.data.error;
         });
 
-        $scope.name = "";
-        $scope.inn = "";
-        $scope.isActive = "";
     }
 });
 

@@ -14,6 +14,7 @@ import ru.bellintegrator.practice.message.Response;
 import ru.bellintegrator.practice.message.ResponseSuccess;
 import ru.bellintegrator.practice.service.Impl.OfficeServiceImpl;
 import ru.bellintegrator.practice.service.OrganizationService;
+import ru.bellintegrator.practice.view.OrganizationFilterView;
 import ru.bellintegrator.practice.view.OrganizationView;
 
 import java.util.List;
@@ -63,20 +64,16 @@ public class OrganizationControllerImpl implements OrganizationController {
         return new ResponseSuccess("success");
     }
     @Override
-    @ApiOperation(value = "listOrganizations", nickname = "listOrganizations", httpMethod = "POST")
+    @ApiOperation(value = "filterListOrganizations", nickname = "filterListOrganizations", httpMethod = "POST")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success", response = String.class),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 405, message = "I don't know"),
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/organization/list", method = {POST})
-    public Response organizations(@RequestBody OrganizationView organization) {
-        List<OrganizationView> view = organizationService.listOrganizations(organization);
-        if (view.isEmpty()) {
-            throw new CustomNotFoundException("Not found");
-        } else {
+    public Response filterOrganizations(@RequestBody OrganizationFilterView organization) {
+        List<OrganizationFilterView> view = organizationService.filterOrganizationList(organization);
             return new ResponseSuccess("success", view);
-        }
     }
 
     @Override
@@ -106,6 +103,8 @@ public class OrganizationControllerImpl implements OrganizationController {
     public Response organizations() {
         return new ResponseSuccess("success", organizationService.organizations());
     }
+
+
 
 
 }

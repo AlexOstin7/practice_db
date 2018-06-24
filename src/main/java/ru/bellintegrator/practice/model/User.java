@@ -38,9 +38,9 @@ public class User {
     private Office office;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "country_Id")
+    @JoinColumn(name = "doc_Id")
     @JsonManagedReference
-    private Country country;
+    private Doc doc;
 
    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
    // @JsonBackReference
@@ -127,16 +127,16 @@ public class User {
         this.office = office;
     }
 
-    public Country getCountry() {
-        return country;
+    public Doc getDoc() {
+        return doc;
     }
 
-    public void setCountry(Country country) {
-        this.country = country;
+    public void setDoc(Doc doc) {
+        this.doc = doc;
     }
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", middleName='" + middleName + '\'' + ", possition='" + possition + '\'' + ", docNumber=" + docNumber + ", docDate=" + docDate + ", phone=" + phone + ", isIdentified=" + isIdentified + ", country=" + country + '}';
+        return "User{" + "id=" + id + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", middleName='" + middleName + '\'' + ", possition='" + possition + '\'' + ", docNumber=" + docNumber + ", docDate=" + docDate + ", phone=" + phone + ", isIdentified=" + isIdentified + ", office=" + office + ", doc=" + doc + '}';
     }
 }

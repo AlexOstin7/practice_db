@@ -15,6 +15,7 @@ import ru.bellintegrator.practice.model.Office;
 import ru.bellintegrator.practice.model.Organization;
 import ru.bellintegrator.practice.service.OrganizationService;
 import ru.bellintegrator.practice.view.OfficeView;
+import ru.bellintegrator.practice.view.OrganizationFilterView;
 import ru.bellintegrator.practice.view.OrganizationView;
 
 import java.util.Collections;
@@ -33,12 +34,10 @@ public class OrganizationServiceImpl implements OrganizationService {
     private final Logger log = LoggerFactory.getLogger(OrganizationServiceImpl.class);
 
     private final OrganizationDAO dao;
-    private final OfficeDAO daoOffice;
 
     @Autowired
     public OrganizationServiceImpl(OrganizationDAO dao, OfficeDAO daoOffice) {
         this.dao = dao;
-        this.daoOffice = daoOffice;
     }
 
     @Override
@@ -71,11 +70,10 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional
     public void deleteOrganization(OrganizationView view) {
         Organization organization = dao.loadById(Long.valueOf(view.getId()));
-        log.info("Orgnanization serviece remove view " + view.toString());
+        log.info("Orgnanization service remove view " + view.toString());
         if (organization == null) {
             throw new CustomErrorException("Not found organizaton with Id is " + view.getId());
         }
-
             dao.remove(organization);
     }
 
@@ -106,40 +104,27 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<OrganizationView> listOrganizations(OrganizationView organization) {
-        List<Organization> all = dao.all();
-        Function<Organization, OrganizationView> mapOrganization = p -> {
-            OrganizationView view = new OrganizationView();
-                view.id = String.valueOf(p.getId());
-                view.name = p.getName();
-                view.inn = p.getInn();
-                view.isActive = p.getActive();
+    public List<OrganizationFilterView> filterOrganizationList(OrganizationFilterView organizationFilterView) {
+        log.info("org serv filter view " + organizationFilterView.toString());
+        if (organizationFilterView.getName() == null || organizationFilterView.getName().isEmpty()) {
+            throw new CustomErrorException("Invalid request Name*- is empty  ");
+        }
+        log.info("2 " + organizationFilterView.toString());
+        List<Organization> all = dao.filterOrganizationList(organizationFilterView);
+
+        Function<Organization, OrganizationFilterView> mapOrganization = p -> {
+            OrganizationFilterView view = new OrganizationFilterView();
+            //view.id = String.valueOf(p.getId());
+            view.name = p.getName();
+            view.inn = p.getInn();
+            view.isActive = p.getActive();
 
             log.info(view.toString());
 
             return view;
         };
-        if (organization.getName() != null && !organization.getName().isEmpty()) {
-           return
-                   all.stream().map(mapOrganization)
-                    .filter(p -> (
-                                    ( p.getActive() == organization.getActive() && p.getName().contains(organization.getName()) && String.valueOf(p.getInn()).contains(String.valueOf(organization.getInn())) )
 
-                                    || (
-                                            p.getName().contains(organization.getName()) && organization.getActive() == null  && organization.getInn() == null )
-                                        )
-                            ||      (
-                                    (String.valueOf(p.getInn()).contains(String.valueOf(organization.getInn())) && p.getName().contains(organization.getName()) && organization.getActive() == null)
-                                    )
-                            
-                            ||      (
-                                    p.getName().contains(organization.getName()) && p.getActive() == organization.getActive() && organization.getInn() == null
-                                    )
-                                )
-                    .collect(Collectors.toList());
-        }
-            else {throw new CustomNotFoundException(String.format("Invalid request Name*- %s Inn- %s Active- %s ", organization.getId(), organization.getInn(), organization.isActive));//return Collections.emptyList();
-        }
+        return all.stream().map(mapOrganization).collect(Collectors.toList());
     }
 
     @Override

@@ -13,13 +13,15 @@ public interface OfficeController {
 
     Response getOfficeById(@PathVariable("id") Long id) ;
 
-    Response offices(@RequestBody OfficeFilterView office);
+    Response filterOffices(@RequestBody OfficeFilterView office);
 
     Response updateOffice(@RequestBody OfficeView office);
 
     Response deleteOffice(@RequestBody OfficeView office);
 
     Response office(@RequestBody OfficeView office);
+
+
 
  /*
 

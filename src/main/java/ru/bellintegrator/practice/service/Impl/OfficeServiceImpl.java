@@ -105,12 +105,12 @@ public class OfficeServiceImpl implements OfficeService {
         if (officeFilterView.getOrgId() == null || (officeFilterView.getOrgId() < 1)) {
             throw new CustomErrorException(String.format("Mismatch parametr- ogrId* is %s", officeFilterView.getOrgId()));
         }
-        log.info("before DAO filtr " + officeFilterView.toString());
+        log.info("Office DAO filtrOfficeList " + officeFilterView.toString());
 
         List<Office> all = dao.filterOfficeList(officeFilterView);
-        //  log.info("before all filtr"+ all);
+
         List<OfficeFilterView> officesView = new ArrayList<>();
-        log.info("before filtrOfficeList " + officeFilterView.toString());
+        log.info("Office DAO filtrOfficeList " + officeFilterView.toString());
 
         Function<Office, OfficeFilterView> mapOffice = p -> {
             OfficeFilterView view = new OfficeFilterView();

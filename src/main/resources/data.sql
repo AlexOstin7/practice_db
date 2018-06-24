@@ -20,15 +20,15 @@ INSERT INTO DOC (id, NAME, CODE) VALUES (9, 'Паспорт гражданина
 
 INSERT INTO DOC (id, NAME, CODE) VALUES (10, 'Паспорт гражданина Республики Беларусь образца 1996 года', 1);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (11, 'Паспорт Республики Беларусь образца 1993 года', 1);
+INSERT INTO DOC (id, NAME, CODE) VALUES (11, 'Паспорт Республики Беларусь образца 1993 года', 2);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (12, 'Паспорт СССР образца 1974 года', 2);
+INSERT INTO DOC (id, NAME, CODE) VALUES (12, 'Паспорт СССР образца 1974 года', 3);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (13, 'Национальный паспорт иностранного гражданина', 3);
+INSERT INTO DOC (id, NAME, CODE) VALUES (13, 'Национальный паспорт иностранного гражданина', 4);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (14, 'Свидетельство о рождении (для лиц, не достигших 16-летнего возраста)', 4);
+INSERT INTO DOC (id, NAME, CODE) VALUES (14, 'Свидетельство о рождении (для лиц, не достигших 16-летнего возраста)', 5);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (15, 'Иной документ, удостоверяющий личность', 5);
+INSERT INTO DOC (id, NAME, CODE) VALUES (15, 'Иной документ, удостоверяющий личность', 6);
 
 INSERT INTO DOC (id, NAME, CODE) VALUES (16, 'Справка об освобождении (для лиц, освободившихся из мест лишения свободы)', 7);
 
@@ -42,7 +42,7 @@ INSERT INTO DOC (id, NAME, CODE) VALUES (20, 'Удостоверение беж�
 
 INSERT INTO DOC (id, NAME, CODE) VALUES (21, 'Паспорт гражданина Республики Казахстан', 5);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (22, 'дипломатический паспорт Республики Казахстан', 5);
+INSERT INTO DOC (id, NAME, CODE) VALUES (22, 'Дипломатический паспорт Республики Казахстан', 6);
 
 INSERT INTO COUNTRY (id, NAME, CODE) VALUES (1, 'Российская Федерация', 643);
 
@@ -54,13 +54,29 @@ INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (1, 1, 1);
 
 INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (2, 1, 2);
 
-INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (3, 2, 10);
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (3, 1, 3);
 
-INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (4, 2, 18);
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (4, 1, 4);
 
-INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (5, 3, 21);
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (5, 1, 5);
 
-INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (6, 1, 22);
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (6, 1, 6);
+
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (7, 1, 7);
+
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (8, 1, 8);
+
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (9, 1, 9);
+
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (10, 2, 10);
+
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (11, 2, 11);
+
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (12, 2, 12);
+
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (13, 3, 21);
+
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (14, 3, 22);
 
 INSERT INTO ORGANIZATION (id, NAME, FULL_NAME, INN, KPP, ADDRESS, PHONE, IS_ACTIVE) VALUES (1, 'ООО СТАРТ', 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕСТВЕННОСТЬЮ СТАРТ',5820001122, 582001001, 'ПЕНЗА УЛ.КРАСНАЯ Д. 1', 541234, TRUE);
 
@@ -78,4 +94,22 @@ INSERT INTO OFFICE (id, NAME, ADDRESS, PHONE, IS_ACTIVE, ORG_ID) VALUES (4, 'Б�
 
 INSERT INTO OFFICE (id, NAME, ADDRESS, PHONE, IS_ACTIVE, ORG_ID) VALUES (5, 'АДМИНИСТРАЦИЯ', 'Г.МОСКВА УЛ. РЕВОЛЮЦИОННАЯ Д.7', 94512345, TRUE, 3);
 
-INSERT INTO USER (id, FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, COUNTRY_ID) VALUES (1, 'ИВАН', 'ИВАНОВИЧ', 'ИВАНОВ', 'ДИРЕКТОР', 565999, '2002-01-01', 94512345, TRUE, 3, 1);
+INSERT INTO USER (id, FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (1, 'ИВАН', 'ИВАНОВИЧ', 'ИВАНОВ', 'ДИРЕКТОР', 565999, '2002-01-15', 94512345, TRUE, 1, 9);
+
+INSERT INTO USER (id, FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (2, 'ПЁТР', 'ПЁТРОВИЧ', 'ПЕТРОВ', 'ЗАМЕСТИТЕЛЬ ДИРЕКТОРА', 555999, '2012-10-11', 94512346, TRUE, 1, 9);
+
+INSERT INTO USER (id, FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (3, 'СЕМЁНОВ', 'СЕМЕН', 'СЕМЁНОВИЧ', 'ЗАМЕСТИТЕЛЬ ДИРЕКТОРА', 555900, '20014-12-31', 94512340, TRUE, 1, 9);
+
+INSERT INTO USER (id, FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (4, 'КАРЛ', 'ИЛЬЕЧЕВ', 'ШАЦ', 'ЗАМЕСТИТЕЛЬ ДИРЕКТОРА', 555910, '2015-06-19', 94512340, TRUE, 2, 9);
+
+INSERT INTO USER (id, FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (5, 'БОНИТА', 'ДЖОНИТОВНА', 'ПОСПЕГАСЕС', 'ГЛАВНЫЙ БУХГАЛТЕР', 522900, '2017-11-12', 9451842, TRUE, 2, 10);
+
+INSERT INTO USER (id, FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (6, 'ЮСТАС', 'АЛЕКСЕЕВИЧ', 'ИСАЕВ', 'БУХГАЛТЕР', 522007, '2007-04-19', 8421842, TRUE, 3, 11);
+
+INSERT INTO USER (id, FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (7, 'ДУГЛАС', 'КУСТАНАЙВИЧ', 'САБОЙНЕС', 'РУКОВОДИТЕЛЬ ОТДЕЛА', 522901, '2012-03-03', 9451842, TRUE, 5, 10);
+
+INSERT INTO USER (id, FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (8, 'АЙСЕДОРА', 'АХМАТОВНА', 'ПУШКИНА', 'ГЛАВНЫЙ БУХГАЛТЕР', 522900, '2017-23-07', 8422842, TRUE, 4, 12);
+
+INSERT INTO USER (id, FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (9, 'ЖОНС', 'БОРИСОВИЧ', 'НАЗАРОВ', 'ЗАМЕСТИТЕЛЬ РУКОВОДИТЕЛЯ', 533900, '2015-02-28', 9400842, TRUE, 5, 13);
+
+INSERT INTO USER (id, FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (2, 'МАРАТ', 'КАЙРАТОВИЧ', 'КАРИМОВ', 'БУХГАЛТЕР', 522203, '2016-09-27', 9451842, TRUE, 4, 14);

@@ -3,6 +3,7 @@ package ru.bellintegrator.practice.service;
 import ru.bellintegrator.practice.model.Office;
 import ru.bellintegrator.practice.model.Organization;
 import ru.bellintegrator.practice.view.OfficeView;
+import ru.bellintegrator.practice.view.OrganizationFilterView;
 import ru.bellintegrator.practice.view.OrganizationView;
 
 
@@ -17,7 +18,7 @@ public interface OrganizationService {
 
     void updateOrganization(OrganizationView organization);
 
-    List<OrganizationView> listOrganizations(OrganizationView organization);
+    List<OrganizationFilterView> filterOrganizationList(OrganizationFilterView organizationFilterView);
 
     void deleteOrganization(OrganizationView organization);
 
