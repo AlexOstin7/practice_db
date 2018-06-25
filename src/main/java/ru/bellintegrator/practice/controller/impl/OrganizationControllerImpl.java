@@ -97,6 +97,8 @@ public class OrganizationControllerImpl implements OrganizationController {
         return new ResponseSuccess("success", organizationService.getOrganizationById(id));
     }
 
+
+    //TEST ONLY
     @Override
     @ApiOperation(value = "getOrganizationsFull", nickname = "getOrganizationsFull", httpMethod = "GET")
     @RequestMapping(value = "/organizations", method = {GET})

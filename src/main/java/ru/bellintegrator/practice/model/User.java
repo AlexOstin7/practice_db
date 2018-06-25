@@ -18,7 +18,7 @@ public class User {
     @Column(name = "first_Name")
     private String firstName;
     @Column(name = "last_Name")
-    private String lastName;
+    private String secondName;
     @Column(name = "middle_Name")
     private String middleName;
     @Column(name = "possition")
@@ -63,12 +63,12 @@ public class User {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getSecondName() {
+        return secondName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
     }
 
     public String getMiddleName() {
@@ -137,6 +137,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", middleName='" + middleName + '\'' + ", possition='" + possition + '\'' + ", docNumber=" + docNumber + ", docDate=" + docDate + ", phone=" + phone + ", isIdentified=" + isIdentified + ", office=" + office + ", doc=" + doc + '}';
+        return "User{" + "id=" + id + ", firstName='" + firstName + '\'' + ", secondName='" + secondName + '\'' + ", middleName='" + middleName + '\'' + ", possition='" + possition + '\'' + ", docNumber=" + docNumber + ", docDate=" + docDate + ", phone=" + phone + ", isIdentified=" + isIdentified + ", office=" + office + ", doc=" + doc + '}';
     }
 }

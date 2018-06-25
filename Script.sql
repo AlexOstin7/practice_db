@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS Office (
 CREATE TABLE IF NOT EXISTS User (
     officeId   INTEGER  PRIMARY KEY AUTO_INCREMENT,
     firstName  VARCHAR(50) NOT NULL,
-    lastName   VARCHAR(100) NOT NULL,
+    secondName   VARCHAR(100) NOT NULL,
     middleName INTEGER  NOT NULL,
     position   INTEGER  NOT NULL,
     docCode    VARCHAR  NOT NULL,

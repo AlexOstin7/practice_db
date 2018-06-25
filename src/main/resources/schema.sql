@@ -56,8 +56,8 @@ CREATE TABLE IF NOT EXISTS user (
   phone            INTEGER     NOT NULL,
   is_Identified    BOOLEAN     NOT NULL,
   office_Id        INTEGER     NOT NULL,
-  country_Id       INTEGER     NOT NULL,
+  doc_Id       INTEGER     NOT NULL,
   CONSTRAINT office_FKEY FOREIGN KEY(office_Id) REFERENCES PUBLIC.office (id),
-  CONSTRAINT country_FKEY FOREIGN KEY(country_Id) REFERENCES PUBLIC.country (id)
+  CONSTRAINT doc_FKEY FOREIGN KEY(doc_Id) REFERENCES PUBLIC.doc (id)
 );
 
