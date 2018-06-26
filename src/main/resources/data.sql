@@ -94,22 +94,22 @@ INSERT INTO OFFICE (id, NAME, ADDRESS, PHONE, IS_ACTIVE, ORG_ID) VALUES (4, 'Б�
 
 INSERT INTO OFFICE (id, NAME, ADDRESS, PHONE, IS_ACTIVE, ORG_ID) VALUES (5, 'АДМИНИСТРАЦИЯ', 'Г.МОСКВА УЛ. РЕВОЛЮЦИОННАЯ Д.7', 94512345, TRUE, 3);
 
-INSERT INTO USER (id, FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (1, 'ИВАН', 'ИВАНОВИЧ', 'ИВАНОВ', 'ДИРЕКТОР', 565999, '2002-01-15', 94512345, TRUE, 1, 9);
+INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (1, 'ИВАН', 'ИВАНОВИЧ', 'ИВАНОВ', 'ДИРЕКТОР', 565999, '2002-01-15', 94512345, TRUE, 1, 1);
 
-INSERT INTO USER (id, FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (2, 'ПЁТР', 'ПЁТРОВИЧ', 'ПЕТРОВ', 'ЗАМЕСТИТЕЛЬ ДИРЕКТОРА', 555999, '2012-10-11', 94512346, TRUE, 1, 9);
+INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (2, 'ПЁТР', 'ПЁТРОВИЧ', 'ПЕТРОВ', 'ЗАМЕСТИТЕЛЬ ДИРЕКТОРА', 555999, '2012-10-11', 94512346, TRUE, 1, 2);
 
-INSERT INTO USER (id, FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (3, 'СЕМЁНОВ', 'СЕМЕН', 'СЕМЁНОВИЧ', 'ЗАМЕСТИТЕЛЬ ДИРЕКТОРА', 555900, '20014-12-31', 94512340, TRUE, 1, 9);
+INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (3, 'СЕМЁНОВ', 'СЕМЕН', 'СЕМЁНОВИЧ', 'ЗАМЕСТИТЕЛЬ ДИРЕКТОРА', 555900, '20014-12-31', 94512340, TRUE, 1, 3);
 
-INSERT INTO USER (id, FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (4, 'КАРЛ', 'ИЛЬЕЧЕВ', 'ШАЦ', 'ЗАМЕСТИТЕЛЬ ДИРЕКТОРА', 555910, '2015-06-19', 94512340, TRUE, 2, 9);
+INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (4, 'КАРЛ', 'ИЛЬЕЧЕВ', 'ШАЦ', 'ЗАМЕСТИТЕЛЬ ДИРЕКТОРА', 555910, '2015-06-19', 94512340, TRUE, 2, 4);
 
-INSERT INTO USER (id, FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (5, 'БОНИТА', 'ДЖОНИТОВНА', 'ПОСПЕГАСЕС', 'ГЛАВНЫЙ БУХГАЛТЕР', 522900, '2017-11-12', 9451842, TRUE, 2, 10);
+INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (5, 'БОНИТА', 'ДЖОНИТОВНА', 'ПОСПЕГАСЕС', 'ГЛАВНЫЙ БУХГАЛТЕР', 522900, '2017-11-12', 9451842, TRUE, 2, 5);
 
-INSERT INTO USER (id, FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (6, 'ЮСТАС', 'АЛЕКСЕЕВИЧ', 'ИСАЕВ', 'БУХГАЛТЕР', 522007, '2007-04-19', 8421842, TRUE, 3, 11);
+INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (6, 'ЮСТАС', 'АЛЕКСЕЕВИЧ', 'ИСАЕВ', 'БУХГАЛТЕР', 522007, '2007-04-19', 8421842, TRUE, 3, 6);
 
-INSERT INTO USER (id, FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (7, 'ДУГЛАС', 'КУСТАНАЙВИЧ', 'САБОЙНЕС', 'РУКОВОДИТЕЛЬ ОТДЕЛА', 522901, '2012-03-03', 9451842, TRUE, 5, 10);
+INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (7, 'ДУГЛАС', 'КУСТАНАЙВИЧ', 'САБОЙНЕС', 'РУКОВОДИТЕЛЬ ОТДЕЛА', 522901, '2012-03-03', 9451842, TRUE, 5, 7);
 
-INSERT INTO USER (id, FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (8, 'АЙСЕДОРА', 'АХМАТОВНА', 'ПУШКИНА', 'ГЛАВНЫЙ БУХГАЛТЕР', 522900, '2017-23-07', 8422842, TRUE, 4, 12);
+INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (8, 'АЙСЕДОРА', 'АХМАТОВНА', 'ПУШКИНА', 'ГЛАВНЫЙ БУХГАЛТЕР', 522900, '2017-07-23', 8422842, TRUE, 4, 8);
 
-INSERT INTO USER (id, FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (9, 'ЖОНС', 'БОРИСОВИЧ', 'НАЗАРОВ', 'ЗАМЕСТИТЕЛЬ РУКОВОДИТЕЛЯ', 533900, '2015-02-28', 9400842, TRUE, 5, 13);
+INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (9, 'ЖОНС', 'БОРИСОВИЧ', 'НАЗАРОВ', 'ЗАМЕСТИТЕЛЬ РУКОВОДИТЕЛЯ', 533900, '2015-02-28', 9400842, TRUE, 5, 11);
 
-INSERT INTO USER (id, FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (2, 'МАРАТ', 'КАЙРАТОВИЧ', 'КАРИМОВ', 'БУХГАЛТЕР', 522203, '2016-09-27', 9451842, TRUE, 4, 14);
+INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (10, 'МАРАТ', 'КАЙРАТОВИЧ', 'КАРИМОВ', 'БУХГАЛТЕР', 522203, '2016-09-27', 9451842, TRUE, 4, 21);

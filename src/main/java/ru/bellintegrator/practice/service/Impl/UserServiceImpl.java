@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.bellintegrator.practice.dao.OfficeDAO;
 import ru.bellintegrator.practice.dao.UserDAO;
 import ru.bellintegrator.practice.dao.OrganizationDAO;
 import ru.bellintegrator.practice.exception.CustomErrorException;
@@ -14,7 +15,7 @@ import ru.bellintegrator.practice.model.User;
 import ru.bellintegrator.practice.model.Organization;
 import ru.bellintegrator.practice.service.UserService;
 import ru.bellintegrator.practice.service.UserService;
-//import ru.bellintegrator.practice.view.UserFilterView;
+import ru.bellintegrator.practice.view.UserFilterView;
 import ru.bellintegrator.practice.view.UserView;
 
 import java.util.ArrayList;
@@ -28,39 +29,45 @@ public class UserServiceImpl implements UserService {
     private final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private final UserDAO dao;
-    private final OrganizationDAO daoOrg;
+    private final OfficeDAO daoOffice;
 
     @Autowired
-    public UserServiceImpl(UserDAO dao, OrganizationDAO daoOrg) {
+    public UserServiceImpl(UserDAO dao, OfficeDAO daoOffice) {
         this.dao = dao;
-        this.daoOrg = daoOrg;
+        this.daoOffice = daoOffice;
     }
 
-
     @Override
-    @Transactional(readOnly = true)
-    public List<UserView> users() {
-        List<User> all = dao.all();
+    public List<UserFilterView> filterUserList(UserFilterView userFilterView) {
 
-        Function<User, UserView> mapUser = p -> {
-            UserView view = new UserView();
+        if (userFilterView.getOfficeId() == null || (userFilterView.getOfficeId() < 1)) {
+            throw new CustomErrorException(String.format("Mismatch parametr- ogrId* is %s", userFilterView.getOfficeId()));
+        }
+        log.info("User DAO filtrUserList " + userFilterView.toString());
+
+        List<User> all = dao.filterUserList(userFilterView);
+
+        //List<UserFilterView> usersView = new ArrayList<>();
+        log.info("User DAO filtrUserList " + userFilterView.toString());
+
+        Function<User, UserFilterView> mapUser = p -> {
+            UserFilterView view = new UserFilterView();
             view.id = String.valueOf(p.getId());
             view.firstName = p.getFirstName();
             view.secondName = p.getSecondName();
             view.middleName = p.getMiddleName();
             view.possition = p.getPossition();
-            view.phone = p.getPhone();
-            view.docDate = p.getDocDate();
-            view.docNumber = p.getDocNumber();
-            view.officeId = p.getOffice().getId();
-            view.isIdentified = p.getIdentified();
 
-            log.info(view.toString());
+            log.info("after filter " + view.toString());
 
             return view;
         };
+
         return all.stream().map(mapUser).collect(Collectors.toList());
+
     }
+
+
 
    /* @Override
     @Transactional(readOnly = true)
@@ -100,34 +107,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    @Override
-    public List<UserFilterView> filterUserList(UserFilterView userFilterView) {
 
-        if (userFilterView.getOrgId() == null || (userFilterView.getOrgId() < 1)) {
-            throw new CustomErrorException(String.format("Mismatch parametr- ogrId* is %s", userFilterView.getOrgId()));
-        }
-        log.info("User DAO filtrUserList " + userFilterView.toString());
-
-        List<User> all = dao.filterUserList(userFilterView);
-
-        List<UserFilterView> usersView = new ArrayList<>();
-        log.info("User DAO filtrUserList " + userFilterView.toString());
-
-        Function<User, UserFilterView> mapUser = p -> {
-            UserFilterView view = new UserFilterView();
-            view.id = String.valueOf(p.getId());
-            view.name = p.getName();
-            view.isActive = p.getActive();
-            //view.orgId = p.getOrganization().getId();
-
-            log.info("after filtr" + view.toString());
-
-            return view;
-        };
-
-        return all.stream().map(mapUser).collect(Collectors.toList());
-
-    }
 
     @Override
     @Transactional
@@ -213,4 +193,33 @@ public class UserServiceImpl implements UserService {
         dao.save(user);
 
     }*/
+
+
+//   Test only
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserView> users() {
+        List<User> all = dao.all();
+
+        Function<User, UserView> mapUser = p -> {
+            UserView view = new UserView();
+            view.id = String.valueOf(p.getId());
+            view.firstName = p.getFirstName();
+            view.secondName = p.getSecondName();
+            view.middleName = p.getMiddleName();
+            view.possition = p.getPossition();
+            view.phone = p.getPhone();
+            view.docDate = p.getDocDate();
+            view.docNumber = p.getDocNumber();
+            view.officeId = p.getOffice().getId();
+            view.docId = p.getDoc().getId();
+            view.isIdentified = p.getIdentified();
+
+            log.info(view.toString());
+
+            return view;
+        };
+        return all.stream().map(mapUser).collect(Collectors.toList());
+    }
 }

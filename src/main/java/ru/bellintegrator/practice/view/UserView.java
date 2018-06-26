@@ -8,8 +8,6 @@ public class UserView {
     @ApiModelProperty(hidden = true)
     public String id;
 
-    public String name;
-
     public String firstName;
 
     public String secondName;
@@ -29,14 +27,6 @@ public class UserView {
     public Long officeId;
 
     public Integer docId;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -118,8 +108,11 @@ public class UserView {
         this.docId = docId;
     }
 
+    public UserView() {
+    }
+
     @Override
     public String toString() {
-        return "UserView{" + "name='" + name + '\'' + ", firstName='" + firstName + '\'' + ", secondName='" + secondName + '\'' + ", middleName='" + middleName + '\'' + ", possition='" + possition + '\'' + ", phone=" + phone + ", docNumber=" + docNumber + ", docDate='" + docDate + '\'' + ", isIdentified=" + isIdentified + ", officeId=" + officeId + ", docId=" + docId + '}';
+        return "UserView{" + "firstName='" + firstName + '\'' + ", secondName='" + secondName + '\'' + ", middleName='" + middleName + '\'' + ", possition='" + possition + '\'' + ", phone=" + phone + ", docNumber=" + docNumber + ", docDate=" + docDate + ", isIdentified=" + isIdentified + ", officeId=" + officeId + ", docId=" + docId + '}';
     }
 }

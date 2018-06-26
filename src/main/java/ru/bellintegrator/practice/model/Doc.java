@@ -12,11 +12,15 @@ public class Doc {
     private static final long serialVersionUID = -123454L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     @Column(name = "code")
     private Integer code;
     @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "doc", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
+    private List<User> users;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="country_doc",
@@ -39,11 +43,11 @@ public class Doc {
         this.countries = countries;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

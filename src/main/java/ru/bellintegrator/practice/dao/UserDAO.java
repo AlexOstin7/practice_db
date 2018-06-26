@@ -3,6 +3,7 @@ package ru.bellintegrator.practice.dao;
 import ru.bellintegrator.practice.model.Office;
 import ru.bellintegrator.practice.model.User;
 import ru.bellintegrator.practice.view.OfficeFilterView;
+import ru.bellintegrator.practice.view.UserFilterView;
 
 import java.util.List;
 
@@ -59,12 +60,12 @@ public interface UserDAO {
     void remove(User user);
 
     /**
-     * Фильтр Users by *OrgId, name, phone, active
+     * Фильтр Users by *OfficeId, firstName, , secondName, middleName , possition
      *
      * @param userFilterView
     */
-    //List<User> filterUserByOrgId(User user);
-   // List<User> filterUserList(UserFilterView userFilterView);
+
+   List<User> filterUserList(UserFilterView userFilterView);
 
 
 

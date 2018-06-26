@@ -46,17 +46,17 @@ create table country_doc (
 
 
 CREATE TABLE IF NOT EXISTS user (
-  id              INTEGER  PRIMARY KEY AUTO_INCREMENT,
+  id               INTEGER  PRIMARY KEY AUTO_INCREMENT,
   first_Name       VARCHAR(50) NOT NULL,
-  last_Name        VARCHAR(50) NOT NULL,
   middle_Name      VARCHAR(50) NOT NULL,
-  possition       VARCHAR(50) NOT NULL,
+  second_Name       VARCHAR(100) NOT NULL,
+  possition        VARCHAR(50) NOT NULL,
   doc_Number       INTEGER     NOT NULL,
   doc_Date         DATE        NOT NULL,
   phone            INTEGER     NOT NULL,
   is_Identified    BOOLEAN     NOT NULL,
   office_Id        INTEGER     NOT NULL,
-  doc_Id       INTEGER     NOT NULL,
+  doc_Id           INTEGER     NOT NULL,
   CONSTRAINT office_FKEY FOREIGN KEY(office_Id) REFERENCES PUBLIC.office (id),
   CONSTRAINT doc_FKEY FOREIGN KEY(doc_Id) REFERENCES PUBLIC.doc (id)
 );

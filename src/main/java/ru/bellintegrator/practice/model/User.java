@@ -17,7 +17,7 @@ public class User {
     private Long id;
     @Column(name = "first_Name")
     private String firstName;
-    @Column(name = "last_Name")
+    @Column(name = "SECOND_NAME")
     private String secondName;
     @Column(name = "middle_Name")
     private String middleName;
@@ -34,7 +34,8 @@ public class User {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "office_Id")
-    @JsonManagedReference
+    //@JsonManagedReference
+    @JsonBackReference
     private Office office;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -70,6 +71,10 @@ public class User {
     public void setSecondName(String secondName) {
         this.secondName = secondName;
     }
+
+    public User() {
+    }
+
 
     public String getMiddleName() {
         return middleName;
@@ -137,6 +142,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", firstName='" + firstName + '\'' + ", secondName='" + secondName + '\'' + ", middleName='" + middleName + '\'' + ", possition='" + possition + '\'' + ", docNumber=" + docNumber + ", docDate=" + docDate + ", phone=" + phone + ", isIdentified=" + isIdentified + ", office=" + office + ", doc=" + doc + '}';
+        return "User{" + "id=" + id + ", firstName='" + firstName + '\'' + ", secondName='" + secondName + '\'' + ", middleName='" + middleName + '\'' + ", possition='" + possition + '\'' + ", docNumber=" + docNumber + ", docDate=" + docDate + ", phone=" + phone + ", isIdentified=" + isIdentified + ", doc=" + doc + '}';
     }
 }

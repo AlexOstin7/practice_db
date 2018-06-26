@@ -4,6 +4,7 @@ import ru.bellintegrator.practice.model.Office;
 import ru.bellintegrator.practice.model.User;
 import ru.bellintegrator.practice.view.OfficeFilterView;
 import ru.bellintegrator.practice.view.OfficeView;
+import ru.bellintegrator.practice.view.UserFilterView;
 import ru.bellintegrator.practice.view.UserView;
 
 import java.util.List;
@@ -17,9 +18,11 @@ public interface UserService {
 
     List<UserView> users();
 
+    List<UserFilterView> filterUserList(UserFilterView office);
+
     /*User getUserById(Long id);
 
-    List<UserFilterView> filterUserList(UserFilterView office);
+
 
     void updateUser(UserView office);
 

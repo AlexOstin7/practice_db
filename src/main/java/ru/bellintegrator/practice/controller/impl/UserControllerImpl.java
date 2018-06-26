@@ -16,7 +16,7 @@ import ru.bellintegrator.practice.message.ResponseSuccess;
 import ru.bellintegrator.practice.model.User;
 import ru.bellintegrator.practice.service.Impl.UserServiceImpl;
 import ru.bellintegrator.practice.service.UserService;
-//import ru.bellintegrator.practice.view.UserFilterView;
+import ru.bellintegrator.practice.view.UserFilterView;
 import ru.bellintegrator.practice.view.UserView;
 
 import java.util.List;
@@ -39,6 +39,19 @@ public class UserControllerImpl implements UserController {
         this.userService = userService;
     }
 
+    @Override
+    @ApiOperation(value = "listUsersByOfficeId", nickname = "listUsersByOfficeId", httpMethod = "POST")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 405, message = "I don't know"),
+            @ApiResponse(code = 500, message = "Failure")})
+    @RequestMapping(value = "/user/list", method = {POST})
+    public Response filterUsers(@RequestBody UserFilterView user) {
+        log.info("view-listByOfficeId" + user.toString());
+        List<UserFilterView> userFilterViewList = userService.filterUserList(user);
+
+        return new ResponseSuccess("success", userFilterViewList);
+    }
     /*@Override
     @ApiOperation(value = "getUserById", nickname = "getUserById", httpMethod = "GET")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),
@@ -54,19 +67,7 @@ public class UserControllerImpl implements UserController {
         return new ResponseSuccess("success", user);
     }
 
-    @Override
-    @ApiOperation(value = "listUsersByOrgId", nickname = "listUsersByOrgId", httpMethod = "POST")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),
-            @ApiResponse(code = 404, message = "Not Found"),
-            @ApiResponse(code = 405, message = "I don't know"),
-            @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(value = "/user/list", method = {POST})
-    public Response filterUsers(@RequestBody UserFilterView user) {
-        log.info("view-listByOrgId" + user.toString());
-        List<UserFilterView> userFilterViewList = userService.filterUserList(user);
 
-        return new ResponseSuccess("success", userFilterViewList);
-    }
     @Override
     @ApiOperation(value = "updateUser", nickname = "updateUser", httpMethod = "POST")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),
