@@ -1,5 +1,10 @@
 var app = angular.module('app', []);//1
 
+
+function ExampleCtrl($scope) {
+    $scope.value = "Lorem ipsum";
+}
+
 app.controller('postOrganizationsControllerUpdate', function ($scope, $http, $location, FactoryOrgId) {
     $scope.model = FactoryOrgId.organization;
     $scope.showOrganization = false;
@@ -248,13 +253,18 @@ app.controller('getOrganizationControllerById', function ($scope, $http, $locati
     }
 });
 
-app.controller('getAllOrganizationsController', function ($scope, $http, $location) {
+app.controller('test', function($scope) {
+    $scope.stroka = "string";
+});
+
+
+app.controller('getAllOrganizationsController', function ($scope, $http, $location, FactoryOrgId, FactoryOffice) {
 
     $scope.showAll = false;
     $scope.showAllOrganizationsBrief = false;
     $scope.buttonSize = "Full";
     $scope.buttonView = "Show";
-
+/*
     $scope.getAllOrganizationsFull = function () {
         var url = $location.absUrl() + "/api/organizations"; // "findall";
 
@@ -290,10 +300,33 @@ app.controller('getAllOrganizationsController', function ($scope, $http, $locati
                 $scope.buttonSize = "Brief";
             }
         }
-    }
+    }*/
 
 });
 
+
+app.controller('officeController', function ($scope, $http, $location, FactoryOrgId, FactoryOffice) {
+    $scope.model = FactoryOrgId.organization;
+    $scope.modelOffice = FactoryOffice.modelOffice;
+    $scope.office = FactoryOffice.office;
+    $scope.address = FactoryOffice.office.address;
+
+    $scope.setView = function (id, name, address, phone, isActive) {
+        $scope.office.id = id;
+        $scope.name = name;
+        $scope.address = address;
+        $scope.phone = phone;
+        $scope.isActive = isActive;
+    }
+    $scope.clearFormAddress = function () {
+        $scope.address = "";
+    }
+    $scope.cleanUp = function () {
+        $scope.setView('', '', '', '', '');
+        FactoryOrgId.setOrgId();
+
+    }
+});
 
 app.controller('getAllOfficesController', function ($scope, $http, $location) {
 
@@ -563,25 +596,82 @@ app.controller('postOfficeControllerSave', function ($scope, $http, $location, F
     }
 });
 
-app.controller('officeController', function ($scope, $http, $location, FactoryOrgId, FactoryOffice) {
+
+app.controller('userController', function ($scope, $http, $location, FactoryOrgId, FactoryOffice, FactoryUser) {
     $scope.model = FactoryOrgId.organization;
     $scope.modelOffice = FactoryOffice.modelOffice;
     $scope.office = FactoryOffice.office;
-    $scope.address = FactoryOffice.office.address;
+    $scope.modelUser = FactoryUser.modelUser;
+    $scope.user = FactoryUser.user;
 
-    $scope.setView = function (id, name, address, phone, isActive) {
-        $scope.office.id = id;
-        $scope.name = name;
-        $scope.address = address;
+    $scope.setView = function (id, firstName, secondName, middleName, phone, docDate, docNumber, isIdentified, officeId, docId) {
+        $scope.user.id = id;
+        $scope.firstName = firstName;
+        $scope.secondName = secondName;
+        $scope.middleName = middleName;
+        $scope.docNumber = docNumber;
+        $scope.docDate = docDate;
         $scope.phone = phone;
-        $scope.isActive = isActive;
+        $scope.isIdentified = isIdentified;
+        $scope.officeId = officeId;
+        $scope.docId = docId;
     }
-    $scope.clearFormAddress = function () {
-        $scope.address = "";
-    }
+
     $scope.cleanUp = function () {
-        $scope.setView('', '', '', '', '');
-        FactoryOrgId.setOrgId();
+        $scope.setView('', '', '', '', '', '', '', '', '', '');
+
+    }
+});
+
+app.controller('postUserControllerListbyOfficeId', function ($scope, $http, $location, FactoryUser, FactoryOffice) {
+    $scope.model = FactoryOrgId.organization;
+    $scope.office = FactoryOffice.office;
+    $scope.modelOffice = FactoryOffice.modelOffice;
+    $scope.modelOffice.showAll = false;
+
+    $scope.hideListByOfficeId = function () {
+        $scope.modelUser.showAll = false;
+    }
+
+    $scope.postUserListByOfficeId = function () {
+        var url = $location.absUrl() + "/api/user/list";
+
+        var config = {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8;'
+            }
+        }
+        var data = {
+            officeId: FactoryOfficeId.office.id,
+            firstName: $scope.firstName,
+            secondName: $scope.secondName,
+            middleName: $scope.middleName,
+            possition: $scope.possition,
+            docCode: $scope.docCode,
+            citezenShipCode: $scope.citizenShipCode
+        };
+        $http.post(url, data, config).then(function (response) {
+
+            if (response.data.result == "success") {
+                $scope.modelOffice.showAll = true;
+                $scope.allUsers = response.data;
+
+                FactoryUser.modelUser.listOfficeByOfficeId.length = 0;
+                FactoryUser.modelUser.officeId = FactoryOffice.office.id;
+                FactoryUser.modelUser.listUserByOfficeId.push($scope.allUsers.data);
+                FactoryUser.modelUser.resultMessage = response.data.result;
+
+                //$scope.clearFormAddress();
+
+            } else {
+                //$scope.resultMessage = response.data.error;//"Filter Users Data Error!";
+                FactoryUser.modelUser.resultMessage = response.data.error;
+                // $scope.showAllOrgId = false;
+            }
+        }, function (response) {
+            FactoryUser.modelUser.resultMessage = response.data.error;
+            // $scope.showAllOrgId = false;
+        });
 
     }
 });
@@ -640,4 +730,55 @@ app.factory('FactoryOffice', function () {
     }
 });
 
+app.factory('FactoryUser', function () {
+    var name = 'Bob';
+    return {
 
+        setName: function (name) {
+            name = name;
+        },
+        getName: function () {
+            return this.resultMessage;
+        },
+        user: {
+            id: '',
+            firstName: '',
+            secondName: '',
+            middleName: '',
+            possition: '',
+            docNumber: '',
+            docDate: '',
+            phone: '',
+            isIdentified: ''
+        },
+        modelUser: {
+            resultMessage: '',
+            showAll: '',
+            officeId: '',
+            docId: '',
+            listUserByOfficeId: [{}]
+        },
+        updatelistUserByOfficeId: function (name, phone, isIdentified) {
+            {
+                this.listUserByOfficeId.firstName = name,
+                    this.listUserByOfficeId.phone = phone,
+                    this.listUserByOfficeId.isIdentified = isIdentified
+            }
+        },
+        updateUserData: function (id, firstName, secondName, middleName, phone, docName, docNumber, isIdentified, officeId, docId) {
+            this.user.id = id;
+            this.user.firstName = firstName;
+            this.user.secondName = secondName;
+            this.user.middleName = middleName;
+            this.user.phone = phone;
+            this.user.docNumber = docNumber;
+            this.user.docName = docName;
+            this.user.isIdentified = isIdentified;
+            this.user.officeId = officeId;
+            this.user.docId = docId;
+        },
+        setId: function () {
+            this.user.id = $scope.id;
+        }
+    }
+});

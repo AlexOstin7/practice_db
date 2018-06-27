@@ -26,12 +26,15 @@
 <div class="container" ng-app="app">
     <!--h1>Practice</h1-->
     <div class="row">
-
+        <div ng-controller="ExampleCtrl" >
+            <input ng-model="value"><br>
+            <label>Value</label>
+            <p>Value -- {{value}}</p>
+        </div>
         <div ng-controller="postOrganizationsControllerUpdate" class="col-md-3">
 
             <form name="organizationFormUpdate" ng-submit="postUpdateOrganization()">
                 <h3>Update Organization</h3>
-
                 <label>Name</label>
                 <input type="text" name="name" class="form-control" ng-model="name"/>
                 <label>FullName</label>
@@ -188,95 +191,148 @@
 
         </div>
 
-    </div>
+        <div ng-controller="userController" class="col-md-3">
+            <h3>User controller </h3>
+
+            <p> Результат: {{modelUser.resultMessage}}</p>
+
+            <h4>OfficeId {{modelOffice.id}}</h4>
+            <label>First Name</label>
+            <input type="text" name="firsrName" class="form-control" ng-model="firstName"/>
+            <label>Middle Name</label>
+            <input type="text" name="middleName" class="form-control" ng-model="middleName"/>
+            <label>SecondName</label>
+            <input type="text" name="secondName" class="form-control" ng-model="secondName"/>
+            <label>Phone</label>
+            <input type="text" name="phone" class="form-control" ng-model="phone"/>
+            <label>Doc date</label>
+            <input type="text" name="docDate" class="form-control" ng-model="docDate"/>
+            <label>Doc Number</label>
+            <input type="text" name="docNumber" class="form-control" ng-model="docNumber"/>
+            <label>isIdentified</label>
+            <input type="text" name="isIdentified" class="form-control" ng-model="isIdentified"/>
+            <button ng-click="cleanUp()">Clean up</button>
+
+            <div ng-controller="postUserControllerListbyOfficeId">
+
+                <button ng-click="postUserListByOfficeId()">List User by OfficeId</button>
+
+            </div>
+            <!--
+            <div ng-controller="postOfficeControllerUpdate">
+
+                <button ng-click="postOfficeUpdate()">Update Office</button>
+
+            </div>
+
+            <div ng-controller="postOfficeControllerDelete">
+
+                <button ng-click="deleteOfficeById()">Delete Office</button>
+
+            </div>
+
+            <div ng-controller="postOfficeControllerSave" class="col-md-3">
+
+                <button ng-click="postOfficeSave()">Save</button>
+
+            </div>
+-->
 
 
-    <div class="row">
+        </div>
+
+        <div ng-controller="postUserControllerListbyOfficeId" class="col-md-3">
+
+            <div ng-show="modelOffice.showAll">
+                <h3>List by officceId</h3>
+                <button ng-click="hideListByOfficeId()">Hide</button>
+                <ul class="list-group">
+                    <ul ng-repeat="item in modelUser.listUserByOfficeId">
+                        <label>OrgId: {{modelUser.officeId}}</label>
+                        <li ng-repeat="user in item"><h4 class="list-group-item">
+                            <strong>Offices {{$index}}</strong><br/>
+                            Id: {{user.modelUser.officeId}}<br/>
+                            FirstName: {{user.firstName}}<br/>
+                            SecondName: {{user.secondName}}<br/>
+                            MiddleName: {{user.middleName}}<br/>
+                            Possition: {{user.possition}}<br/>
+                        </h4></li>
+                    </ul>
+                </ul>
+            </div>
+
+        </div>
+
         <div ng-controller="getAllOrganizationsController" class="col-md-3">
             <h3>All Organizations</h3>
+            {{buttonView}}
+            <!--
+                        <button ng-click="getAllOrganizationsFull()">{{buttonView}}</button>
+                        <button ng-click="getAllOrganizationsBrief()">{{buttonSize}}</button>
 
-            <button ng-click="getAllOrganizationsFull()">{{buttonView}}</button>
-            <button ng-click="getAllOrganizationsBrief()">{{buttonSize}}</button>
+                                    <div ng-show="showAll">
+                                        <ul class="list-group">
+                                            <li ng-repeat="organization in allOrganizations.data">
+                                                <h4 class="list-group-item">
+                                                    <strong>Organizations {{$index}}</strong><br/>
+                                                    Id: {{organization.id}}<br/>
+                                                    Name: {{organization.name}}<br/>
+                                                    <p ng-show="showAllOrganizationsBrief">FullName:{{organization.fullName}}</p>
+                                                    Inn: {{organization.inn}}<br/>
+                                                    <p ng-show="showAllOrganizationsBrief">Kpp: {{organization.kpp}}<br/></p>
+                                                    <p ng-show="showAllOrganizationsBrief">Address: {{organization.address}}<br/></p>
+                                                    <p ng-show="showAllOrganizationsBrief">Phone: {{organization.phone}}<br/></p>
+                                                    Active: {{organization.isActive}}<br/>
+                                                </h4>
+                                            </li>
+                                        </ul>
+                                    </div>
 
-            <div ng-show="showAll">
-                <ul class="list-group">
-                    <li ng-repeat="organization in allOrganizations.data">
-                        <h4 class="list-group-item">
-                            <strong>Organizations {{$index}}</strong><br/>
-                            Id: {{organization.id}}<br/>
-                            Name: {{organization.name}}<br/>
-                            <p ng-show="showAllOrganizationsBrief">FullName:{{organization.fullName}}</p>
-                            Inn: {{organization.inn}}<br/>
-                            <p ng-show="showAllOrganizationsBrief">Kpp: {{organization.kpp}}<br/></p>
-                            <p ng-show="showAllOrganizationsBrief">Address: {{organization.address}}<br/></p>
-                            <p ng-show="showAllOrganizationsBrief">Phone: {{organization.phone}}<br/></p>
-                            Active: {{organization.isActive}}<br/>
-                        </h4>
-                    </li>
-                </ul>
-            </div>
-
-            <p>{{getResultMessage}}</p>
+            -->
+            <!--<p>{{getResultMessage}}</p>-->
         </div>
 
-        <div ng-controller="getAllOfficesController" class="col-md-3">
-            <h3>All Offices</h3>
 
-            <button ng-click="getAllOfficesFull()">{{buttonView}}</button>
-            <button ng-click="getAllOfficesBrief()">{{buttonSize}}</button>
 
-            <div ng-show="showAll">
-                <ul class="list-group">
-                    <li ng-repeat="office in allOffices.data">
-                        <h4 class="list-group-item">
-                            <strong>Offices {{$index}}</strong><br/>
-                            Id: {{office.id}}<br/>
-                            Name: {{office.name}}<br/>
-                            Phone: {{office.phone}}<br/></p>
-                            <p ng-show="showAllOfficesBrief">Address: {{office.address}}</p>
-                            Active: {{office.isActive}}<br/>
-                            OrgId: {{office.orgId}}
-                        </h4>
-                    </li>
-                </ul>
-            </div>
+    </div>
 
-            <p>{{getResultMessage}}</p>
+    <div class="row">
+
+
+        <div ng-controller="test" class="well">
+            {{stroka}}
         </div>
+
+        <!--
+
+                <div ng-controller="getAllOfficesController" class="col-md-3">
+                    <h3>All Offices</h3>
+
+                    <button ng-click="getAllOfficesFull()">{{buttonView}}</button>
+                    <button ng-click="getAllOfficesBrief()">{{buttonSize}}</button>
+
+                    <div ng-show="showAll">
+                        <ul class="list-group">
+                            <li ng-repeat="office in allOffices.data">
+                                <h4 class="list-group-item">
+                                    <strong>Offices {{$index}}</strong><br/>
+                                    Id: {{office.id}}<br/>
+                                    Name: {{office.name}}<br/>
+                                    Phone: {{office.phone}}<br/></p>
+                                    <p ng-show="showAllOfficesBrief">Address: {{office.address}}</p>
+                                    Active: {{office.isActive}}<br/>
+                                    OrgId: {{office.orgId}}
+                                </h4>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <p>{{getResultMessage}}</p>
+                </div>
+        -->
+
     </div>
 
-    <div ng-controller='Ctrl1' class='well'>
-        <h4>Controller 1</h4>
-        <div>
-            <input type='text' ng-model='IdOrg.id' placeholder='Enter Id'/>
-        </div>
-        <div>Id: {{IdOrg.id}}</div>
-    </div>
-
-    <div ng-controller='Ctrl2' class='well'>
-        <h4>Controller 2</h4>
-        <div>
-            <input type='text' ng-model='IdOrg.id' placeholder='Enter Id'/>
-        </div>
-        <div>Id: {{IdOrg.id}}</div>
-    </div>
-
-    Controller 1:
-    <div ng-controller="FirstCtrl">
-        Org Id <input type="text" ng-model="model.id"/><br/>
-        Office Id <input type="text" ng-model="office.id"/><br/>
-        Name <input type="text" ng-model="office.name"/><br/>
-        {{model}}
-        {{office}}
-    </div>
-    <br/>
-    Controller 2:
-    <div ng-controller="SecondCtrl">
-        Org Id <input type="text" ng-model="model.id"/><br/>
-        {{model.id}}
-        {{office.id}}
-    </div>
-    <br/>
 
 </div>
 

@@ -47,7 +47,6 @@ public class UserServiceImpl implements UserService {
 
         List<User> all = dao.filterUserList(userFilterView);
 
-        //List<UserFilterView> usersView = new ArrayList<>();
         log.info("User DAO filtrUserList " + userFilterView.toString());
 
         Function<User, UserFilterView> mapUser = p -> {
