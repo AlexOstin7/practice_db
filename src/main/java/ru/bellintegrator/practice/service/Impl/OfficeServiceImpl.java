@@ -103,7 +103,7 @@ public class OfficeServiceImpl implements OfficeService {
     public List<OfficeFilterView> filterOfficeList(OfficeFilterView officeFilterView) {
 
         if (officeFilterView.getOrgId() == null || (officeFilterView.getOrgId() < 1)) {
-            throw new CustomErrorException(String.format("Mismatch parametr- ogrId* is %s", officeFilterView.getOrgId()));
+            throw new CustomErrorException(String.format("Mismatch parametr- orgId* is %s", officeFilterView.getOrgId()));
         }
         log.info("Office DAO filtrOfficeList " + officeFilterView.toString());
 

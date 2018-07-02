@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
     public List<UserFilterView> filterUserList(UserFilterView userFilterView) {
 
         if (userFilterView.getOfficeId() == null || (userFilterView.getOfficeId() < 1)) {
-            throw new CustomErrorException(String.format("Mismatch parametr- ogrId* is %s", userFilterView.getOfficeId()));
+            throw new CustomErrorException(String.format("Mismatch parametr- officeId* is %s", userFilterView.getOfficeId()));
         }
         log.info("User DAO filtrUserList " + userFilterView.toString());
 

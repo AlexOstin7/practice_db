@@ -3,6 +3,7 @@ package ru.bellintegrator.practice.dao.Impl;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -22,20 +23,25 @@ import java.util.List;
 public class UserDAOImpl implements UserDAO {
 
     private final EntityManager em;
+    //private EntityManager em;
 
     //private EntityManager entityManager;
     @Autowired
     public UserDAOImpl(EntityManager em) {
         this.em = em;
     }
-    private SessionFactory sessionFactory;
+    //private SessionFactory sessionFactory = new Configuration().buildSessionFactory();
+    //Session session = (Session) em.getDelegate();
 
-    Session session = sessionFactory.openSession();
+    //SessionFactory sessionFactory=new Configuration().configure().buildSessionFactory();
+    //Session session = sessionFactory.openSession();
+
+    //Session session = sessionFactory.getCurrentSession();
 
     @Override
     public List<User> all() {
-        TypedQuery<User> query = em.createQuery("SELECT p FROM User p", User.class);
-        //TypedQuery<User> query = em.createQuery("FROM User", User.class);
+        //TypedQuery<User> query = em.createQuery("SELECT p FROM User p", User.class);
+        TypedQuery<User> query = em.createQuery("FROM User", User.class);
         return query.getResultList();
     }
 
@@ -80,15 +86,16 @@ public class UserDAOImpl implements UserDAO {
         return query.getSingleResult();
     }
 
-   @Override
+    @Override
     public List<User> filterUserList(UserFilterView userFilterView) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<User> criteria = builder.createQuery(User.class);
 
-      /*  Root<User> User = criteria.from(User.class);
+        Root<User> User = criteria.from(User.class);
 
+        Session session = em.unwrap(Session.class);
         //criteria.where(builder.and(builder.equal(User.get("office").get("id"), userFilterView.getOfficeId()), builder.like(User.get("firstName"), "%" + userFilterView.getFirstName() + "%"), builder.like(builder.lower(User.get("secondName")), "%" + userFilterView.getSecondName().toLowerCase() + "%"), builder.like(builder.lower(User.get("middleName")), "%" + userFilterView.getMiddleName().toLowerCase() + "%")));
-        if (userFilterView.getFirstName() != null && userFilterView.getSecondName() != null && userFilterView.getMiddleName() != null && userFilterView.getPossition() != null) {
+        /*if (userFilterView.getFirstName() != null && userFilterView.getSecondName() != null && userFilterView.getMiddleName() != null && userFilterView.getPossition() != null) {
 
             criteria.where(builder.and(builder.equal(User.get("office").get("id"), userFilterView.getOfficeId()),
                                         builder.like(builder.lower(User.get("firstName")), "%" + userFilterView.getFirstName().toLowerCase() + "%"),
@@ -122,17 +129,24 @@ public class UserDAOImpl implements UserDAO {
             criteria.where(builder.equal(User.get("office").get("id"), userFilterView.getOfficeId()));
         }
         TypedQuery<User> query = em.createQuery(criteria);
-        return query.getResultList();
-*/
-       Criteria cr = session.createCriteria(User.class);
+        return query.getResultList();*/
+        session.beginTransaction();
 
-       cr.add(Restrictions.isNotNull("firstName")).add(Restrictions.isNotNull("secondName")).add(Restrictions.isNotNull("middleName")).add(Restrictions.isNotNull("possition"));
-       cr.add(Restrictions.isNotEmpty("firstName")).add(Restrictions.isNotEmpty("secondName")).add(Restrictions.isNotEmpty("middleName")).add(Restrictions.isNotEmpty("possition"));
-       cr.add(Restrictions.like("firstName".toLowerCase(), userFilterView.getFirstName().toLowerCase()));
+        Criteria cr = session.createCriteria(User.class);
 
-       List results = cr.list();
-
-       return results;
+        //cr.add(Restrictions.isNotNull("firstName")).add(Restrictions.isNotNull("secondName")).add(Restrictions.isNotNull("middleName")).add(Restrictions.isNotNull("possition"));
+        //cr.add(Restrictions.isNotEmpty("firstName")).add(Restrictions.isNotEmpty("secondName")).add(Restrictions.isNotEmpty("middleName")).add(Restrictions.isNotEmpty("possition"));
+//         cr.add(Restrictions.like("firstName".toLowerCase(), userFilterView.getFirstName().toLowerCase()));
+        cr.createAlias("office", "office");
+        cr.add(Restrictions.like("office.id", userFilterView.getOfficeId().longValue()));
+        cr.add(Restrictions.like("firstName", "%" + userFilterView.getFirstName() + "%").ignoreCase());
+        cr.add(Restrictions.like("secondName", "%" + userFilterView.getSecondName() + "%").ignoreCase());
+        cr.add(Restrictions.like("middleName", "%" + userFilterView.getMiddleName() + "%").ignoreCase());
+        //cr.add(Restrictions.like("possition", "%" + userFilterView.getPossition() + "%").ignoreCase());
+        List results = cr.list();
+        session.close();
+        return results;
+        // return null;
     }
 
 }
