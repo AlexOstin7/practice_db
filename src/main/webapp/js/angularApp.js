@@ -645,6 +645,8 @@ app.controller('userController', function ($scope, $http, $location, FactoryOrgI
     $scope.modelOffice = FactoryOffice.modelOffice;
     $scope.office = FactoryOffice.office;
     $scope.modelUser = FactoryUser.modelUser;
+    $scope.allUsers = FactoryUser.allUsers;
+
     $scope.user = FactoryUser.user;
     $scope.setView = function (id, firstName, secondName, middleName, phone, docDate, docNumber, isIdentified, officeId, docId) {
         $scope.user.id = id;
@@ -668,8 +670,8 @@ app.controller('postUserControllerListbyOfficeId', function ($scope, $http, $loc
     $scope.model = FactoryOrgId.organization;
     $scope.office = FactoryOffice.office;
     $scope.modelOffice = FactoryOffice.modelOffice;
+    $scope.modelUser = FactoryUser.modelUser;
     $scope.modelOffice.showAll = false;
-
 
     $scope.hideListByOfficeId = function () {
         $scope.modelUser.showAll = false;
@@ -697,13 +699,15 @@ app.controller('postUserControllerListbyOfficeId', function ($scope, $http, $loc
         $http.post(url, data, config).then(function (response) {
 
             if (response.data.result == "success") {
-                $scope.modelOffice.showAll = true;
-                $scope.allUsers = response.data;
-
-                FactoryUser.modelUser.listOfficeByOfficeId.length = 0;
-                FactoryUser.modelUser.officeId = FactoryOffice.office.id;
+                $scope.modelUser.showAll = true;
+                $scope.modelUser.resultMessage = response.data.result;
+                $scope.modelUser.officeId = FactoryOffice.office.id;
+                $scope.allUsers = response.data.data;
+                FactoryUser.modelUser.listUserByOfficeId = response.data.data;
+               /* FactoryUser.modelUser.listOfficeByOfficeId.length = 0;
+                FactoryUser.modelUser.officeId =
                 FactoryUser.modelUser.listUserByOfficeId.push($scope.allUsers.data);
-                FactoryUser.modelUser.resultMessage = response.data.result;
+                FactoryUser.modelUser.resultMessage = response.data.result;*/
 
                 //$scope.clearFormAddress();
 
