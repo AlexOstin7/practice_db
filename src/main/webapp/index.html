@@ -200,12 +200,16 @@
             <input type="text" name="middleName" class="form-control" ng-model="middleName"/>
             <label>SecondName</label>
             <input type="text" name="secondName" class="form-control" ng-model="secondName"/>
-            <label>Phone</label>
-            <input type="text" name="phone" class="form-control" ng-model="phone"/>
+            <label>Position</label>
+            <input type="text" name="possition" class="form-control" ng-model="possition"/>
+            <label>Doc Id</label>
+            <input type="text" name="docCode" class="form-control" ng-model="docCode"/>
             <label>Doc date</label>
             <input type="text" name="docDate" class="form-control" ng-model="docDate"/>
             <label>Doc Number</label>
             <input type="text" name="docNumber" class="form-control" ng-model="docNumber"/>
+            <label>Phone</label>
+            <input type="text" name="phone" class="form-control" ng-model="phone"/>
             <label>isIdentified</label>
             <input type="text" name="isIdentified" class="form-control" ng-model="isIdentified"/>
             <button ng-click="cleanUp()">Clean up</button>
@@ -217,7 +221,7 @@
                 {{office}}</br>
                 {{user}}</br>
                 {{modelUser}}</br>
-               <!-- {{allUsers}}</br>-->
+                <!-- {{allUsers}}</br>-->
 
             </div>
             <!--
@@ -244,22 +248,20 @@
         </div>
 
         <div ng-controller="postUserControllerListbyOfficeId" class="col-md-3">
-<!--Model user {{modelUser}}</br>
-            All user {{allUsers}}</br>-->
             <div ng-show="modelUser.showAll">
                 <h3>List by office Id</h3>
                 <button ng-click="hideListByOfficeId()">Hide</button>
                 <ul class="list-group">
-                        <li ng-repeat="user in modelUser.listUserByOfficeId">
-                            <h4 class="list-group-item">
+                    <li ng-repeat="user in modelUser.listUserByOfficeId">
+                        <h4 class="list-group-item">
                             <strong>User {{$index}}</strong><br/>
-                            Id: {{user.modelUser.officeId}}<br/>
+                            Id: {{user.id}}<br/>
                             FirstName: {{user.firstName}}<br/>
-                            SecondName: {{user.secondName}}<br/>
                             MiddleName: {{user.middleName}}<br/>
+                            SecondName: {{user.secondName}}<br/>
                             Possition: {{user.possition}}<br/>
-                            </h4>
-                        </li>
+                        </h4>
+                    </li>
 
                 </ul>
             </div>

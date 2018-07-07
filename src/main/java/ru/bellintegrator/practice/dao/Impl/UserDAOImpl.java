@@ -137,12 +137,14 @@ public class UserDAOImpl implements UserDAO {
         //cr.add(Restrictions.isNotNull("firstName")).add(Restrictions.isNotNull("secondName")).add(Restrictions.isNotNull("middleName")).add(Restrictions.isNotNull("possition"));
         //cr.add(Restrictions.isNotEmpty("firstName")).add(Restrictions.isNotEmpty("secondName")).add(Restrictions.isNotEmpty("middleName")).add(Restrictions.isNotEmpty("possition"));
 //         cr.add(Restrictions.like("firstName".toLowerCase(), userFilterView.getFirstName().toLowerCase()));
-        cr.createAlias("office", "office");
+        cr.createCriteria("office", "office");
+        cr.createCriteria("doc", "doc");
         cr.add(Restrictions.like("office.id", userFilterView.getOfficeId().longValue()));
         cr.add(Restrictions.like("firstName", "%" + userFilterView.getFirstName() + "%").ignoreCase());
         cr.add(Restrictions.like("secondName", "%" + userFilterView.getSecondName() + "%").ignoreCase());
         cr.add(Restrictions.like("middleName", "%" + userFilterView.getMiddleName() + "%").ignoreCase());
-        //cr.add(Restrictions.like("possition", "%" + userFilterView.getPossition() + "%").ignoreCase());
+        cr.add(Restrictions.like("possition", "%" + userFilterView.getPossition() + "%").ignoreCase());
+        cr.add(Restrictions.like("doc.code", userFilterView.docCode.intValue()));
         List results = cr.list();
         session.close();
         return results;

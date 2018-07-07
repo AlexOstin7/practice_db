@@ -57,6 +57,8 @@ public class UserServiceImpl implements UserService {
             view.secondName = p.getSecondName();
             view.middleName = p.getMiddleName();
             view.possition = p.getPossition();
+            view.docCode = p.getDoc().getCode();
+            //view.citizenShipCode = p.getDoc().getCountries()
 
             log.info("after filter " + view.toString());
 

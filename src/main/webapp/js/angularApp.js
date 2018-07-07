@@ -690,8 +690,8 @@ app.controller('postUserControllerListbyOfficeId', function ($scope, $http, $loc
         var data = {
             officeId: FactoryOffice.office.id,
             firstName: $scope.firstName,
-            secondName: $scope.secondName,
             middleName: $scope.middleName,
+            secondName: $scope.secondName,
             possition: $scope.possition,
             docCode: $scope.docCode,
             citezenShipCode: $scope.citizenShipCode
