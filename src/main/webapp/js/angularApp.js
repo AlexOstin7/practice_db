@@ -694,7 +694,7 @@ app.controller('postUserControllerListbyOfficeId', function ($scope, $http, $loc
             secondName: $scope.secondName,
             possition: $scope.possition,
             docCode: $scope.docCode,
-            citezenShipCode: $scope.citizenShipCode
+            citizenShipCode: $scope.citizenShipCode
         };
         $http.post(url, data, config).then(function (response) {
 

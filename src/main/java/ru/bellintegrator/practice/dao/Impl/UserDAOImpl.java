@@ -1,5 +1,6 @@
 package ru.bellintegrator.practice.dao.Impl;
 
+import com.sun.javafx.fxml.expression.Expression;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.bellintegrator.practice.dao.UserDAO;
 import ru.bellintegrator.practice.exception.CustomErrorException;
+import ru.bellintegrator.practice.model.Country;
 import ru.bellintegrator.practice.model.User;
 import ru.bellintegrator.practice.view.UserFilterView;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -133,18 +136,26 @@ public class UserDAOImpl implements UserDAO {
         session.beginTransaction();
 
         Criteria cr = session.createCriteria(User.class);
-
+        Criteria cr2 = session.createCriteria(Country.class);
         //cr.add(Restrictions.isNotNull("firstName")).add(Restrictions.isNotNull("secondName")).add(Restrictions.isNotNull("middleName")).add(Restrictions.isNotNull("possition"));
         //cr.add(Restrictions.isNotEmpty("firstName")).add(Restrictions.isNotEmpty("secondName")).add(Restrictions.isNotEmpty("middleName")).add(Restrictions.isNotEmpty("possition"));
 //         cr.add(Restrictions.like("firstName".toLowerCase(), userFilterView.getFirstName().toLowerCase()));
         cr.createCriteria("office", "office");
+        cr.createCriteria("doc.countries", "country");
+       // cr.createCriteria("country", "country");
+       // cr.createCriteria("doc.countries.docs", "docs");
         cr.createCriteria("doc", "doc");
-        cr.add(Restrictions.like("office.id", userFilterView.getOfficeId().longValue()));
+        cr.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+
+        cr.add(Restrictions.eq("office.id", userFilterView.getOfficeId().longValue()));
         cr.add(Restrictions.like("firstName", "%" + userFilterView.getFirstName() + "%").ignoreCase());
         cr.add(Restrictions.like("secondName", "%" + userFilterView.getSecondName() + "%").ignoreCase());
         cr.add(Restrictions.like("middleName", "%" + userFilterView.getMiddleName() + "%").ignoreCase());
         cr.add(Restrictions.like("possition", "%" + userFilterView.getPossition() + "%").ignoreCase());
-        cr.add(Restrictions.like("doc.code", userFilterView.docCode.intValue()));
+        cr.add(Restrictions.eq("doc.code", userFilterView.docCode.intValue()));
+        //cr.add(Restrictions.eq("country.code", 643));
+        cr.add(Restrictions.eq("country.code", userFilterView.citizenShipCode.intValue()));
+
         List results = cr.list();
         session.close();
         return results;

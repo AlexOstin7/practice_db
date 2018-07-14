@@ -43,12 +43,12 @@ public class UserServiceImpl implements UserService {
         if (userFilterView.getOfficeId() == null || (userFilterView.getOfficeId() < 1)) {
             throw new CustomErrorException(String.format("Mismatch parametr- officeId* is %s", userFilterView.getOfficeId()));
         }
-        log.info("User DAO filtrUserList " + userFilterView.toString());
+        log.info("User DAO filtrUserList 1 " + userFilterView.toString());
 
         List<User> all = dao.filterUserList(userFilterView);
 
         //List<UserFilterView> usersView = new ArrayList<>();
-        log.info("User DAO filtrUserList " + userFilterView.toString());
+        log.info("User DAO filtrUserList 2 " + userFilterView.toString());
 
         Function<User, UserFilterView> mapUser = p -> {
             UserFilterView view = new UserFilterView();
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
             view.middleName = p.getMiddleName();
             view.possition = p.getPossition();
             view.docCode = p.getDoc().getCode();
-            //view.citizenShipCode = p.getDoc().getCountries()
+            view.citizenShipCode = p.getDoc().getCountries().iterator().next().getCode();
 
             log.info("after filter " + view.toString());
 
