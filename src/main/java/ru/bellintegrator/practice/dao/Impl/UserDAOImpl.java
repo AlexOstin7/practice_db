@@ -5,6 +5,8 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Conjunction;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -91,75 +93,46 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> filterUserList(UserFilterView userFilterView) {
-        CriteriaBuilder builder = em.getCriteriaBuilder();
+        /*CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<User> criteria = builder.createQuery(User.class);
 
-        Root<User> User = criteria.from(User.class);
+        Root<User> User = criteria.from(User.class);*/
 
         Session session = em.unwrap(Session.class);
-        //criteria.where(builder.and(builder.equal(User.get("office").get("id"), userFilterView.getOfficeId()), builder.like(User.get("firstName"), "%" + userFilterView.getFirstName() + "%"), builder.like(builder.lower(User.get("secondName")), "%" + userFilterView.getSecondName().toLowerCase() + "%"), builder.like(builder.lower(User.get("middleName")), "%" + userFilterView.getMiddleName().toLowerCase() + "%")));
-        /*if (userFilterView.getFirstName() != null && userFilterView.getSecondName() != null && userFilterView.getMiddleName() != null && userFilterView.getPossition() != null) {
-
-            criteria.where(builder.and(builder.equal(User.get("office").get("id"), userFilterView.getOfficeId()),
-                                        builder.like(builder.lower(User.get("firstName")), "%" + userFilterView.getFirstName().toLowerCase() + "%"),
-                                        builder.like(builder.lower(User.get("secondName")), "%" + userFilterView.getSecondName().toLowerCase() + "%"),
-                                        builder.like(builder.lower(User.get("middleName")), "%" + userFilterView.getMiddleName().toLowerCase() + "%"),
-                                        builder.like(builder.lower(User.get("possition")), "%" + userFilterView.getPossition().toLowerCase() + "%")));
-
-        } else if (userFilterView.getFirstName() == null && userFilterView.getSecondName() != null && userFilterView.getMiddleName() != null && userFilterView.getPossition() != null) {
-
-            criteria.where(builder.and(builder.equal(User.get("office").get("id"), userFilterView.getOfficeId()),
-                                        builder.like(builder.lower(User.get("secondName")), "%" + userFilterView.getSecondName().toLowerCase() + "%"),
-                                        builder.like(builder.lower(User.get("middleName")), "%" + userFilterView.getMiddleName().toLowerCase() + "%"),
-                                        builder.like(builder.lower(User.get("possition")), "%" + userFilterView.getPossition().toLowerCase() + "%")));
-
-        } else if (userFilterView.getFirstName() != null && userFilterView.getSecondName() == null && userFilterView.getMiddleName() != null && userFilterView.getPossition() != null) {
-
-            criteria.where(builder.and(builder.equal(User.get("office").get("id"), userFilterView.getOfficeId()),
-                                        builder.like(builder.lower(User.get("firstName")), "%" + userFilterView.getFirstName().toLowerCase() + "%"),
-                                        builder.like(builder.lower(User.get("middleName")), "%" + userFilterView.getMiddleName().toLowerCase() + "%"),
-                                        builder.like(builder.lower(User.get("possition")), "%" + userFilterView.getPossition().toLowerCase() + "%")));
-
-        } else if (userFilterView.getFirstName() != null && userFilterView.getSecondName() != null && userFilterView.getMiddleName() == null) {
-            criteria.where(builder.and(builder.equal(User.get("office").get("id"), userFilterView.getOfficeId()), builder.like(builder.lower(User.get("firstName")), "%" + userFilterView.getFirstName().toLowerCase() + "%"), builder.like(builder.lower(User.get("secondName")), "%" + userFilterView.getSecondName().toLowerCase() + "%")));
-        } else if (userFilterView.getFirstName() == null && userFilterView.getSecondName() == null && userFilterView.getMiddleName() != null) {
-            criteria.where(builder.and(builder.equal(User.get("office").get("id"), userFilterView.getOfficeId()), builder.like(builder.lower(User.get("middleName")), "%" + userFilterView.getMiddleName().toLowerCase() + "%")));
-        } else if (userFilterView.getFirstName() == null && userFilterView.getSecondName() != null && userFilterView.getMiddleName() == null) {
-            criteria.where(builder.and(builder.equal(User.get("office").get("id"), userFilterView.getOfficeId()), builder.like(builder.lower(User.get("secondName")), "%" + userFilterView.getSecondName().toLowerCase() + "%")));
-        } else if (userFilterView.getFirstName() != null && userFilterView.getSecondName() == null && userFilterView.getMiddleName() == null) {
-            criteria.where(builder.and(builder.equal(User.get("office").get("id"), userFilterView.getOfficeId()), builder.like(builder.lower(User.get("firstName")), "%" + userFilterView.getFirstName().toLowerCase() + "%")));
-        }  else if (userFilterView.getFirstName() == null && userFilterView.getSecondName() == null && userFilterView.getMiddleName() == null) {
-            criteria.where(builder.equal(User.get("office").get("id"), userFilterView.getOfficeId()));
-        }
-        TypedQuery<User> query = em.createQuery(criteria);
-        return query.getResultList();*/
         session.beginTransaction();
 
         Criteria cr = session.createCriteria(User.class);
-        Criteria cr2 = session.createCriteria(Country.class);
-        //cr.add(Restrictions.isNotNull("firstName")).add(Restrictions.isNotNull("secondName")).add(Restrictions.isNotNull("middleName")).add(Restrictions.isNotNull("possition"));
-        //cr.add(Restrictions.isNotEmpty("firstName")).add(Restrictions.isNotEmpty("secondName")).add(Restrictions.isNotEmpty("middleName")).add(Restrictions.isNotEmpty("possition"));
-//         cr.add(Restrictions.like("firstName".toLowerCase(), userFilterView.getFirstName().toLowerCase()));
         cr.createCriteria("office", "office");
         cr.createCriteria("doc.countries", "country");
-       // cr.createCriteria("country", "country");
-       // cr.createCriteria("doc.countries.docs", "docs");
         cr.createCriteria("doc", "doc");
         cr.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        Conjunction objConjunction = Restrictions.conjunction();
 
-        cr.add(Restrictions.eq("office.id", userFilterView.getOfficeId().longValue()));
-        cr.add(Restrictions.like("firstName", "%" + userFilterView.getFirstName() + "%").ignoreCase());
-        cr.add(Restrictions.like("secondName", "%" + userFilterView.getSecondName() + "%").ignoreCase());
-        cr.add(Restrictions.like("middleName", "%" + userFilterView.getMiddleName() + "%").ignoreCase());
-        cr.add(Restrictions.like("possition", "%" + userFilterView.getPossition() + "%").ignoreCase());
-        cr.add(Restrictions.eq("doc.code", userFilterView.docCode.intValue()));
-        //cr.add(Restrictions.eq("country.code", 643));
-        cr.add(Restrictions.eq("country.code", userFilterView.citizenShipCode.intValue()));
+        objConjunction.add(Restrictions.eq("office.id", userFilterView.getOfficeId().longValue()));
+        if (userFilterView.getFirstName() != null) {
+            objConjunction.add(Restrictions.like("firstName", "%" + userFilterView.getFirstName() + "%").ignoreCase());
+        }
+        if (userFilterView.getSecondName() != null) {
+            objConjunction.add(Restrictions.like("secondName", "%" + userFilterView.getSecondName() + "%").ignoreCase());
+        }
+        if (userFilterView.getMiddleName() != null) {
+            objConjunction.add(Restrictions.like("middleName", "%" + userFilterView.getMiddleName() + "%").ignoreCase());
+        }
+        if (userFilterView.getPossition() != null) {
+            objConjunction.add(Restrictions.like("possition", "%" + userFilterView.getPossition() + "%").ignoreCase());
+        }
+        if (userFilterView.getDocCode() != null) {
+            objConjunction.add((Restrictions.eq("doc.code", userFilterView.getDocCode().intValue())));
+        }
+        if (userFilterView.getCitizenShipCode() != null) {
+            objConjunction.add(Restrictions.eq("country.code", userFilterView.citizenShipCode.intValue()));
+        }
+
+        cr.add(objConjunction);
 
         List results = cr.list();
         session.close();
         return results;
-        // return null;
     }
 
 }
