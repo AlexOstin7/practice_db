@@ -93,10 +93,6 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> filterUserList(UserFilterView userFilterView) {
-        /*CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<User> criteria = builder.createQuery(User.class);
-
-        Root<User> User = criteria.from(User.class);*/
 
         Session session = em.unwrap(Session.class);
         session.beginTransaction();

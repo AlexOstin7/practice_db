@@ -1,4 +1,4 @@
-var app = angular.module('app', []);//1
+var app = angular.module('app', []);//17/07/2018
 
 app.controller('postOrganizationsControllerUpdate', function ($scope, $http, $location, FactoryOrgId) {
     $scope.model = FactoryOrgId.organization;
@@ -586,6 +586,7 @@ app.controller('officeController', function ($scope, $http, $location, FactoryOr
     }
 });
 
+/*
 app.factory('FactoryOrgId', function () {
     return {
         organization: {
@@ -639,6 +640,7 @@ app.factory('FactoryOffice', function () {
         }
     }
 });
+*/
 
 app.controller('userController', function ($scope, $http, $location, FactoryOrgId, FactoryOffice, FactoryUser) {
     $scope.model = FactoryOrgId.organization;
@@ -648,11 +650,14 @@ app.controller('userController', function ($scope, $http, $location, FactoryOrgI
     $scope.allUsers = FactoryUser.allUsers;
 
     $scope.user = FactoryUser.user;
-    $scope.setView = function (id, firstName, secondName, middleName, phone, docDate, docNumber, isIdentified, officeId, docId) {
+    $scope.setView = function (id, firstName, secondName, middleName, possition, docCode, citizenShipCode, phone, docDate, docNumber, isIdentified, officeId, docId) {
         $scope.user.id = id;
         $scope.firstName = firstName;
         $scope.secondName = secondName;
         $scope.middleName = middleName;
+        $scope.possition = possition;
+        $scope.docCode = docCode;
+        $scope.citizenShipCode = citizenShipCode;
         $scope.docNumber = docNumber;
         $scope.docDate = docDate;
         $scope.phone = phone;
@@ -662,7 +667,7 @@ app.controller('userController', function ($scope, $http, $location, FactoryOrgI
     }
 
     $scope.cleanUp = function () {
-        $scope.setView('', '', '', '', '', '', '', '', '', '');
+        $scope.setView('', '', '', '', '', '', '', '', '', '', '', '','');
     }
 });
 
@@ -794,6 +799,8 @@ app.factory('FactoryUser', function () {
             secondName: '',
             middleName: '',
             possition: '',
+            docCode:'',
+            citizenShipCode:'',
             docNumber: '',
             docDate: '',
             phone: '',

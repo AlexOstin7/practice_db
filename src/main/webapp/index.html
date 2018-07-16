@@ -251,7 +251,7 @@
 
         <div ng-controller="postUserControllerListbyOfficeId" class="col-md-3">
             <div ng-show="modelUser.showAll">
-                <h3>List by office Id</h3>
+                <h3>List by office Id {{office.id}}</h3>
                 <button ng-click="hideListByOfficeId()">Hide</button>
                 <ul class="list-group">
                     <li ng-repeat="user in modelUser.listUserByOfficeId">
