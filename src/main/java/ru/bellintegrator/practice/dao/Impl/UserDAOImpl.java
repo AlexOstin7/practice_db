@@ -57,7 +57,7 @@ public class UserDAOImpl implements UserDAO {
             return   em.find(User.class, id);
 
         } else {
-            throw new CustomErrorException(String.format("DAO says Mismached parametr- Id* is %s", id));
+            throw new CustomErrorException(String.format("DAO user loadByID says Mismached parametr- Id* is %s", id));
         }
 
     }

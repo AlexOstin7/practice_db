@@ -15,10 +15,8 @@ public interface UserController {
 
     Response filterUsers(@RequestBody UserFilterView user);
 
-/*
-
     Response getUserById(@PathVariable("id") Long id) ;
-
+/*
 
 
     Response updateUser(@RequestBody UserView user);

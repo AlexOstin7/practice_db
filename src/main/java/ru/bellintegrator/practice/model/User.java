@@ -34,8 +34,7 @@ public class User {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "office_Id")
-    //@JsonManagedReference
-    @JsonBackReference
+    @JsonManagedReference
     private Office office;
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -70,6 +70,21 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    @Override
+    @Transactional(readOnly = true)
+    public User getUserById(Long id) {
+        log.info("before service getId " + id);
+        User user = dao.loadById(id);
+
+        if (user == null || id < 1) {
+            throw new CustomErrorException(String.format("Service says Mismatch parametr- Id* is %s", id));
+        }
+
+        log.info("user service getId " + user.toString());
+        return user;
+    }
+
+
 
    /* @Override
     @Transactional(readOnly = true)
@@ -90,23 +105,6 @@ public class UserServiceImpl implements UserService {
         // if (user.getName() != null && !user.getName().isEmpty()) {
         return all.stream().map(mapUser).collect(Collectors.toList());
         //}
-    }
-
-
-    @Override
-    @Transactional(readOnly = true)
-    public User getUserById(Long id) {
-        log.info("before service getId " + id);
-        User user = dao.loadById(id);
-
-        if (user == null) {
-            throw new CustomErrorException(String.format("Service says Mismatch parametr- Id* is %s", id));
-        }
-        if (id < 1) {
-            throw new CustomErrorException(String.format("Service says Mismatch parametr- Id* is %s", id));
-        }
-        log.info("user service getId " + user.toString());
-        return user;
     }
 
 

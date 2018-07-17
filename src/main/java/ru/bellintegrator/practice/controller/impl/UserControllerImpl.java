@@ -52,7 +52,7 @@ public class UserControllerImpl implements UserController {
 
         return new ResponseSuccess("success", userFilterViewList);
     }
-    /*@Override
+    @Override
     @ApiOperation(value = "getUserById", nickname = "getUserById", httpMethod = "GET")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),
             @ApiResponse(code = 404, message = "Not Found"),
@@ -67,7 +67,7 @@ public class UserControllerImpl implements UserController {
         return new ResponseSuccess("success", user);
     }
 
-
+/*
     @Override
     @ApiOperation(value = "updateUser", nickname = "updateUser", httpMethod = "POST")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),

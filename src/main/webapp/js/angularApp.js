@@ -294,7 +294,6 @@ app.controller('getAllOrganizationsController', function ($scope, $http, $locati
 
 });
 
-
 app.controller('getAllOfficesController', function ($scope, $http, $location) {
 
     $scope.showAll = false;
@@ -586,62 +585,6 @@ app.controller('officeController', function ($scope, $http, $location, FactoryOr
     }
 });
 
-/*
-app.factory('FactoryOrgId', function () {
-    return {
-        organization: {
-            id: ''
-        },
-        setOrgId: function (id) {
-            this.organization.id = id;
-        }
-    };
-});
-
-app.factory('FactoryOffice', function () {
-    var name = 'Bob';
-    return {
-
-        setName: function (name) {
-            name = name;
-        },
-        getName: function () {
-            return this.resultMessage;
-        },
-        office: {
-            id: '',
-            name: '',
-            address: '',
-            phone: '',
-            isActive: ''
-        },
-        modelOffice: {
-            resultMessage: '',
-            showAll: '',
-            orgId: '',
-            listOfficeByOrgId: [{}]
-        },
-        updatelistOfficeByOrgId: function (name, phone, isActive) {
-            {
-                this.listOfficeByOrgId.name = name,
-                    this.listOfficeByOrgId.phone = phone,
-                    this.listOfficeByOrgId.isActive = isActive
-            }
-        },
-        updateOfficeData: function (id, name, address, phone, isActive) {
-            this.office.id = id;
-            this.office.name = name;
-            this.office.address = address;
-            this.office.phone = phone;
-            this.office.isActive = isActive;
-        },
-        setId: function () {
-            this.office.id = $scope.id;
-        }
-    }
-});
-*/
-
 app.controller('userController', function ($scope, $http, $location, FactoryOrgId, FactoryOffice, FactoryUser) {
     $scope.model = FactoryOrgId.organization;
     $scope.modelOffice = FactoryOffice.modelOffice;
@@ -650,6 +593,7 @@ app.controller('userController', function ($scope, $http, $location, FactoryOrgI
     $scope.allUsers = FactoryUser.allUsers;
 
     $scope.user = FactoryUser.user;
+
     $scope.setView = function (id, firstName, secondName, middleName, possition, docCode, citizenShipCode, phone, docDate, docNumber, isIdentified, officeId, docId) {
         $scope.user.id = id;
         $scope.firstName = firstName;
@@ -671,8 +615,8 @@ app.controller('userController', function ($scope, $http, $location, FactoryOrgI
     }
 });
 
-app.controller('postUserControllerListbyOfficeId', function ($scope, $http, $location, FactoryUser, FactoryOffice, FactoryOrgId) {
-    $scope.model = FactoryOrgId.organization;
+app.controller('postUserControllerListbyOfficeId', function ($scope, $http, $location, FactoryUser, FactoryOffice) {
+    //$scope.model = FactoryOrgId.organization;
     $scope.office = FactoryOffice.office;
     $scope.modelOffice = FactoryOffice.modelOffice;
     $scope.modelUser = FactoryUser.modelUser;
@@ -728,6 +672,57 @@ app.controller('postUserControllerListbyOfficeId', function ($scope, $http, $loc
 
     }
 });
+
+app.controller('getUserControllerGetById', function ($scope, $http, $location, FactoryOffice, FactoryUser) {
+    //$scope.model = FactoryOrgId.organization;
+    $scope.office = FactoryOffice.office;
+    $scope.modelOffice = FactoryOffice.modelOffice;
+    $scope.user = FactoryUser.user;
+    $scope.modelUser = FactoryUser.modelUser;
+
+    $scope.getUserById = function () {
+        var url = $location.absUrl() + "/api/user/" + $scope.user.id;
+
+        var config = {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8;'
+            }
+        }
+
+        $http.get(url, config).then(function (response) {
+
+            if (response.data.result == "success") {
+
+                //$scope.show = true;
+                var list = response.data.data;
+
+                FactoryUser.modelUser.listCountry.push(list.doc.countries);
+
+                var country = FactoryUser.modelUser.listCountry;
+
+                $scope.setView($scope.user.id, list.firstName, list.secondName, list.middleName, list.possition, list.doc.code, FactoryUser.modelUser.listCountry, list.phone, list.docDate, list.docNumber, list.identified);
+
+                //FactoryOffice.updateOfficeData($scope.user.id, list.firstName, list.secondName, list.middleName, list.possition, list.docCode, list.citizenShipCode, list.phone, list.docDate, list.docNumber, list.isIdentified);
+                FactoryUser.modelUser.resultMessage = response.data.result;
+                FactoryOffice.setId(response.data.data.office.id);
+                //FactoryOrgId.setOrgId($scope.modelOffice.orgId);
+                //FactoryOrgId.setOrgId(response.data.data.organization.id);
+            } else {
+                //$scope.getResultMessage = "Offices Data Error!";
+                FactoryUser.modelUser.resultMessage = response.data.error;
+                $scope.setView('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+                //FactoryOrgId.setOrgId('');
+            }
+
+        }, function (response) {
+            //$scope.getResultMessage = "Fail!";
+            FactoryUser.modelUser.resultMessage = response.data.error;
+            $scope.setView('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+            //FactoryOrgId.setOrgId('');
+        });
+    }
+});
+
 
 app.factory('FactoryOrgId', function () {
     return {
@@ -811,7 +806,7 @@ app.factory('FactoryUser', function () {
             showAll: '',
             officeId: '',
             docId: '',
-            listUserByOfficeId: [{}]
+            listCountry: [{}]
         },
         updatelistUserByOfficeId: function (name, phone, isIdentified) {
             {
@@ -838,3 +833,58 @@ app.factory('FactoryUser', function () {
     }
 });
 
+/*
+app.factory('FactoryOrgId', function () {
+    return {
+        organization: {
+            id: ''
+        },
+        setOrgId: function (id) {
+            this.organization.id = id;
+        }
+    };
+});
+
+app.factory('FactoryOffice', function () {
+    var name = 'Bob';
+    return {
+
+        setName: function (name) {
+            name = name;
+        },
+        getName: function () {
+            return this.resultMessage;
+        },
+        office: {
+            id: '',
+            name: '',
+            address: '',
+            phone: '',
+            isActive: ''
+        },
+        modelOffice: {
+            resultMessage: '',
+            showAll: '',
+            orgId: '',
+            listOfficeByOrgId: [{}]
+        },
+        updatelistOfficeByOrgId: function (name, phone, isActive) {
+            {
+                this.listOfficeByOrgId.name = name,
+                    this.listOfficeByOrgId.phone = phone,
+                    this.listOfficeByOrgId.isActive = isActive
+            }
+        },
+        updateOfficeData: function (id, name, address, phone, isActive) {
+            this.office.id = id;
+            this.office.name = name;
+            this.office.address = address;
+            this.office.phone = phone;
+            this.office.isActive = isActive;
+        },
+        setId: function () {
+            this.office.id = $scope.id;
+        }
+    }
+});
+*/

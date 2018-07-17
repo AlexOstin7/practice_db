@@ -193,7 +193,7 @@
 
             <p> Результат: {{modelUser.resultMessage}}</p>
 
-            <h4>OfficeId {{office.id}}</h4>
+            <h4>Office Id {{office.id}}</h4>
             <label>First Name</label>
             <input type="text" name="firsrName" class="form-control" ng-model="firstName"/>
             <label>Middle Name</label>
@@ -204,7 +204,7 @@
             <input type="text" name="possition" class="form-control" ng-model="possition"/>
             <label>Doc Code</label>
             <input type="text" name="docCode" class="form-control" ng-model="docCode"/>
-            <label>Citizen ship Code</label>
+            <label>Citizen ship Code</label>{{modelUser.listCountry}}{{$scope.country}}
             <input type="text" name="citizenShipCode" class="form-control" ng-model="citizenShipCode"/>
             <label>Doc date</label>
             <input type="text" name="docDate" class="form-control" ng-model="docDate"/>
@@ -216,16 +216,18 @@
             <input type="text" name="isIdentified" class="form-control" ng-model="isIdentified"/>
             <button ng-click="cleanUp()">Clean up</button>
 
-            <div ng-controller="postUserControllerListbyOfficeId">
-
-                {{modelOffice}}</br>
-                <button ng-click="postUserListByOfficeId()">List User by OfficeId</button>
-                {{office}}</br>
-                {{user}}</br>
-                {{modelUser}}</br>
-                <!-- {{allUsers}}</br>-->
-
+            <div ng-controller="getUserControllerGetById">
+                <label>User Id</label>
+                <input type="text" class="form-control" style="width: 120px;" ng-model="user.id"
+                       placeholder='Enter User Id' ng-change="getUserById()"/> <br/>
+                <button ng-click="getUserById()">Get User By Id</button>
             </div>
+
+            <div ng-controller="postUserControllerListbyOfficeId">
+                <button ng-click="postUserListByOfficeId()">List User by OfficeId</button>
+            </div>
+
+
             <!--
             <div ng-controller="postOfficeControllerUpdate">
 

@@ -32,8 +32,7 @@ public class Office {
     private Organization organization;
 
     @OneToMany(mappedBy = "office", cascade = CascadeType.ALL, orphanRemoval = true)
-    //@JsonBackReference
-    @JsonManagedReference
+    @JsonBackReference
     private List<User> users;
 
     public Office(String name, String address, Integer phone, Boolean isActive) {

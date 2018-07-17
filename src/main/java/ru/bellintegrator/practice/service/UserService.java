@@ -20,9 +20,9 @@ public interface UserService {
 
     List<UserFilterView> filterUserList(UserFilterView office);
 
-    /*User getUserById(Long id);
+    User getUserById(Long id);
 
-
+/*
 
     void updateUser(UserView office);
 
