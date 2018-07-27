@@ -202,10 +202,17 @@
             <input type="text" name="secondName" class="form-control" ng-model="secondName"/>
             <label>Position</label>
             <input type="text" name="possition" class="form-control" ng-model="possition"/>
+            <label>Doc Name {{user.docName}} </label><br/>
+            <select ng-model="modelUser.listCountry" ng-options="a for a in modelUser.listCountry">
+            </select>
             <label>Doc Code</label>
             <input type="text" name="docCode" class="form-control" ng-model="docCode"/>
-            <label>Citizen ship Code</label>{{modelUser.listCountry}}{{$scope.country}}
+            <label>Doc Name</label>
+            <input type="text" name="docName" class="form-control" ng-model="docName"/>
+            <label>Citizen ship Code</label> Country Name {{modelUser.country}}
             <input type="text" name="citizenShipCode" class="form-control" ng-model="citizenShipCode"/>
+            <label>Citizen ship Name</label>
+            <input type="text" name="citizenShipName" class="form-control" ng-model="citizenShipName"/>
             <label>Doc date</label>
             <input type="text" name="docDate" class="form-control" ng-model="docDate"/>
             <label>Doc Number</label>

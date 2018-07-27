@@ -594,14 +594,16 @@ app.controller('userController', function ($scope, $http, $location, FactoryOrgI
 
     $scope.user = FactoryUser.user;
 
-    $scope.setView = function (id, firstName, secondName, middleName, possition, docCode, citizenShipCode, phone, docDate, docNumber, isIdentified, officeId, docId) {
+    $scope.setView = function (id, firstName, secondName, middleName, possition, docCode, docName, citizenShipCode, citizenShipName, phone, docDate, docNumber, isIdentified, officeId, docId) {
         $scope.user.id = id;
         $scope.firstName = firstName;
         $scope.secondName = secondName;
         $scope.middleName = middleName;
         $scope.possition = possition;
         $scope.docCode = docCode;
+        $scope.docName = docName;
         $scope.citizenShipCode = citizenShipCode;
+        $scope.citizenShipName = citizenShipName;
         $scope.docNumber = docNumber;
         $scope.docDate = docDate;
         $scope.phone = phone;
@@ -696,11 +698,16 @@ app.controller('getUserControllerGetById', function ($scope, $http, $location, F
                 //$scope.show = true;
                 var list = response.data.data;
 
-                FactoryUser.modelUser.listCountry.push(list.doc.countries);
+                //FactoryUser.modelUser.listCountry.push(list.doc.countries);
+                FactoryUser.modelUser.listCountry.length = 0;
+                FactoryUser.modelUser.listCountry.push(list.doc.countries[0]);
+                FactoryUser.modelUser.country = list.doc.countries[0].name;
 
-                var country = FactoryUser.modelUser.listCountry;
+                //FactoryUser.modelUser.listCountry.push({'id': '1','code':'2','name':'3'});
 
-                $scope.setView($scope.user.id, list.firstName, list.secondName, list.middleName, list.possition, list.doc.code, FactoryUser.modelUser.listCountry, list.phone, list.docDate, list.docNumber, list.identified);
+                //setCountry(list.doc.countries.name);
+
+                $scope.setView($scope.user.id, list.firstName, list.secondName, list.middleName, list.possition, list.doc.code, list.doc.name, FactoryUser.modelUser.listCountry[0].code, FactoryUser.modelUser.listCountry[0].name,list.phone, list.docDate, list.docNumber, list.identified);
 
                 //FactoryOffice.updateOfficeData($scope.user.id, list.firstName, list.secondName, list.middleName, list.possition, list.docCode, list.citizenShipCode, list.phone, list.docDate, list.docNumber, list.isIdentified);
                 FactoryUser.modelUser.resultMessage = response.data.result;
@@ -710,14 +717,14 @@ app.controller('getUserControllerGetById', function ($scope, $http, $location, F
             } else {
                 //$scope.getResultMessage = "Offices Data Error!";
                 FactoryUser.modelUser.resultMessage = response.data.error;
-                $scope.setView('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+                $scope.setView('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '','','');
                 //FactoryOrgId.setOrgId('');
             }
 
         }, function (response) {
             //$scope.getResultMessage = "Fail!";
             FactoryUser.modelUser.resultMessage = response.data.error;
-            $scope.setView('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+            $scope.setView('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '','');
             //FactoryOrgId.setOrgId('');
         });
     }
@@ -795,7 +802,9 @@ app.factory('FactoryUser', function () {
             middleName: '',
             possition: '',
             docCode:'',
+            docName: '',
             citizenShipCode:'',
+            citizenShipName: '',
             docNumber: '',
             docDate: '',
             phone: '',
@@ -806,7 +815,12 @@ app.factory('FactoryUser', function () {
             showAll: '',
             officeId: '',
             docId: '',
-            listCountry: [{}]
+            country: '',
+            listCountry: [{
+                id:'',
+                code:'',
+                name:''
+            }]
         },
         updatelistUserByOfficeId: function (name, phone, isIdentified) {
             {
@@ -829,6 +843,9 @@ app.factory('FactoryUser', function () {
         },
         setId: function () {
             this.user.id = $scope.id;
+        },
+        setCountry: function (country) {
+          this.user.modelUser.country =  country;
         }
     }
 });
