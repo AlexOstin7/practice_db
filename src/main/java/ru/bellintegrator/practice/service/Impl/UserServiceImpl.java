@@ -94,6 +94,15 @@ public class UserServiceImpl implements UserService {
         return docs;
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Doc> allDocs() {
+        log.info("before service loadDocs " );
+        List<Doc> docs = dao.allDocs();
+        log.info("user service loadDocs " );
+        return docs;
+    }
+
 
 
    /* @Override

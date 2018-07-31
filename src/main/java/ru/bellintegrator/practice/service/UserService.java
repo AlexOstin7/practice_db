@@ -25,6 +25,8 @@ public interface UserService {
 
     List<Doc> loadDocs();
 
+    List<Doc> allDocs();
+
 /*
 
     void updateUser(UserView office);

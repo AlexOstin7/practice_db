@@ -177,5 +177,11 @@ public class UserDAOImpl implements UserDAO {
         return  results;
     }
 
+    public List<Doc> allDocs() {
+        //TypedQuery<Organization> query = em.createQuery("SELECT p FROM Organization p", Organization.class);
+        TypedQuery<Doc> query = em.createQuery("FROM Doc", Doc.class);
+        return query.getResultList();
+    }
+
 
 }
