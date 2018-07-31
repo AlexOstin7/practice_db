@@ -1,5 +1,6 @@
 package ru.bellintegrator.practice.service;
 
+import ru.bellintegrator.practice.model.Doc;
 import ru.bellintegrator.practice.model.Office;
 import ru.bellintegrator.practice.model.User;
 import ru.bellintegrator.practice.view.OfficeFilterView;
@@ -21,6 +22,8 @@ public interface UserService {
     List<UserFilterView> filterUserList(UserFilterView office);
 
     User getUserById(Long id);
+
+    List<Doc> loadDocs();
 
 /*
 

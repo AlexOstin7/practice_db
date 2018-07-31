@@ -11,6 +11,7 @@ import ru.bellintegrator.practice.dao.OfficeDAO;
 import ru.bellintegrator.practice.dao.UserDAO;
 import ru.bellintegrator.practice.dao.OrganizationDAO;
 import ru.bellintegrator.practice.exception.CustomErrorException;
+import ru.bellintegrator.practice.model.Doc;
 import ru.bellintegrator.practice.model.User;
 import ru.bellintegrator.practice.model.Organization;
 import ru.bellintegrator.practice.service.UserService;
@@ -82,6 +83,15 @@ public class UserServiceImpl implements UserService {
 
         log.info("user service getId " + user.toString());
         return user;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Doc> loadDocs() {
+        log.info("before service loadDocs " );
+        List<Doc> docs = dao.loadDocs();
+        log.info("user service loadDocs " );
+        return docs;
     }
 
 

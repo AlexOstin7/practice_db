@@ -13,15 +13,17 @@ import org.springframework.stereotype.Repository;
 import ru.bellintegrator.practice.dao.UserDAO;
 import ru.bellintegrator.practice.exception.CustomErrorException;
 import ru.bellintegrator.practice.model.Country;
+import ru.bellintegrator.practice.model.Doc;
+import ru.bellintegrator.practice.model.Organization;
 import ru.bellintegrator.practice.model.User;
 import ru.bellintegrator.practice.view.UserFilterView;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
 import java.util.List;
 
 @Repository
@@ -130,5 +132,50 @@ public class UserDAOImpl implements UserDAO {
         session.close();
         return results;
     }
+
+    @Override
+    public List<Doc> loadDocs() {
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery cq = cb.createQuery(User.class);
+        Root root = cq.from(User.class);
+
+        Metamodel m = em.getMetamodel();
+        EntityType<User> User_ = m.entity(User.class);
+        EntityType<Doc> Doc_ = m.entity(Doc.class);
+
+        Root<User> user = cq.from(User.class);
+        Root<Doc> doc = cq.from(Doc.class);
+
+ //       cb.equal(root.join("doc").get("name"), "Свидетельство о рождении");
+
+        //CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Doc> query = cb.createQuery(Doc.class);
+        Root<User> userRoot = query.from(User.class);
+        Join<User, Doc> docs = userRoot.join("doc");
+        query.select(docs).where(cb.equal(userRoot.get("firstName"), "ИВАН"));
+/*
+// count books written by an author
+        Subquery sub = cq.subquery(Long.class);
+        Root subRoot = sub.from(Doc.class);
+        //SetJoin<Doc, User> subAuthors = subRoot.join(User_,);
+        Join<User,Doc> joinDoc = doc.join( User_.users);
+        sub.select(cb.count(subRoot.get(Doc_.id)));
+        sub.where(cb.equal(root.get(Author_.id), subAuthors.get(Author_.id)));
+
+        Join<User,Doc> personAddress = user.fetch( User_. );
+// Address.country is a ManyToOne
+        Join<Address,Country> addressCountry = personAddress.fetch( Address_.country );
+
+// check the result of the subquery
+        cq.where(cb.greaterThanOrEqualTo(sub, 3L));*/
+
+        //TypedQuery<Doc> query = em.createQuery(cq);
+        //List<Doc> res = query.getResultList();
+        List<Doc> results = em.createQuery(query).getResultList();
+
+        return  results;
+    }
+
 
 }

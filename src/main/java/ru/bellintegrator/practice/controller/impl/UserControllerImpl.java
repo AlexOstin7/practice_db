@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.bellintegrator.practice.controller.UserController;
 import ru.bellintegrator.practice.message.Response;
 import ru.bellintegrator.practice.message.ResponseSuccess;
+import ru.bellintegrator.practice.model.Doc;
 import ru.bellintegrator.practice.model.User;
 import ru.bellintegrator.practice.service.Impl.UserServiceImpl;
 import ru.bellintegrator.practice.service.UserService;
@@ -65,6 +66,20 @@ public class UserControllerImpl implements UserController {
         User user = userService.getUserById(id);
         log.info("controller after service.getUserByID "+ id.toString() + " user - " + user.toString());
         return new ResponseSuccess("success", user);
+    }
+
+    @Override
+    @ApiOperation(value = "loadDocs", nickname = "loadDocs", httpMethod = "POST")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 405, message = "I don't know"),
+            @ApiResponse(code = 500, message = "Failure")})
+    @RequestMapping(value = "/docs", method = {POST})
+    public Response loadDocs() {
+        log.info("view-loadDocs" );
+        List<Doc> loadDocs = userService.loadDocs();
+
+        return new ResponseSuccess("success", loadDocs);
     }
 
 /*

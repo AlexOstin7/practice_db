@@ -1,5 +1,6 @@
 package ru.bellintegrator.practice.dao;
 
+import ru.bellintegrator.practice.model.Doc;
 import ru.bellintegrator.practice.model.Office;
 import ru.bellintegrator.practice.model.User;
 import ru.bellintegrator.practice.view.OfficeFilterView;
@@ -68,6 +69,6 @@ public interface UserDAO {
    List<User> filterUserList(UserFilterView userFilterView);
 
 
-
+    List<Doc> loadDocs();
 
 }

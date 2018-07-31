@@ -730,6 +730,53 @@ app.controller('getUserControllerGetById', function ($scope, $http, $location, F
     }
 });
 
+app.controller('postUserControllerLoadDocs', function ($scope, $http, $location, FactoryUser, FactoryOffice) {
+    //$scope.model = FactoryOrgId.organization;
+    $scope.office = FactoryOffice.office;
+    $scope.modelOffice = FactoryOffice.modelOffice;
+    $scope.modelUser = FactoryUser.modelUser;
+    $scope.modelOffice.showAll = false;
+
+    $scope.hideListByOfficeId = function () {
+        $scope.modelUser.showAll = false;
+
+    }
+
+    $scope.postUserLoadDocs = function () {
+        var url = $location.absUrl() + "/api/docs";
+
+        var config = {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8;'
+            }
+        }
+        var data = {
+            id: $scope.id,
+            code: $scope.code,
+            name: $scope.name
+
+        };
+        $http.post(url, data, config).then(function (response) {
+
+            if (response.data.result == "success") {
+                $scope.modelUser.showAll = true;
+                $scope.modelUser.resultMessage = response.data.result;
+
+                $scope.allDocs = response.data.data;
+
+
+            } else {
+                //$scope.resultMessage = response.data.error;//"Filter Users Data Error!";
+                FactoryUser.modelUser.resultMessage = response.data.error;
+                // $scope.showAllOrgId = false;
+            }
+        }, function (response) {
+            FactoryUser.modelUser.resultMessage = response.data.error;
+            // $scope.showAllOrgId = false;
+        });
+
+    }
+});
 
 app.factory('FactoryOrgId', function () {
     return {
