@@ -23,6 +23,8 @@ public interface UserController {
     Response loadDocs();
 
     Response allDocs();
+
+    Response allCountries();
 /*
 
 

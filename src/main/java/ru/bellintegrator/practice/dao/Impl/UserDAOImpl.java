@@ -183,5 +183,10 @@ public class UserDAOImpl implements UserDAO {
         return query.getResultList();
     }
 
+    public List<Country> allCountries() {
+        //TypedQuery<Organization> query = em.createQuery("SELECT p FROM Organization p", Organization.class);
+        TypedQuery<Country> query = em.createQuery("FROM Country", Country.class);
+        return query.getResultList();
+    }
 
 }

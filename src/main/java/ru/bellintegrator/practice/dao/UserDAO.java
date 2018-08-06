@@ -1,5 +1,6 @@
 package ru.bellintegrator.practice.dao;
 
+import ru.bellintegrator.practice.model.Country;
 import ru.bellintegrator.practice.model.Doc;
 import ru.bellintegrator.practice.model.Office;
 import ru.bellintegrator.practice.model.User;
@@ -71,6 +72,8 @@ public interface UserDAO {
     List<Doc> loadDocs();
 
     List<Doc> allDocs();
+
+    List<Country> allCountries();
 
 
 }

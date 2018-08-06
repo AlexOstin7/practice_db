@@ -239,9 +239,23 @@
             </div>
 
             <div ng-controller="postUserControllerAllDocs">
+                <select ng-model="ddlFruits" ng-options="fruit.name for fruit in Fruits track by fruit.id">
+                </select>
+                <select ng-model="select" ng-options="a.name for a in fruit track by a.id">
+                </select>
+                <select ng-model="select2" ng-options="a.name for a in doc track by a.id">
+                </select>
+
                 <button ng-click="postUserAllDocs()">All Docs</button>
             </div>
 
+            <div ng-controller="postUserControllerAllCountries">
+                 {{selectedOption.id}}selec {{selectedOption.name}}
+                <select ng-model="selectedOption"   ng-focus="postUserAllCountries()" ng-options="country.name for country in country">
+                    <option value="">Выберите гражданство</option>
+                </select>
+                <button ng-click="postUserAllCountries()">All Countries</button>
+            </div>
             <!--
             <div ng-controller="postOfficeControllerUpdate">
 

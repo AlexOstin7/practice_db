@@ -778,12 +778,14 @@ app.controller('postUserControllerLoadDocs', function ($scope, $http, $location,
     }
 });
 
-app.controller('postUserControllerAllDocs', function ($scope, $http, $location, FactoryUser, FactoryOffice) {
+app.controller('postUserControllerAllDocs', function ($scope, $http, $location, FactoryUser, FactoryOffice, FactoryDoc) {
     //$scope.model = FactoryOrgId.organization;
     $scope.office = FactoryOffice.office;
     $scope.modelOffice = FactoryOffice.modelOffice;
     $scope.modelUser = FactoryUser.modelUser;
     $scope.modelOffice.showAll = false;
+    $scope.fruit = FactoryDoc.fruit;
+    $scope.doc = FactoryDoc.doc;
 
     $scope.hideListByOfficeId = function () {
         $scope.modelUser.showAll = false;
@@ -810,8 +812,64 @@ app.controller('postUserControllerAllDocs', function ($scope, $http, $location, 
                 $scope.modelUser.showAll = true;
                 $scope.modelUser.resultMessage = response.data.result;
 
-                $scope.allDocs = response.data.data;
+                $scope.allCounries = response.data.data;
+                //FactoryDoc.doc.push(response.data.data);
+                for (i=0; i < response.data.data.length; i++) {
+                    FactoryDoc.doc[i] = response.data.data[i];
+                }
 
+
+            } else {
+                //$scope.resultMessage = response.data.error;//"Filter Users Data Error!";
+                FactoryUser.modelUser.resultMessage = response.data.error;
+                // $scope.showAllOrgId = false;
+            }
+        }, function (response) {
+            FactoryUser.modelUser.resultMessage = response.data.error;
+            // $scope.showAllOrgId = false;
+        });
+
+    }
+});
+
+app.controller('postUserControllerAllCountries', function ($scope, $http, $location, FactoryUser, FactoryOffice, FactoryCountry) {
+    $scope.office = FactoryOffice.office;
+    $scope.modelOffice = FactoryOffice.modelOffice;
+    $scope.modelUser = FactoryUser.modelUser;
+    $scope.modelOffice.showAll = false;
+    $scope.country = FactoryCountry.country;
+    $scope.selectedOption = FactoryCountry.selectedOption;
+    $scope.countryId = FactoryCountry.countryId;
+
+    $scope.hideListByOfficeId = function () {
+        $scope.modelUser.showAll = false;
+
+    }
+    $scope.postUserAllCountries = function () {
+        var url = $location.absUrl() + "/api/countries";
+
+        var config = {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8;'
+            }
+        }
+        var data = {
+            id: $scope.id,
+            code: $scope.code,
+            name: $scope.name
+
+        };
+        $http.post(url, data, config).then(function (response) {
+
+            if (response.data.result == "success") {
+                $scope.modelUser.showAll = true;
+                $scope.modelUser.resultMessage = response.data.result;
+
+                $scope.allCountries = response.data.data;
+                //FactoryDoc.doc.push(response.data.data);
+                for (i=0; i < response.data.data.length; i++) {
+                    FactoryCountry.country[i] = response.data.data[i];
+                }
 
             } else {
                 //$scope.resultMessage = response.data.error;//"Filter Users Data Error!";
@@ -945,58 +1003,36 @@ app.factory('FactoryUser', function () {
     }
 });
 
-/*
-app.factory('FactoryOrgId', function () {
+app.factory('FactoryDoc', function () {
     return {
-        organization: {
-            id: ''
-        },
-        setOrgId: function (id) {
-            this.organization.id = id;
+        doc: [{
+            id: '',
+            code: '',
+            name:''
+        }],
+        fruit: [{
+            id:'',
+            name: ''
+        }],
+        setDocId: function (id) {
+            this.doc.id = id;
         }
     };
 });
 
-app.factory('FactoryOffice', function () {
-    var name = 'Bob';
+app.factory('FactoryCountry', function () {
     return {
-
-        setName: function (name) {
-            name = name;
-        },
-        getName: function () {
-            return this.resultMessage;
-        },
-        office: {
+        country: [{
             id: '',
-            name: '',
-            address: '',
-            phone: '',
-            isActive: ''
-        },
-        modelOffice: {
-            resultMessage: '',
-            showAll: '',
-            orgId: '',
-            listOfficeByOrgId: [{}]
-        },
-        updatelistOfficeByOrgId: function (name, phone, isActive) {
-            {
-                this.listOfficeByOrgId.name = name,
-                    this.listOfficeByOrgId.phone = phone,
-                    this.listOfficeByOrgId.isActive = isActive
-            }
-        },
-        updateOfficeData: function (id, name, address, phone, isActive) {
-            this.office.id = id;
-            this.office.name = name;
-            this.office.address = address;
-            this.office.phone = phone;
-            this.office.isActive = isActive;
-        },
-        setId: function () {
-            this.office.id = $scope.id;
+            code: '',
+            name:''
+        }],
+        countryId: '1',
+        selectedOption: {
+            id: 1,
+            code: 643,
+            name: 'Российская Федерация'
         }
-    }
+    };
 });
-*/
+

@@ -95,6 +95,19 @@ public class UserControllerImpl implements UserController {
         return new ResponseSuccess("success", userService.allDocs());
     }
 
+    @Override
+    @ApiOperation(value = "allCountries", nickname = "allCountries", httpMethod = "POST")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 405, message = "I don't know"),
+            @ApiResponse(code = 500, message = "Failure")})
+    @RequestMapping(value = "/countries", method = {POST})
+    public Response allCountries() {
+        log.info("view-Countries" );
+        //List<Doc> loadDocs = userService.allDocs();
+        return new ResponseSuccess("success", userService.allCountries());
+    }
+
 /*
     @Override
     @ApiOperation(value = "updateUser", nickname = "updateUser", httpMethod = "POST")

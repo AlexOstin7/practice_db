@@ -11,6 +11,7 @@ import ru.bellintegrator.practice.dao.OfficeDAO;
 import ru.bellintegrator.practice.dao.UserDAO;
 import ru.bellintegrator.practice.dao.OrganizationDAO;
 import ru.bellintegrator.practice.exception.CustomErrorException;
+import ru.bellintegrator.practice.model.Country;
 import ru.bellintegrator.practice.model.Doc;
 import ru.bellintegrator.practice.model.User;
 import ru.bellintegrator.practice.model.Organization;
@@ -101,6 +102,15 @@ public class UserServiceImpl implements UserService {
         List<Doc> docs = dao.allDocs();
         log.info("user service loadDocs " );
         return docs;
+    }
+
+@Override
+    @Transactional(readOnly = true)
+    public List<Country> allCountries() {
+        log.info("before service Contries " );
+        List<Country> countries = dao.allCountries();
+        log.info("user service Conries " );
+        return countries;
     }
 
 
