@@ -20,7 +20,7 @@ public interface UserController {
 
     Response getUserById(@PathVariable("id") Long id) ;
 
-    Response loadDocs();
+    Response loadDocs(@PathVariable("id") Integer id);
 
     Response allDocs();
 

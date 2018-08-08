@@ -88,9 +88,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Doc> loadDocs() {
+    public List<Doc> loadDocs(Integer id) {
         log.info("before service loadDocs " );
-        List<Doc> docs = dao.loadDocs();
+        List<Doc> docs = dao.loadDocs(id);
         log.info("user service loadDocs " );
         return docs;
     }

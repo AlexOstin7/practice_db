@@ -69,15 +69,15 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    @ApiOperation(value = "loadDocs", nickname = "loadDocs", httpMethod = "POST")
+    @ApiOperation(value = "loadDocs", nickname = "loadDocs", httpMethod = "GET")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 405, message = "I don't know"),
             @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(value = "/docs", method = {POST})
-    public Response loadDocs() {
+    @RequestMapping(value = "/loadDocs/{id}", method = {GET})
+    public Response loadDocs(@PathVariable(value = "id") Integer id) {
         log.info("view-loadDocs" );
-        List<Doc> loadDocs = userService.loadDocs();
+        List<Doc> loadDocs = userService.loadDocs(id);
 
         return new ResponseSuccess("success", loadDocs);
     }
@@ -88,7 +88,7 @@ public class UserControllerImpl implements UserController {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 405, message = "I don't know"),
             @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(value = "/alldocs", method = {POST})
+    @RequestMapping(value = "/docs", method = {POST})
     public Response allDocs() {
         log.info("view-loadDocs" );
         //List<Doc> loadDocs = userService.allDocs();

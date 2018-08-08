@@ -24,7 +24,7 @@ public interface UserService {
 
     User getUserById(Long id);
 
-    List<Doc> loadDocs();
+    List<Doc> loadDocs(Integer id);
 
     List<Doc> allDocs();
 

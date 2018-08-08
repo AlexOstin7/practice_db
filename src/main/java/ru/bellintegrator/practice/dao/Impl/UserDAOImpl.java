@@ -133,27 +133,53 @@ public class UserDAOImpl implements UserDAO {
         return results;
     }
 
-    @Override
+    /*@Override
     public List<Doc> loadDocs() {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery cq = cb.createQuery(User.class);
-        Root root = cq.from(User.class);
 
-        Metamodel m = em.getMetamodel();
-        EntityType<User> User_ = m.entity(User.class);
-        EntityType<Doc> Doc_ = m.entity(Doc.class);
-
-        Root<User> user = cq.from(User.class);
-        Root<Doc> doc = cq.from(Doc.class);
-
- //       cb.equal(root.join("doc").get("name"), "Свидетельство о рождении");
-
-        //CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Doc> query = cb.createQuery(Doc.class);
         Root<User> userRoot = query.from(User.class);
         Join<User, Doc> docs = userRoot.join("doc");
         query.select(docs).where(cb.equal(userRoot.get("firstName"), "ИВАН"));
+        List<Doc> results = em.createQuery(query).getResultList();
+
+        return  results;
+    }*/
+
+    public List<Doc> allDocs() {
+        //TypedQuery<Organization> query = em.createQuery("SELECT p FROM Organization p", Organization.class);
+        TypedQuery<Doc> query = em.createQuery("FROM Doc", Doc.class);
+        return query.getResultList();
+    }
+
+    public List<Country> allCountries() {
+        //TypedQuery<Organization> query = em.createQuery("SELECT p FROM Organization p", Organization.class);
+        TypedQuery<Country> query = em.createQuery("FROM Country", Country.class);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Doc> loadDocs(Integer id) {
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        /*CriteriaQuery cq = cb.createQuery(Doc.class);
+        Root root = cq.from(Doc.class);*/
+/*
+        Metamodel m = em.getMetamodel();
+        EntityType<User> User_ = m.entity(User.class);
+        EntityType<Doc> Doc_ = m.entity(Doc.class);*/
+
+      /*  Root<User> user = cq.from(User.class);
+        Root<Doc> doc = cq.from(Doc.class);*/
+
+        //       cb.equal(root.join("doc").get("name"), "Свидетельство о рождении");
+
+        //CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Doc> query = cb.createQuery(Doc.class);
+        Root<Country> countryRoot = query.from(Country.class);
+        Join<Country, Doc> docs = countryRoot.join("docs");
+        query.select(docs).where(cb.equal(countryRoot.get("id"), id));
 /*
 // count books written by an author
         Subquery sub = cq.subquery(Long.class);
@@ -177,16 +203,5 @@ public class UserDAOImpl implements UserDAO {
         return  results;
     }
 
-    public List<Doc> allDocs() {
-        //TypedQuery<Organization> query = em.createQuery("SELECT p FROM Organization p", Organization.class);
-        TypedQuery<Doc> query = em.createQuery("FROM Doc", Doc.class);
-        return query.getResultList();
-    }
-
-    public List<Country> allCountries() {
-        //TypedQuery<Organization> query = em.createQuery("SELECT p FROM Organization p", Organization.class);
-        TypedQuery<Country> query = em.createQuery("FROM Country", Country.class);
-        return query.getResultList();
-    }
 
 }

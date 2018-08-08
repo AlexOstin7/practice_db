@@ -69,7 +69,7 @@ public interface UserDAO {
 
    List<User> filterUserList(UserFilterView userFilterView);
 
-    List<Doc> loadDocs();
+    List<Doc> loadDocs(Integer id);
 
     List<Doc> allDocs();
 

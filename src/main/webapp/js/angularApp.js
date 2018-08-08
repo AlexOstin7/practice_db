@@ -631,8 +631,6 @@ app.controller('postUserControllerListbyOfficeId', function ($scope, $http, $loc
 
     $scope.postUserListByOfficeId = function () {
         var url = $location.absUrl() + "/api/user/list";
-//alert('ooo3');
-
         var config = {
             headers: {
                 'Content-Type': 'application/json;charset=utf-8;'
@@ -730,41 +728,54 @@ app.controller('getUserControllerGetById', function ($scope, $http, $location, F
     }
 });
 
-app.controller('postUserControllerLoadDocs', function ($scope, $http, $location, FactoryUser, FactoryOffice) {
+app.controller('getUserControllerLoadDocs', function ($scope, $http, $location, FactoryUser, FactoryOffice, FactoryDoc, FactoryCountry) {
     //$scope.model = FactoryOrgId.organization;
     $scope.office = FactoryOffice.office;
     $scope.modelOffice = FactoryOffice.modelOffice;
     $scope.modelUser = FactoryUser.modelUser;
     $scope.modelOffice.showAll = false;
+    $scope.selected = FactoryCountry.selected;
+    $scope.selected.id = FactoryCountry.selected.id;
+    $scope.selected.name = FactoryCountry.selected.name;
+    $scope.countryId = FactoryCountry.countryId;
+    $scope.doc = FactoryDoc.doc;
+
+    $scope.getCountryId = function () {
+        $scope.selected = FactoryCountry.selected;
+        $scope.selected.id = FactoryCountry.countryId;
+        alert(FactoryCountry.countryId);
+    }
 
     $scope.hideListByOfficeId = function () {
         $scope.modelUser.showAll = false;
 
     }
 
-    $scope.postUserLoadDocs = function () {
-        var url = $location.absUrl() + "/api/docs";
+    $scope.getUserLoadDocs = function () {
+        var url = $location.absUrl() + "/api/loadDocs/" +  FactoryUser.modelUser.countryId;
 
         var config = {
             headers: {
                 'Content-Type': 'application/json;charset=utf-8;'
             }
         }
-        var data = {
-            id: $scope.id,
+        /*var data = {
+            countryId: FactoryCountry.selected.id,
+            /!*id: $scope.id,
             code: $scope.code,
-            name: $scope.name
+            name: $scope.name*!/
 
-        };
-        $http.post(url, data, config).then(function (response) {
+        };*/
+        $http.get(url, config).then(function (response) {
 
             if (response.data.result == "success") {
                 $scope.modelUser.showAll = true;
                 $scope.modelUser.resultMessage = response.data.result;
 
                 $scope.allDocs = response.data.data;
-
-
+                for (i=0; i < response.data.data.length; i++) {
+                    FactoryDoc.doc[i] = response.data.data[i];
+                }
             } else {
                 //$scope.resultMessage = response.data.error;//"Filter Users Data Error!";
                 FactoryUser.modelUser.resultMessage = response.data.error;
@@ -786,6 +797,9 @@ app.controller('postUserControllerAllDocs', function ($scope, $http, $location, 
     $scope.modelOffice.showAll = false;
     $scope.fruit = FactoryDoc.fruit;
     $scope.doc = FactoryDoc.doc;
+    //$scope.countryId = FactoryDoc.countryId;
+    $scope.countryId = FactoryUser.modelUser.countryId;
+    $scope.country = FactoryUser.modelUser.country;
 
     $scope.hideListByOfficeId = function () {
         $scope.modelUser.showAll = false;
@@ -793,7 +807,7 @@ app.controller('postUserControllerAllDocs', function ($scope, $http, $location, 
     }
 
     $scope.postUserAllDocs = function () {
-        var url = $location.absUrl() + "/api/alldocs";
+        var url = $location.absUrl() + "/api/docs";
 
         var config = {
             headers: {
@@ -814,11 +828,10 @@ app.controller('postUserControllerAllDocs', function ($scope, $http, $location, 
 
                 $scope.allCounries = response.data.data;
                 //FactoryDoc.doc.push(response.data.data);
-                for (i=0; i < response.data.data.length; i++) {
+                FactoryDoc.doc.length = 0;
+                for (i=0; i < $scope.allCounries.length; i++) {
                     FactoryDoc.doc[i] = response.data.data[i];
                 }
-
-
             } else {
                 //$scope.resultMessage = response.data.error;//"Filter Users Data Error!";
                 FactoryUser.modelUser.resultMessage = response.data.error;
@@ -838,8 +851,20 @@ app.controller('postUserControllerAllCountries', function ($scope, $http, $locat
     $scope.modelUser = FactoryUser.modelUser;
     $scope.modelOffice.showAll = false;
     $scope.country = FactoryCountry.country;
-    $scope.selectedOption = FactoryCountry.selectedOption;
+    $scope.selected = FactoryCountry.selected;
+    $scope.selected.id = FactoryCountry.countryId;
+    //FactoryCountry.countryId = $scope.selected.id;
+    $scope.selected.name = FactoryCountry.selected.name;
     $scope.countryId = FactoryCountry.countryId;
+
+    $scope.setCountryId = function () {
+        //$scope.result = 'id ' + $scope.selected.id + 'country ' + $scope.selected.name;
+        FactoryCountry.countryId = $scope.selected.id;
+        FactoryUser.modelUser.country = $scope.selected.name;
+        FactoryUser.modelUser.countryId = $scope.selected.id;
+        FactoryDoc.countryId = $scope.selected.id;
+        alert($scope.selected.id);
+    }
 
     $scope.hideListByOfficeId = function () {
         $scope.modelUser.showAll = false;
@@ -969,6 +994,7 @@ app.factory('FactoryUser', function () {
             officeId: '',
             docId: '',
             country: '',
+            countryId :'',
             listCountry: [{
                 id:'',
                 code:'',
@@ -1008,8 +1034,10 @@ app.factory('FactoryDoc', function () {
         doc: [{
             id: '',
             code: '',
-            name:''
+            name:'',
+            countries: [{id: '', code: '', name: ''}]
         }],
+        //countryId: '',
         fruit: [{
             id:'',
             name: ''
@@ -1027,11 +1055,14 @@ app.factory('FactoryCountry', function () {
             code: '',
             name:''
         }],
-        countryId: '1',
-        selectedOption: {
+        countryId: 1,
+        selected: {
             id: 1,
             code: 643,
             name: 'Российская Федерация'
+        },
+        setCountryId: function (id) {
+            this.countryId = id;
         }
     };
 });
