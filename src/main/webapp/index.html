@@ -209,7 +209,7 @@
             <input type="text" name="docCode" class="form-control" ng-model="docCode"/>
             <label>Doc Name</label>
             <input type="text" name="docName" class="form-control" ng-model="docName"/>
-            <label>Citizen ship Code</label> Country Name {{modelUser.country}}
+            <label>Citizen ship Code</label> Country Name {{modelUser.countryName}}
             <input type="text" name="citizenShipCode" class="form-control" ng-model="citizenShipCode"/>
             <label>Citizen ship Name</label>
             <input type="text" name="citizenShipName" class="form-control" ng-model="citizenShipName"/>
@@ -235,7 +235,7 @@
             </div>
 
             <div ng-controller="getUserControllerLoadDocs">
-                Country Name {{modelUser.country}} Country Id {{modelUser.countryId}}
+                Country Name {{modelUser.countryName}} Country Id {{modelUser.countryId}} doc {{country.doc}}
                 sel {{selected}} counntryId {{countryId}} country {{country}}
                 <button ng-click="getUserLoadDocs()">Load Docs</button>
                 <button ng-click="getCountryId()">Test Id</button>
@@ -256,9 +256,12 @@
             </div>
 
             <div ng-controller="postUserControllerAllCountries">
-                 sel.id{{selected.id}}sel.name {{selected.name}} country {{countryId}}res {{result}}
+                 sel.id{{selected.id}}sel.name {{selected.name}}  countryId {{countryId}} allCountriesDocs {{country.docs}} doc!!! {{country[1].docs}}
                 <select ng-model="selected" ng-change="setCountryId()" ng-focus="postUserAllCountries()"  ng-options="country.name for country in country ">
                     <option value="">Выберите гражданство</option>
+                </select>
+                <select ng-model="country.docs"   ng-options="country.docs.name for country in country ">
+                    <option value="">Выберите документ</option>
                 </select>
                 <button ng-click="postUserAllCountries()">All Countries</button>
                 <button ng-click="setCountryId()">Test Id</button>

@@ -28,7 +28,8 @@ public class Country {
     @JoinTable (name="country_doc",
             joinColumns=@JoinColumn (name="country_id"),
             inverseJoinColumns=@JoinColumn(name="doc_id"))
-    @JsonBackReference
+    //@JsonBackReference
+    @JsonManagedReference
     private List<Doc> docs;
 
     public Country() {
