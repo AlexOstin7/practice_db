@@ -907,7 +907,7 @@ app.controller('postUserControllerAllCountries', function ($scope, $http, $locat
                 $scope.modelUser.showAll = true;
                 $scope.modelUser.resultMessage = response.data.result;
 
-                $scope.allCountries = response.data.data;
+                 $scope.allCountries = response.data.data;
                 //FactoryDoc.doc.push(response.data.data);
                 for (i = 0; i < response.data.data.length; i++) {
                     //FactoryCountry.country[i] = response.data.data[i];
@@ -1092,7 +1092,8 @@ app.factory('FactoryCountry', function () {
         selected: {
             id: 1,
             code: 643,
-            name: 'Российская Федерация'
+            name: 'Российская Федерация',
+            docs: [{id: '', code: '', name: ''}]
         },
         setCountryId: function (id) {
             this.countryId = id;

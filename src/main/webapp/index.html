@@ -256,11 +256,11 @@
             </div>
 
             <div ng-controller="postUserControllerAllCountries">
-                 sel.id{{selected.id}}sel.name {{selected.name}}  countryId {{countryId}} allCountriesDocs {{country.docs}} doc!!! {{country[1].docs}}
+                sel.id{{selected.id}}sel.name {{selected.name}} sel.docs {{selected.docs}} countryId {{countryId}} allCountriesDocs {{country.docs}} doc name {{country.docs.name}}
                 <select ng-model="selected" ng-change="setCountryId()" ng-focus="postUserAllCountries()"  ng-options="country.name for country in country ">
                     <option value="">Выберите гражданство</option>
                 </select>
-                <select ng-model="country.docs"   ng-options="country.docs.name for country in country ">
+                <select ng-model="selected.docs"   ng-options="country.docs.name for country in selected.docs">
                     <option value="">Выберите документ</option>
                 </select>
                 <button ng-click="postUserAllCountries()">All Countries</button>
