@@ -14,7 +14,7 @@
     <title>AngularJs PUT Form Nested Object to SpringBoot Example</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/-->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="js/angularjs/1.6.4/angular.min.js"></script>
     <script src="/js/angularApp.js"></script>
     <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <title>Spring Boot Example</title>
@@ -235,8 +235,8 @@
             </div>
 
             <div ng-controller="getUserControllerLoadDocs">
-                Country Name {{modelUser.countryName}} Country Id {{modelUser.countryId}} doc {{country.doc}}
-                sel {{selected}} counntryId {{countryId}} country {{country}}
+               <!-- Country Name {{modelUser.countryName}} Country Id {{modelUser.countryId}} doc {{country.doc}}
+                sel {{selected}} counntryId {{countryId}} country {{country}}-->
                 <button ng-click="getUserLoadDocs()">Load Docs</button>
                 <button ng-click="getCountryId()">Test Id</button>
                 <select ng-model="selectedDoc"  ng-focus="getUserLoadDocs()"  ng-options="doc.name for doc in doc">
@@ -256,11 +256,16 @@
             </div>
 
             <div ng-controller="postUserControllerAllCountries">
-                sel.id{{selected.id}}sel.name {{selected.name}} sel.docs {{selected.docs}} countryId {{countryId}} allCountriesDocs {{country.docs}} doc name {{country.docs.name}}
+                sel.id  {{selected.id}}<br/>
+                sel.name {{selected.name}}<br/>
+                sel.docs {{selected.docs}}<br/>
+                countryId {{countryId}}<br/>
+                allCountriesDocs {{country.docs[value]}}<br/>
+                country docs name {{country.docs[value].name}}<br/>
                 <select ng-model="selected" ng-change="setCountryId()" ng-focus="postUserAllCountries()"  ng-options="country.name for country in country ">
                     <option value="">Выберите гражданство</option>
                 </select>
-                <select ng-model="selected.docs"   ng-options="country.docs.name for country in selected.docs">
+                <select ng-model="selected.docs[countryId]"  ng-options="docs.id as docs.name for docs in selected.docs">
                     <option value="">Выберите документ</option>
                 </select>
                 <button ng-click="postUserAllCountries()">All Countries</button>
