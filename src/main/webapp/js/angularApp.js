@@ -696,11 +696,12 @@ app.controller('getUserControllerGetById', function ($scope, $http, $location, F
                 //$scope.show = true;
                 var list = response.data.data;
 
-                //FactoryUser.modelUser.listCountry.push(list.doc.countries);
+                /*//FactoryUser.modelUser.listCountry.push(list.doc.countries);
                 FactoryUser.modelUser.listCountry.length = 0;
                 FactoryUser.modelUser.listCountry.push(list.doc.countries[0]);
-                FactoryUser.modelUser.countryName = list.doc.countries[0].name;
-
+                FactoryUser.modelUser.countryName = list.doc.countries[0].name;*/
+                console.log(list);
+//alert($scope.user.id);
                 //FactoryUser.modelUser.listCountry.push({'id': '1','code':'2','name':'3'});
 
                 //setCountry(list.doc.countries.name);
@@ -709,7 +710,7 @@ app.controller('getUserControllerGetById', function ($scope, $http, $location, F
 
                 //FactoryOffice.updateOfficeData($scope.user.id, list.firstName, list.secondName, list.middleName, list.possition, list.docCode, list.citizenShipCode, list.phone, list.docDate, list.docNumber, list.isIdentified);
                 FactoryUser.modelUser.resultMessage = response.data.result;
-                FactoryOffice.setId(response.data.data.office.id);
+  //              FactoryOffice.setId(response.data.data.office.id);
                 //FactoryOrgId.setOrgId($scope.modelOffice.orgId);
                 //FactoryOrgId.setOrgId(response.data.data.organization.id);
             } else {
@@ -863,28 +864,15 @@ app.controller('postUserControllerAllCountries', function ($scope, $http, $locat
 
     $scope.setCountryId = function () {
 
-        FactoryCountry.countryId = $scope.selected.id;
+        //FactoryCountry.countryId = $scope.selected.id;
         FactoryUser.modelUser.countryName = $scope.selected.name;
         FactoryUser.modelUser.countryId = $scope.selected.id;
         $scope.modelUser = FactoryUser.modelUser;
         $scope.modelUser.listDoc = FactoryUser.modelUser.listDoc;
-        FactoryCountry.selected.docs = $scope.selected.docs;
-        var test2 = FactoryCountry.selected.docs;
-        console.log(test2);
-        //alert($scope.selected.docs.length);
-        //alert(FactoryCountry.selected.docs[1].id);
-        //alert(FactoryUser.modelUser.countryName);
-        //alert(FactoryUser.modelUser.countryId);
-        //alert(FactoryUser.country[0].docs[0].name);
-        for (j = 0; j < FactoryCountry.selected.docs.length; j++) {
-           // FactoryUser.modelUser.countryName[i].docs[j] = FactoryUser.country[FactoryUser.modelUser.countryId].docs[j];
-           var test3 = FactoryUser.country[FactoryUser.modelUser.countryId].docs[j] = FactoryCountry.selected.docs[j];
-            /*alert(j);
-            alert(test3);*/
-            console.log(test3);
-        }
-        //FactoryDoc.countryId = $scope.selected.id;
-        //alert($scope.selected.id);
+        //FactoryCountry.selected.docs = $scope.selected.docs;
+        /*var test2 = FactoryCountry.selected.docs;
+        console.log(test2);*/
+
     }
 
     $scope.hideListByOfficeId = function () {
@@ -911,15 +899,9 @@ app.controller('postUserControllerAllCountries', function ($scope, $http, $locat
                 $scope.modelUser.resultMessage = response.data.result;
 
                  $scope.allCountries = response.data.data;
-                 var test = response.data.data;
-                 // console.log(test);
-                //FactoryDoc.doc.push(response.data.data);
+
                 for (i = 0; i < response.data.data.length; i++) {
-                    //FactoryCountry.country[i] = response.data.data[i];
                     FactoryUser.country[i] = response.data.data[i];
-                    /*for (j = 0; j < allCounries[i].docs.length; j++) {
-                        FactoryUser.country[i].docs[j] = allCounries[i].docs[j];
-                    }*/
                 }
             } else {
                 //$scope.resultMessage = response.data.error;//"Filter Users Data Error!";

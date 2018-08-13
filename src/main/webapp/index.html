@@ -195,21 +195,18 @@
 
             <h4>Office Id {{office.id}}</h4>
             <label>First Name</label>
-            <input type="text" name="firsrName" class="form-control" ng-model="firstName"/>
+            <input type="text" name="firstName" class="form-control" ng-model="firstName"/>
             <label>Middle Name</label>
             <input type="text" name="middleName" class="form-control" ng-model="middleName"/>
             <label>Second Name</label>
             <input type="text" name="secondName" class="form-control" ng-model="secondName"/>
             <label>Position</label>
             <input type="text" name="possition" class="form-control" ng-model="possition"/>
-            <label>Doc Name {{user.docName}} </label><br/>
-            <select ng-model="modelUser.listCountry" ng-options="a for a in modelUser.listCountry">
-            </select>
             <label>Doc Code</label>
             <input type="text" name="docCode" class="form-control" ng-model="docCode"/>
             <label>Doc Name</label>
             <input type="text" name="docName" class="form-control" ng-model="docName"/>
-            <label>Citizen ship Code</label> Country Name {{modelUser.countryName}}
+            <label>Citizen ship Code</label>
             <input type="text" name="citizenShipCode" class="form-control" ng-model="citizenShipCode"/>
             <label>Citizen ship Name</label>
             <input type="text" name="citizenShipName" class="form-control" ng-model="citizenShipName"/>
@@ -258,14 +255,15 @@
             <div ng-controller="postUserControllerAllCountries">
                 sel.id  {{selected.id}}<br/>
                 sel.name {{selected.name}}<br/>
-                sel.docs {{selected.docs}}<br/>
+                sel.docs {{selected.docs[countryId].name}}<br/>
                 countryId {{countryId}}<br/>
-                allCountriesDocs {{country.docs[value]}}<br/>
-                country docs name {{country.docs[value].name}}<br/>
+                allCountriesDocs {{country.docs[countryId]}}<br/>
+                country docs name {{country.docs[countryId].name}}<br/>
+
                 <select ng-model="selected" ng-change="setCountryId()" ng-focus="postUserAllCountries()"  ng-options="country.name for country in country ">
                     <option value="">Выберите гражданство</option>
                 </select>
-                <select ng-model="selected.docs[countryId]"  ng-options="docs.id as docs.name for docs in selected.docs">
+                <select ng-model="selected.docs[countryId]"  ng-options="docs.name for docs in selected.docs">
                     <option value="">Выберите документ</option>
                 </select>
                 <button ng-click="postUserAllCountries()">All Countries</button>
