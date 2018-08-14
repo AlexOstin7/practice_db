@@ -26,7 +26,13 @@ public class UserView {
 
     public Long officeId;
 
-    public Integer docId;
+    public Integer docCode;
+
+    public String docName;
+
+    public Integer citizenshipCode;
+
+    public String citizenshipName;
 
     public String getFirstName() {
         return firstName;
@@ -100,19 +106,40 @@ public class UserView {
         this.officeId = officeId;
     }
 
-    public Integer getDocId() {
-        return docId;
+    public Integer getDocCode() {
+        return docCode;
     }
 
-    public void setDocId(Integer docId) {
-        this.docId = docId;
+    public void setDocCode(Integer docCode) {
+        this.docCode = docCode;
     }
 
-    public UserView() {
+    public String getDocName() {
+        return docName;
+    }
+
+    public void setDocName(String docName) {
+        this.docName = docName;
+    }
+
+    public Integer getCitizenshipCode() {
+        return citizenshipCode;
+    }
+
+    public void setCitizenshipCode(Integer citizenshipCode) {
+        this.citizenshipCode = citizenshipCode;
+    }
+
+    public String getCitizenshipName() {
+        return citizenshipName;
+    }
+
+    public void setCitizenshipName(String citizenshipName) {
+        this.citizenshipName = citizenshipName;
     }
 
     @Override
     public String toString() {
-        return "UserView{" + "firstName='" + firstName + '\'' + ", secondName='" + secondName + '\'' + ", middleName='" + middleName + '\'' + ", possition='" + possition + '\'' + ", phone=" + phone + ", docNumber=" + docNumber + ", docDate=" + docDate + ", isIdentified=" + isIdentified + ", officeId=" + officeId + ", docId=" + docId + '}';
+        return "UserView{" + "firstName='" + firstName + '\'' + ", secondName='" + secondName + '\'' + ", middleName='" + middleName + '\'' + ", possition='" + possition + '\'' + ", phone=" + phone + ", docNumber=" + docNumber + ", docDate=" + docDate + ", isIdentified=" + isIdentified + ", officeId=" + officeId + ", docCode=" + docCode + ", docName='" + docName + '\'' + ", citizenshipCode=" + citizenshipCode + ", citizenshipName='" + citizenshipName + '\'' + '}';
     }
 }

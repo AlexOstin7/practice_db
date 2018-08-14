@@ -706,7 +706,7 @@ app.controller('getUserControllerGetById', function ($scope, $http, $location, F
 
                 //setCountry(list.doc.countries.name);
 
-                $scope.setView($scope.user.id, list.firstName, list.secondName, list.middleName, list.possition, list.doc.code, list.doc.name, FactoryUser.modelUser.listCountry[0].code, FactoryUser.modelUser.listCountry[0].name, list.phone, list.docDate, list.docNumber, list.identified);
+                $scope.setView($scope.user.id, list.firstName, list.secondName, list.middleName, list.possition, list.docCode, list.docName, list.citizenshipCode, list.citizenshipName, list.phone, list.docDate, list.docNumber, list.identified);
 
                 //FactoryOffice.updateOfficeData($scope.user.id, list.firstName, list.secondName, list.middleName, list.possition, list.docCode, list.citizenShipCode, list.phone, list.docDate, list.docNumber, list.isIdentified);
                 FactoryUser.modelUser.resultMessage = response.data.result;

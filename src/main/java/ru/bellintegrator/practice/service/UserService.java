@@ -22,7 +22,7 @@ public interface UserService {
 
     List<UserFilterView> filterUserList(UserFilterView office);
 
-    User getUserById(Long id);
+    UserView getUserById(Long id);
 
     List<Doc> loadDocs(Integer id);
 

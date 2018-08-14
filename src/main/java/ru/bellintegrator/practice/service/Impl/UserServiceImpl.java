@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public User getUserById(Long id) {
+    public UserView getUserById(Long id) {
         log.info("before service getId " + id);
         User user = dao.loadById(id);
 
@@ -83,7 +83,32 @@ public class UserServiceImpl implements UserService {
         }
 
         log.info("user service getId " + user.toString());
-        return user;
+
+
+
+       // Function<User, UserView> mapUser = p -> {
+            UserView view = new UserView();
+            view.id = String.valueOf(user.getId());
+            view.firstName = user.getFirstName();
+            view.secondName = user.getSecondName();
+            view.middleName = user.getMiddleName();
+            view.possition = user.getPossition();
+            view.docCode = user.getDoc().getCode();
+        view.docName = user.getDoc().getName();
+            view.citizenshipCode = user.getDoc().getCountries().iterator().next().getCode();
+            view.citizenshipName = user.getDoc().getCountries().iterator().next().getName();
+            view.docNumber = user.getDocNumber();
+            view.docDate = user.getDocDate();
+            view.phone = user.getPhone();
+            view.isIdentified = user.getIdentified();
+
+            log.info("after filter " + view.toString());
+
+            return view;
+        //};
+
+        //return user.collect(Collectors.toList());
+       //return user;
     }
 
     @Override
@@ -109,7 +134,7 @@ public class UserServiceImpl implements UserService {
     public List<Country> allCountries() {
         log.info("before service Contries " );
         List<Country> countries = dao.allCountries();
-        log.info("user service Conries " );
+        log.info("user service Countries " );
         return countries;
     }
 
@@ -242,7 +267,7 @@ public class UserServiceImpl implements UserService {
             view.docDate = p.getDocDate();
             view.docNumber = p.getDocNumber();
             view.officeId = p.getOffice().getId();
-            view.docId = p.getDoc().getId();
+           // view.docId = p.getDoc().getId();
             view.isIdentified = p.getIdentified();
 
             log.info(view.toString());
