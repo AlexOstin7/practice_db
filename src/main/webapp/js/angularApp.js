@@ -863,23 +863,28 @@ app.controller('postUserControllerAllCountries', function ($scope, $http, $locat
     $scope.countryId = FactoryUser.countryId;
 
     $scope.setCountryId = function () {
-
+console.log('!!!');
+        console.log(FactoryUser.modelUser.countryId);
+FactoryUser.modelUser.countryId = FactoryCountry.selected.id;
+        console.log(FactoryUser.modelUser.countryId);
+        console.log('end');
+       if (FactoryUser.modelUser.initDropDown = false) FactoryUser.modelUser.initDropDown = true;
+        //$scope.postUserAllCountries();
+       // FactoryUser.modelUser.initDropDown = true;
         //FactoryCountry.countryId = $scope.selected.id;
-        FactoryUser.modelUser.countryName = $scope.selected.name;
-        FactoryUser.modelUser.countryId = $scope.selected.id;
-        $scope.modelUser = FactoryUser.modelUser;
-        $scope.modelUser.listDoc = FactoryUser.modelUser.listDoc;
+       // FactoryUser.modelUser.countryName = $scope.selected.name;
+        //FactoryUser.modelUser.countryId = $scope.selected.id;
+        //$scope.modelUser = FactoryUser.modelUser;
+        //$scope.modelUser.listDoc = FactoryUser.modelUser.listDoc;
         //FactoryCountry.selected.docs = $scope.selected.docs;
         /*var test2 = FactoryCountry.selected.docs;
         console.log(test2);*/
 
     }
 
-    $scope.hideListByOfficeId = function () {
-        $scope.modelUser.showAll = false;
-
-    }
     $scope.postUserAllCountries = function () {
+        console.log(FactoryUser.modelUser.countryId);
+        if (!FactoryUser.modelUser.countryId == 0) return;
         var url = $location.absUrl() + "/api/countries";
 
         var config = {
@@ -899,10 +904,12 @@ app.controller('postUserControllerAllCountries', function ($scope, $http, $locat
                 $scope.modelUser.resultMessage = response.data.result;
 
                  $scope.allCountries = response.data.data;
-
-                for (i = 0; i < response.data.data.length; i++) {
-                    FactoryUser.country[i] = response.data.data[i];
-                }
+               //if (FactoryUser.modelUser.initDropDown) {
+                    for (i = 0; i < response.data.data.length; i++) {
+                        FactoryUser.country[i] = response.data.data[i];
+                       //FactoryUser.modelUser.initDropDown = true;
+                    }
+               // }
             } else {
                 //$scope.resultMessage = response.data.error;//"Filter Users Data Error!";
                 FactoryUser.modelUser.resultMessage = response.data.error;
@@ -1001,7 +1008,8 @@ app.factory('FactoryUser', function () {
             officeId: '',
             docId: '',
             country: '',
-            countryId: 1,
+            countryId: 0,
+            initDropDown: false,
             listCountry: [{
                 id: '',
                 code: '',
@@ -1075,7 +1083,7 @@ app.factory('FactoryCountry', function () {
         }],
         countryId: 1,
         selected: {
-            id: 1,
+            id: 0,
             code: 643,
             name: 'Российская Федерация',
             docs: [{id: '', code: '', name: ''}]

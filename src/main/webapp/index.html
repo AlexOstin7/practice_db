@@ -260,11 +260,21 @@
                 allCountriesDocs {{country.docs[countryId]}}<br/>
                 country docs name {{country.docs[countryId].name}}<br/>
 
-                <select ng-model="selected" ng-change="setCountryId()" ng-focus="postUserAllCountries()"  ng-options="country.name for country in country ">
-                    <option value="">Выберите гражданство</option>
+               <!--<select ng-model="selected" ng-change="setCountryId()" ng-focus="postUserAllCountries()"  ng-options="country.name for country in country ">-->
+                <select ng-model="selected.id"  ng-change="setCountryId()" ng-focus="postUserAllCountries()"  ng-options="country.id as country.name for country in country ">
+                    <option value="">Выберите наименование гражданства</option>
                 </select>
+
+                <!--<select ng-model="selected" ng-change="setCountryId()" ng-focus="postUserAllCountries()"  ng-options="country.code for country in country ">-->
+                <select ng-model="selected"   ng-options="country.code for country in country ">
+                    <option value="">Выберите код гражданства</option>
+                </select>
+
                 <select ng-model="selected.docs[countryId]"  ng-options="docs.name for docs in selected.docs">
-                    <option value="">Выберите документ</option>
+                    <option value="">Выберите наименование документа</option>
+                </select>
+                <select ng-model="selected.docs[countryId]"  ng-options="docs.code for docs in selected.docs">
+                    <option value="">Выберите код документа</option>
                 </select>
                 <button ng-click="postUserAllCountries()">All Countries</button>
                 <button ng-click="setCountryId()">Test Id</button>

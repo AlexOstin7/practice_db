@@ -13,8 +13,7 @@ INSERT INTO DOC (id, NAME, CODE) VALUES (6, 'Удостоверение беже
 
 INSERT INTO DOC (id, NAME, CODE) VALUES (7, 'Разрешение на временное проживание в Российской Федерации', 14);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (8, 'Свидетельство о предоставлении временного убежища на территории
-Российской Федерации', 15);
+INSERT INTO DOC (id, NAME, CODE) VALUES (8, 'Свидетельство о предоставлении временного убежища РФ', 15);
 
 INSERT INTO DOC (id, NAME, CODE) VALUES (9, 'Паспорт гражданина Российской Федерации', 21);
 
@@ -36,9 +35,9 @@ INSERT INTO DOC (id, NAME, CODE) VALUES (17, 'Удостоверение беж�
 
 INSERT INTO DOC (id, NAME, CODE) VALUES (18, 'Вид на жительство в Республике Беларусь', 9);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (19, 'Удостоверение лица без гражданства', 1);
+INSERT INTO DOC (id, NAME, CODE) VALUES (19, 'Удостоверение лица без гражданства', 10);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (20, 'Удостоверение беженца', 2);
+INSERT INTO DOC (id, NAME, CODE) VALUES (20, 'Удостоверение беженца', 11);
 
 INSERT INTO DOC (id, NAME, CODE) VALUES (21, 'Паспорт гражданина Республики Казахстан', 5);
 
@@ -74,9 +73,24 @@ INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (11, 2, 11);
 
 INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (12, 2, 12);
 
-INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (13, 3, 21);
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (13, 2, 13);
 
-INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (14, 3, 22);
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (14, 2, 14);
+
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (15, 2, 15);
+
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (16, 2, 16);
+
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (17, 2, 17);
+
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (18, 2, 18);
+
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (19, 2, 19);
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (20, 2, 20);
+
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (21, 3, 21);
+
+INSERT INTO COUNTRY_DOC (id, COUNTRY_ID, DOC_ID) VALUES (22, 3, 22);
 
 INSERT INTO ORGANIZATION (id, NAME, FULL_NAME, INN, KPP, ADDRESS, PHONE, IS_ACTIVE) VALUES (1, 'ООО СТАРТ', 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕСТВЕННОСТЬЮ СТАРТ',5820001122, 582001001, 'ПЕНЗА УЛ.КРАСНАЯ Д. 1', 541234, TRUE);
 
