@@ -30,6 +30,8 @@ public class UserView {
 
     public String docName;
 
+    public Integer citizenshipId;
+
     public Integer citizenshipCode;
 
     public String citizenshipName;
@@ -136,6 +138,14 @@ public class UserView {
 
     public void setCitizenshipName(String citizenshipName) {
         this.citizenshipName = citizenshipName;
+    }
+
+    public Integer getCitizenshipId() {
+        return citizenshipId;
+    }
+
+    public void setCitizenshipId(Integer citizenshipId) {
+        this.citizenshipId = citizenshipId;
     }
 
     @Override

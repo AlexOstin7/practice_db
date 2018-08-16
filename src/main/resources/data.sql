@@ -45,7 +45,7 @@ INSERT INTO DOC (id, NAME, CODE) VALUES (22, 'Дипломатический п�
 
 INSERT INTO COUNTRY (id, NAME, CODE) VALUES (1, 'Российская Федерация', 643);
 
-INSERT INTO COUNTRY (id, NAME, CODE) VALUES (2, 'Респубика Беларусь', 112);
+INSERT INTO COUNTRY (id, NAME, CODE) VALUES (2, 'Республика Беларусь', 112);
 
 INSERT INTO COUNTRY (id, NAME, CODE) VALUES (3, 'Республика Казахстан', 395);
 
@@ -112,7 +112,7 @@ INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBE
 
 INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (2, 'ПЁТР', 'ПЁТРОВИЧ', 'ПЕТРОВ', 'ДИРЕКТОР', 555999, '2012-10-11', 94512346, TRUE, 1, 11);
 
-INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (3, 'СЕМЁН', 'СЕМЁНОВИЧ', 'СЕМЁНОВ', 'ЗАМЕСТИТЕЛЬ ДИРЕКТОРА', 555900, '20014-12-31', 94512340, TRUE, 1, 1);
+INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (3, 'СЕМЁН', 'СЕМЁНОВИЧ', 'СЕМЁНОВ', 'ЗАМЕСТИТЕЛЬ ДИРЕКТОРА', 555900, '20014-12-31', 94512340, TRUE, 1, 21);
 
 INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (4, 'КАРЛ', 'ИЛЬИЧ', 'ШАЦ', 'ЗАМЕСТИТЕЛЬ ДИРЕКТОРА', 555910, '2015-06-19', 94512340, TRUE, 2, 4);
 
