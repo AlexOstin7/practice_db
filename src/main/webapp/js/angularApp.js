@@ -585,13 +585,13 @@ app.controller('officeController', function ($scope, $http, $location, FactoryOr
     }
 });
 
-app.controller('userController', function ($scope, $http, $location, FactoryOrgId, FactoryOffice, FactoryUser) {
+app.controller('userController', function ($scope, $http, $location, FactoryOrgId, FactoryOffice, FactoryUser, FactoryCountry) {
     $scope.model = FactoryOrgId.organization;
     $scope.modelOffice = FactoryOffice.modelOffice;
     $scope.office = FactoryOffice.office;
     $scope.modelUser = FactoryUser.modelUser;
     $scope.allUsers = FactoryUser.allUsers;
-
+    $scope.selected = FactoryCountry.selected;
     $scope.user = FactoryUser.user;
 
     $scope.setView = function (id, firstName, secondName, middleName, possition, docCode, docName, citizenShipCode, citizenShipName, phone, docDate, docNumber, isIdentified, officeId, docId) {
@@ -614,6 +614,19 @@ app.controller('userController', function ($scope, $http, $location, FactoryOrgI
 
     $scope.cleanUp = function () {
         $scope.setView('', '', '', '', '', '', '', '', '', '', '', '', '');
+    }
+
+    $scope.setCountryId = function () {
+        console.log('!!!');
+        console.log(FactoryUser.modelUser.countryId);
+        FactoryUser.modelUser.countryId = FactoryCountry.selected.id;
+//$scope.selected = FactoryCountry.country[1];
+        FactoryCountry.setSelected2(FactoryUser.country[1]);
+        FactoryCountry.setSelected(1, 112 , 'Республика Беларусь2');
+        console.log(FactoryUser.modelUser.countryId);
+        console.log('end');
+        console.log('fun.seCountryId fCountrr.selected ' , FactoryCountry.selected);
+
     }
 });
 
@@ -696,13 +709,13 @@ app.controller('getUserControllerGetById', function ($scope, $http, $location, F
                 console.log(list);
                 $scope.setView($scope.user.id, list.firstName, list.secondName, list.middleName, list.possition, list.docCode, list.docName, list.citizenshipCode, list.citizenshipName, list.phone, list.docDate, list.docNumber, list.identified);
                 FactoryUser.modelUser.resultMessage = response.data.result;
-                FactoryCountry.selected.code = list.citizenshipCode;
 
-                FactoryCountry.setSelected(FactoryCountry.getSelectedId(), list.citizenshipCode, list.citizenshipName);
-                FactoryUser.setSelected(FactoryCountry.getSelectedId(), list.citizenshipCode, list.citizenshipName);
+                //FactoryCountry.selected = FactoryCountry.country[1];
+                //FactoryCountry.setSelected(FactoryCountry.getSelectedId(), list.citizenshipCode, list.citizenshipName);
+                //FactoryUser.setSelected(FactoryCountry.getSelectedId(), list.citizenshipCode, list.citizenshipName);
                 //FactoryUser.country.refresh();
                // FactoryCountry.setSelectedId();
-
+// FactoryCountry.setSelected2(FactoryUser.country[1]);
                 console.log('getId fCountry.selected', FactoryCountry.selected);
                 console.log('getId fUser.country', FactoryUser.country);
                 //$scope.postUserControllerAllCountries.postUserAllCountries();
@@ -847,24 +860,10 @@ app.controller('postUserControllerAllCountries', function ($scope, $http, $locat
     // $scope.country = FactoryCountry.country;
     $scope.country = FactoryUser.country;
     $scope.country.doc = FactoryUser.country.doc;
-    $scope.selected = FactoryCountry.selected;
-    //$scope.selected.id = FactoryCountry.countryId;
-    $scope.selected.id = FactoryCountry.selected.id;
-    //FactoryCountry.countryId = $scope.selected.id;
-    $scope.selected.name = FactoryCountry.selected.name;
-    //$scope.countryId = FactoryCountry.countryId;
     $scope.countryId = FactoryUser.countryId;
-   // $scope.selected = FactoryCountry.selected2;
+  // $scope.selected = FactoryCountry.selected2;
+//Sscope.selected = FactoryUser.country[1];
 
-    $scope.setCountryId = function () {
-console.log('!!!');
-        console.log(FactoryUser.modelUser.countryId);
-FactoryUser.modelUser.countryId = FactoryCountry.selected.id;
-        console.log(FactoryUser.modelUser.countryId);
-        console.log('end');
-        console.log('fun.seCountryId fCountrr.selected ' , FactoryCountry.selected);
-
-    }
 
     $scope.postUserAllCountries = function () {
         console.log(FactoryUser.modelUser.countryId);
@@ -1091,6 +1090,9 @@ app.factory('FactoryCountry', function () {
         },
         getSelectedId: function () {
             return this.selected.id;
+        },
+        setSelected2: function (country) {
+            this.selected = country;
         }
     };
 });

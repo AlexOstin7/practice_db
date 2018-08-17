@@ -262,7 +262,7 @@
                 country docs name {{country.docs[countryId].name}}<br/>
 
                <!--<select ng-model="selected" ng-change="setCountryId()" ng-focus="postUserAllCountries()"  ng-options="country.name for country in country ">-->
-                <select ng-model="selected" ng-init="postUserAllCountries()"   ng-options="country.name for country in country track by country.id">
+                <select ng-model="selected" ng-init="postUserAllCountries()" ng-change="setCountryId()"  ng-options="country.name for country in country track by country.id">
                     <option value="">Выберите наименование гражданства</option>
                 </select>
 
