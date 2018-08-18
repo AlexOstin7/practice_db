@@ -616,17 +616,23 @@ app.controller('userController', function ($scope, $http, $location, FactoryOrgI
         $scope.setView('', '', '', '', '', '', '', '', '', '', '', '', '');
     }
 
-    $scope.setCountryId = function () {
-        console.log('!!!');
-        console.log(FactoryUser.modelUser.countryId);
-        FactoryUser.modelUser.countryId = FactoryCountry.selected.id;
+    $scope.changeSelectedCountryInDropList = function () {
+        var id = FactoryUser.modelUser.countryId;
+        console.log('start changeSelectedCountryInDropList');
+        console.log('FactoryUser.modelUser.countryId (id) before changeSelect- ', FactoryUser.modelUser.countryId);
+        //FactoryUser.modelUser.countryId = FactoryCountry.selected.id;
 //$scope.selected = FactoryCountry.country[1];
-        FactoryCountry.setSelected2(FactoryUser.country[1]);
-        FactoryCountry.setSelected(1, 112 , 'Республика Беларусь2');
-        console.log(FactoryUser.modelUser.countryId);
-        console.log('end');
-        console.log('fun.seCountryId fCountrr.selected ' , FactoryCountry.selected);
+        console.log('FactoryUser.country', FactoryUser.country);
+        console.log('FactoryUser.country[id-1]', FactoryUser.country[id-1]);
+        FactoryCountry.changeSelected2(FactoryUser.country[1]);
+        FactoryCountry.changeSelected(1, 112 , 'Республика Беларусь3');
+        //FactoryCountry.changeSelected(FactoryUser.country[id-1].id, FactoryUser.country[id-1].code , FactoryUser.country[id-1].name + '2');
+        console.log('after changeSelect ------');
+        console.log('FactoryUser.country[id-1].code ' , FactoryUser.country[id-1].code);
+        console.log('FactoryUser.modelUser.countryId ',FactoryUser.modelUser.countryId);
 
+        console.log('FactoryCountry.selected ' , FactoryCountry.selected);
+        console.log('end changeSelectedCountryInDropList');
     }
 });
 
@@ -705,19 +711,26 @@ app.controller('getUserControllerGetById', function ($scope, $http, $location, F
 
             if (response.data.result == "success") {
                 var list = response.data.data;
-
+                console.log('start getUserById');
                 console.log(list);
                 $scope.setView($scope.user.id, list.firstName, list.secondName, list.middleName, list.possition, list.docCode, list.docName, list.citizenshipCode, list.citizenshipName, list.phone, list.docDate, list.docNumber, list.identified);
                 FactoryUser.modelUser.resultMessage = response.data.result;
 
                 //FactoryCountry.selected = FactoryCountry.country[1];
-                //FactoryCountry.setSelected(FactoryCountry.getSelectedId(), list.citizenshipCode, list.citizenshipName);
-                //FactoryUser.setSelected(FactoryCountry.getSelectedId(), list.citizenshipCode, list.citizenshipName);
+               // $scope.changeSelectedCountryInDropList(1, list.citizenshipCode, list.citizenshipName);
+                //FactoryUser.changeSelected(FactoryCountry.getSelectedId(), list.citizenshipCode, list.citizenshipName);
                 //FactoryUser.country.refresh();
-               // FactoryCountry.setSelectedId();
-// FactoryCountry.setSelected2(FactoryUser.country[1]);
-                console.log('getId fCountry.selected', FactoryCountry.selected);
-                console.log('getId fUser.country', FactoryUser.country);
+               // FactoryCountry.changeSelectedId();
+// FactoryCountry.changeSelected2(FactoryUser.country[1]);
+                FactoryUser.modelUser.countryId = $scope.user.id;
+
+                console.log('modelUserCountryId ', FactoryUser.modelUser.countryId );
+                console.log('FactoryCountry.selected', FactoryCountry.selected);
+                console.log('FactoryUser.country)', FactoryUser.country);
+                $scope.changeSelectedCountryInDropList();
+                console.log('after changeSelectedCountryInDropList FactoryCountry.selected', FactoryCountry.selected);
+                console.log('after changeSelectedCountryInDropList FactoryUser.country', FactoryUser.country);
+                console.log('end getUserById');
                 //$scope.postUserControllerAllCountries.postUserAllCountries();
             } else {
                 //$scope.getResultMessage = "Offices Data Error!";
@@ -866,7 +879,8 @@ app.controller('postUserControllerAllCountries', function ($scope, $http, $locat
 
 
     $scope.postUserAllCountries = function () {
-        console.log(FactoryUser.modelUser.countryId);
+        console.log('start postUserAllCountries');
+        console.log('FactoryUser.modelUser.countryId', FactoryUser.modelUser.countryId);
 
         var url = $location.absUrl() + "/api/countries";
 
@@ -891,8 +905,9 @@ app.controller('postUserControllerAllCountries', function ($scope, $http, $locat
                         FactoryUser.country[i] = response.data.data[i];
                        //FactoryUser.modelUser.initDropDown = true;
                     }
-                console.log('focus factoryCountry.selected' ,FactoryCountry.selected);
-                console.log('fUser.country ' ,FactoryUser.country);
+                console.log('FactoryCountry.selected' ,FactoryCountry.selected);
+                console.log('FactoryUser.country ' ,FactoryUser.country);
+                console.log('end postUserAllCountries');
             } else {
                 //$scope.resultMessage = response.data.error;//"Filter Users Data Error!";
                 FactoryUser.modelUser.resultMessage = response.data.error;
@@ -991,7 +1006,7 @@ app.factory('FactoryUser', function () {
             officeId: '',
             docId: '',
             country: '',
-            countryId: 0,
+            countryId: 1,
             initDropDown: false,
             listCountry: [{
                 id: '',
@@ -1036,12 +1051,12 @@ app.factory('FactoryUser', function () {
             this.user.modelUser.countryName = country;
 
         },
-        setSelected: function (id, code, name) {
+        changeSelected: function (id, code, name) {
             this.country[id-1].id = id;
             this.country[id-1].code = code;
             this.country[id-1].name = name;
         },
-        setSelectedId: function () {
+        changeSelectedId: function () {
             this.country[0].id = 1;
         }
     }
@@ -1083,7 +1098,7 @@ app.factory('FactoryCountry', function () {
         setCountryId: function (id) {
             this.countryId = id;
         },
-        setSelected: function (id, code, name) {
+        changeSelected: function (id, code, name) {
             this.selected.id = id;
             this.selected.code = code;
             this.selected.name = name;
@@ -1091,7 +1106,7 @@ app.factory('FactoryCountry', function () {
         getSelectedId: function () {
             return this.selected.id;
         },
-        setSelected2: function (country) {
+        changeSelected2: function (country) {
             this.selected = country;
         }
     };

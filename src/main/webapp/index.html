@@ -261,12 +261,12 @@
                 allCountriesDocs {{country.docs[countryId]}}<br/>
                 country docs name {{country.docs[countryId].name}}<br/>
 
-               <!--<select ng-model="selected" ng-change="setCountryId()" ng-focus="postUserAllCountries()"  ng-options="country.name for country in country ">-->
-                <select ng-model="selected" ng-init="postUserAllCountries()" ng-change="setCountryId()"  ng-options="country.name for country in country track by country.id">
+               <!--<select ng-model="selected" ng-change="changeSelectedCountryInDropList()" ng-focus="postUserAllCountries()"  ng-options="country.name for country in country ">-->
+                <select ng-model="selected" ng-init="postUserAllCountries()" ng-change="changeSelectedCountryInDropList()"  ng-options="country.name for country in country track by country.id">
                     <option value="">Выберите наименование гражданства</option>
                 </select>
 
-                <!--<select ng-model="selected" ng-change="setCountryId()" ng-focus="postUserAllCountries()"  ng-options="country.code for country in country ">-->
+                <!--<select ng-model="selected" ng-change="changeSelectedCountryInDropList()" ng-focus="postUserAllCountries()"  ng-options="country.code for country in country ">-->
                 <select ng-model="selected"   ng-options="country.code for country in country track by country.id">
                     <option value="">Выберите код гражданства</option>
                 </select>
@@ -278,7 +278,7 @@
                     <option value="">Выберите код документа</option>
                 </select>
                 <button ng-click="postUserAllCountries()">All Countries</button>
-                <button ng-click="setCountryId()">Test Id</button>
+                <button ng-click="changeSelectedCountryInDropList()">Test Id</button>
             </div>
             <!--
             <div ng-controller="postOfficeControllerUpdate">
