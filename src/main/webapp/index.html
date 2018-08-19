@@ -189,6 +189,7 @@
         </div>
 
         <div ng-controller="userController" class="col-md-3">
+            <form name="userForm">
             <h3>User controller </h3>
 
             <p> Результат: {{modelUser.resultMessage}}</p>
@@ -252,7 +253,7 @@
                 <button ng-click="postUserAllDocs()">All Docs</button>
             </div>
 
-            <div ng-controller="postUserControllerAllCountries">
+            <div name="divUserSelect" ng-controller="postUserControllerAllCountries">
                 sel.id  {{selected.id}}<br/>
                 sel.name {{selected.name}}<br/>
                 sel.code {{selected.code}}<br/>
@@ -262,7 +263,7 @@
                 country docs name {{country.docs[countryId].name}}<br/>
 
                <!--<select ng-model="selected" ng-change="changeSelectedCountryInDropList()" ng-focus="postUserAllCountries()"  ng-options="country.name for country in country ">-->
-                <select ng-model="selected" ng-init="postUserAllCountries()" ng-change="changeSelectedCountryInDropList()"  ng-options="country.name for country in country track by country.id">
+                <select name="countryList" ng-model="selected" ng-init="postUserAllCountries()"  ng-change="changeSelectedCountryInDropList()"  ng-options="country.name for country in country track by country.id"><select ng-model="selected" ng-init="postUserAllCountries()" ng-change="changeSelectedCountryInDropList()"  ng-options="country.name for country in country track by country.id">
                     <option value="">Выберите наименование гражданства</option>
                 </select>
 
@@ -280,6 +281,7 @@
                 <button ng-click="postUserAllCountries()">All Countries</button>
                 <button ng-click="changeSelectedCountryInDropList()">Test Id</button>
             </div>
+            </form>
             <!--
             <div ng-controller="postOfficeControllerUpdate">
 

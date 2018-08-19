@@ -624,8 +624,11 @@ app.controller('userController', function ($scope, $http, $location, FactoryOrgI
 //$scope.selected = FactoryCountry.country[1];
         console.log('FactoryUser.country', FactoryUser.country);
         console.log('FactoryUser.country[id-1]', FactoryUser.country[id-1]);
-        FactoryCountry.changeSelected2(FactoryUser.country[1]);
-        FactoryCountry.changeSelected(1, 112 , 'Республика Беларусь3');
+        FactoryCountry.changeSelected2(FactoryUser.country[id-1]);
+        // FactoryCountry.changeSelected(1);
+        FactoryCountry.changeSelected(id-0);
+       var dom = $scope.userForm.$$controls[15].$$element[0].selectedIndex=id-1;
+       console.log('dom ', dom);
         //FactoryCountry.changeSelected(FactoryUser.country[id-1].id, FactoryUser.country[id-1].code , FactoryUser.country[id-1].name + '2');
         console.log('after changeSelect ------');
         console.log('FactoryUser.country[id-1].code ' , FactoryUser.country[id-1].code);
@@ -1108,7 +1111,10 @@ app.factory('FactoryCountry', function () {
         },
         changeSelected2: function (country) {
             this.selected = country;
-        }
+        },
+        changeSelected: function (id) {
+            this.selected.id = id;
+        },
     };
 });
 
