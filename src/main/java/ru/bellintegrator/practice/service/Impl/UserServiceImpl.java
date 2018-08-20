@@ -98,6 +98,7 @@ public class UserServiceImpl implements UserService {
         view.citizenshipId = user.getDoc().getCountries().iterator().next().getId();
             view.citizenshipCode = user.getDoc().getCountries().iterator().next().getCode();
             view.citizenshipName = user.getDoc().getCountries().iterator().next().getName();
+            view.docId = user.getDoc().getId();
             view.docNumber = user.getDocNumber();
             view.docDate = user.getDocDate();
             view.phone = user.getPhone();

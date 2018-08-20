@@ -258,6 +258,7 @@
                 sel.name {{selected.name}}<br/>
                 sel.code {{selected.code}}<br/>
                 sel.docs {{selected.docs[countryId].name}}<br/>
+                sel.docs.id {{selected.docs[countryId].id}}<br/>
                 countryId {{countryId}}<br/>
                 allCountriesDocs {{country.docs[countryId]}}<br/>
                 country docs name {{country.docs[countryId].name}}<br/>
@@ -272,7 +273,7 @@
                     <option value="">Выберите код гражданства</option>
                 </select>
 
-                <select ng-model="selected.docs[countryId]"  ng-options="docs.name for docs in selected.docs">
+                <select ng-model="selected.docs[countryId]" ng-init="selected.docs[countryId]" ng-options="docs.name for docs in selected.docs track by countryId">
                     <option value="">Выберите наименование документа</option>
                 </select>
                 <select ng-model="selected.docs[countryId]"  ng-options="docs.code for docs in selected.docs">

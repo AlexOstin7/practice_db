@@ -1,17 +1,16 @@
-INSERT INTO DOC (id, NAME, CODE) VALUES (1, 'Свидетельство о рождении', 3);
+INSERT INTO DOC (id, NAME, CODE) VALUES (1, 'Свидетельство о рождении РФ', 3);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (2, 'Военный билет', 7);
+INSERT INTO DOC (id, NAME, CODE) VALUES (2, 'Военный билет РФ', 7);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (3, 'Временное удостоверение, выданное взамен военного билета', 8);
+INSERT INTO DOC (id, NAME, CODE) VALUES (3, 'Временное удостоверение, выданное взамен военного билета РФ', 8);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (4, 'Свидетельство о рассмотрении ходатайства о признании лица
-беженцем на территории Российской Федерации', 11);
+INSERT INTO DOC (id, NAME, CODE) VALUES (4, 'Свидетельство о признании лица беженцем РФ', 11);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (5, 'Вид на жительство в Российской Федерации  ', 12);
+INSERT INTO DOC (id, NAME, CODE) VALUES (5, 'Вид на жительство в РФ', 12);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (6, 'Удостоверение беженца', 13);
+INSERT INTO DOC (id, NAME, CODE) VALUES (6, 'Удостоверение беженца РФ', 13);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (7, 'Разрешение на временное проживание в Российской Федерации', 14);
+INSERT INTO DOC (id, NAME, CODE) VALUES (7, 'Разрешение на временное проживание в РФ', 14);
 
 INSERT INTO DOC (id, NAME, CODE) VALUES (8, 'Свидетельство о предоставлении временного убежища РФ', 15);
 
@@ -19,25 +18,25 @@ INSERT INTO DOC (id, NAME, CODE) VALUES (9, 'Паспорт гражданина
 
 INSERT INTO DOC (id, NAME, CODE) VALUES (10, 'Паспорт гражданина Республики Беларусь образца 1996 года', 1);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (11, 'Паспорт Республики Беларусь образца 1993 года', 2);
+INSERT INTO DOC (id, NAME, CODE) VALUES (11, 'Паспорт Республики Беларусь образца 1993 года (Беларусь)', 2);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (12, 'Паспорт СССР образца 1974 года', 3);
+INSERT INTO DOC (id, NAME, CODE) VALUES (12, 'Паспорт СССР образца 1974 года (Беларусь)', 3);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (13, 'Национальный паспорт иностранного гражданина', 4);
+INSERT INTO DOC (id, NAME, CODE) VALUES (13, 'Национальный паспорт иностранного гражданина (Беларусь)', 4);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (14, 'Свидетельство о рождении (для лиц, не достигших 16-летнего возраста)', 5);
+INSERT INTO DOC (id, NAME, CODE) VALUES (14, 'Свидетельство о рождении (Беларусь)', 5);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (15, 'Иной документ, удостоверяющий личность', 6);
+INSERT INTO DOC (id, NAME, CODE) VALUES (15, 'Иной документ, удостоверяющий личность (Беларусь)', 6);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (16, 'Справка об освобождении (для лиц, освободившихся из мест лишения свободы)', 7);
+INSERT INTO DOC (id, NAME, CODE) VALUES (16, 'Справка об освобождении (Беларусь)', 7);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (17, 'Удостоверение беженца', 8);
+INSERT INTO DOC (id, NAME, CODE) VALUES (17, 'Удостоверение беженца (Беларусь)', 8);
 
 INSERT INTO DOC (id, NAME, CODE) VALUES (18, 'Вид на жительство в Республике Беларусь', 9);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (19, 'Удостоверение лица без гражданства', 10);
+INSERT INTO DOC (id, NAME, CODE) VALUES (19, 'Удостоверение лица без гражданства (Беларусь)', 10);
 
-INSERT INTO DOC (id, NAME, CODE) VALUES (20, 'Удостоверение беженца', 11);
+INSERT INTO DOC (id, NAME, CODE) VALUES (20, 'Удостоверение беженца (Беларусь)', 11);
 
 INSERT INTO DOC (id, NAME, CODE) VALUES (21, 'Паспорт гражданина Республики Казахстан', 5);
 
@@ -116,9 +115,9 @@ INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBE
 
 INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (4, 'КАРЛ', 'ИЛЬИЧ', 'ШАЦ', 'ЗАМЕСТИТЕЛЬ ДИРЕКТОРА', 555910, '2015-06-19', 94512340, TRUE, 2, 4);
 
-INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (5, 'БОНИТА', 'ДЖОНИТОВНА', 'ПОСПЕГАСЕС', 'ГЛАВНЫЙ БУХГАЛТЕР', 522900, '2017-11-12', 9451842, TRUE, 2, 5);
+INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (5, 'БОНИТА', 'ДЖОНИТОВНА', 'ПОСПЕГАСЕС', 'ГЛАВНЫЙ БУХГАЛТЕР', 522900, '2017-11-12', 9451842, TRUE, 2, 12);
 
-INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (6, 'ЮСТАС', 'АЛЕКСЕЕВИЧ', 'ИСАЕВ', 'ГЛАВНЫЙ БУХГАЛТЕР', 522007, '2007-04-19', 8421842, TRUE, 3, 6);
+INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (6, 'ЮСТАС', 'АЛЕКСЕЕВИЧ', 'ИСАЕВ', 'ГЛАВНЫЙ БУХГАЛТЕР', 522007, '2007-04-19', 8421842, TRUE, 3, 22);
 
 INSERT INTO USER (id, FIRST_NAME, MIDDLE_NAME, SECOND_NAME, POSSITION, DOC_NUMBER, DOC_DATE, PHONE, IS_IDENTIFIED, OFFICE_ID, DOC_ID) VALUES (7, 'НИКОЛАС', 'АДАМОВИЧ', 'КЛАЙН', 'БУХГАЛТЕР', 522008, '2017-01-29', 8421841, TRUE, 3, 6);
 

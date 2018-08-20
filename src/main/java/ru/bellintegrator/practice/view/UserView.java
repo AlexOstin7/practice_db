@@ -26,6 +26,8 @@ public class UserView {
 
     public Long officeId;
 
+    public Integer docId;
+
     public Integer docCode;
 
     public String docName;
@@ -148,8 +150,16 @@ public class UserView {
         this.citizenshipId = citizenshipId;
     }
 
+    public Integer getDocId() {
+        return docId;
+    }
+
+    public void setDocId(Integer docId) {
+        this.docId = docId;
+    }
+
     @Override
     public String toString() {
-        return "UserView{" + "firstName='" + firstName + '\'' + ", secondName='" + secondName + '\'' + ", middleName='" + middleName + '\'' + ", possition='" + possition + '\'' + ", phone=" + phone + ", docNumber=" + docNumber + ", docDate=" + docDate + ", isIdentified=" + isIdentified + ", officeId=" + officeId + ", docCode=" + docCode + ", docName='" + docName + '\'' + ", citizenshipCode=" + citizenshipCode + ", citizenshipName='" + citizenshipName + '\'' + '}';
+        return "UserView{" + "firstName='" + firstName + '\'' + ", secondName='" + secondName + '\'' + ", middleName='" + middleName + '\'' + ", possition='" + possition + '\'' + ", phone=" + phone + ", docNumber=" + docNumber + ", docDate=" + docDate + ", isIdentified=" + isIdentified + ", officeId=" + officeId + ", docId=" + docId + ", docCode=" + docCode + ", docName='" + docName + '\'' + ", citizenshipId=" + citizenshipId + ", citizenshipCode=" + citizenshipCode + ", citizenshipName='" + citizenshipName + '\'' + '}';
     }
 }

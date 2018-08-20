@@ -617,21 +617,39 @@ app.controller('userController', function ($scope, $http, $location, FactoryOrgI
     }
 
     $scope.changeSelectedCountryInDropList = function () {
-        var id = FactoryUser.modelUser.countryId;
+        var countryId = FactoryUser.modelUser.countryId;
+        var docId = FactoryUser.modelUser.docId;
+        console.log('countryId ', countryId);
+        console.log('docId ', docId);
+
         console.log('start changeSelectedCountryInDropList');
         console.log('FactoryUser.modelUser.countryId (id) before changeSelect- ', FactoryUser.modelUser.countryId);
-        //FactoryUser.modelUser.countryId = FactoryCountry.selected.id;
+        //FactoryUser.modelUser.countryId = FactoryCountry.selected.countryId;
 //$scope.selected = FactoryCountry.country[1];
         console.log('FactoryUser.country', FactoryUser.country);
-        console.log('FactoryUser.country[id-1]', FactoryUser.country[id-1]);
-        FactoryCountry.changeSelected2(FactoryUser.country[id-1]);
+        //console.log('FactoryUser.country[countryId-1]', FactoryUser.country[countryId-1]);
+        FactoryCountry.changeSelected2(FactoryUser.country[countryId-1]);
+        console.log('FactoryCountry.selected ' , FactoryCountry.selected);
         // FactoryCountry.changeSelected(1);
-        FactoryCountry.changeSelected(id-0);
-       var dom = $scope.userForm.$$controls[15].$$element[0].selectedIndex=id-1;
-       console.log('dom ', dom);
-        //FactoryCountry.changeSelected(FactoryUser.country[id-1].id, FactoryUser.country[id-1].code , FactoryUser.country[id-1].name + '2');
+        //FactoryCountry.changeSelected(countryId-0);
+      var dom = $scope.userForm.$$controls[15].$$element[0].selectedIndex=countryId-1;
+      var dom2 = $scope.userForm.$$controls[16].$$element[0].selectedIndex=countryId;
+      var dom4 = $scope.userForm.$$controls[17].$$scope.selected=FactoryCountry.selected;
+      //var dom3 = $scope.userForm.$$controls[17].$$element[0].selectedIndex=docId-0;
+      var docList = FactoryUser.country[countryId-1].docs;
+      console.log('docList', docList)
+      for (i=0; i< docList.length-1; i++) {
+          if (docList[i].id == docId) {
+              var dom3 = $scope.userForm.$$controls[17].$$element[0].selectedIndex=3;
+              console.log('i-', i);
+              break;
+          }
+      };
+       console.log('dom3', dom3);
+       console.log('dom4', dom4);
+        //FactoryCountry.changeSelected(FactoryUser.country[countryId-1].countryId, FactoryUser.country[countryId-1].code , FactoryUser.country[countryId-1].name + '2');
         console.log('after changeSelect ------');
-        console.log('FactoryUser.country[id-1].code ' , FactoryUser.country[id-1].code);
+       // console.log('FactoryUser.country[countryId-1].code ' , FactoryUser.country[countryId-1].code);
         console.log('FactoryUser.modelUser.countryId ',FactoryUser.modelUser.countryId);
 
         console.log('FactoryCountry.selected ' , FactoryCountry.selected);
@@ -725,11 +743,15 @@ app.controller('getUserControllerGetById', function ($scope, $http, $location, F
                 //FactoryUser.country.refresh();
                // FactoryCountry.changeSelectedId();
 // FactoryCountry.changeSelected2(FactoryUser.country[1]);
-                FactoryUser.modelUser.countryId = $scope.user.id;
-
-                console.log('modelUserCountryId ', FactoryUser.modelUser.countryId );
+                FactoryUser.modelUser.countryId = list.citizenshipId;
+                FactoryUser.modelUser.docId = list.docId;
+                console.log('list.docId ', list.docId);
+                console.log('modelUser.countryId ', FactoryUser.modelUser.countryId );
+                console.log('modelUser.docId ', FactoryUser.modelUser.docId );
                 console.log('FactoryCountry.selected', FactoryCountry.selected);
-                console.log('FactoryUser.country)', FactoryUser.country);
+                FactoryCountry.changeSelected2(FactoryUser.country[FactoryUser.modelUser.countryId-1]);
+                console.log('FactoryCountry.selected after FactoryCountry.changedSelected2 ', FactoryCountry.selected);
+                console.log('FactoryUser.country - ', FactoryUser.country);
                 $scope.changeSelectedCountryInDropList();
                 console.log('after changeSelectedCountryInDropList FactoryCountry.selected', FactoryCountry.selected);
                 console.log('after changeSelectedCountryInDropList FactoryUser.country', FactoryUser.country);
@@ -1007,10 +1029,9 @@ app.factory('FactoryUser', function () {
             resultMessage: '',
             showAll: '',
             officeId: '',
-            docId: '',
+            docId: 9,
             country: '',
             countryId: 1,
-            initDropDown: false,
             listCountry: [{
                 id: '',
                 code: '',
@@ -1096,7 +1117,7 @@ app.factory('FactoryCountry', function () {
             id: 1,
             code: 643,
             name: 'Российская Федерация',
-            docs: [{id: '', code: '', name: ''}]
+            docs: [{id: 9, code: 21, name: 'Паспорт гражданина Российской Федерации'}]
         },
         setCountryId: function (id) {
             this.countryId = id;
