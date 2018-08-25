@@ -203,14 +203,32 @@
             <input type="text" name="secondName" class="form-control" ng-model="secondName"/>
             <label>Position</label>
             <input type="text" name="possition" class="form-control" ng-model="possition"/>
-            <label>Doc Code</label>
+
+
+                <div ng-controller="postUserControllerAllCountries">
+                    <label>Citizen ship Name</label></br>
+                    <select ng-model="modelUser.selected" ng-init="postUserAllCountries()"  ng-change="changeSelectedCountryInDropList()"  ng-options="country.name for country in country track by country.id">
+                    </select></br>
+                    <label>Citizen ship Code</label></br>
+                    <select ng-model="modelUser.selected" ng-change="changeSelectedCountryInDropList()"  ng-options="country.code for country in country track by country.id">
+                    </select></br>
+                    <label>Doc Name</label></br>
+                    <select ng-model="modelUser.selected.docs[modelUser.currentDocId]"  ng-change="changeSelectedCountryInDropList()" ng-options="docs.name for docs in country[modelUser.countryId-1].docs track by docs.id">
+                    </select></br>
+                    <label>Doc Code</label></br>
+                    <select ng-model="modelUser.selected.docs[modelUser.currentDocId]"  ng-options="docs.code for docs in country[modelUser.countryId-1].docs track by docs.id">
+                    </select>
+                </div>
+
+           <!-- <label>Doc Code</label>
             <input type="text" name="docCode" class="form-control" ng-model="docCode"/>
             <label>Doc Name</label>
             <input type="text" name="docName" class="form-control" ng-model="docName"/>
             <label>Citizen ship Code</label>
             <input type="text" name="citizenShipCode" class="form-control" ng-model="citizenShipCode"/>
             <label>Citizen ship Name</label>
-            <input type="text" name="citizenShipName" class="form-control" ng-model="citizenShipName"/>
+            <input type="text" name="citizenShipName" class="form-control" ng-model="citizenShipName"/>-->
+
             <label>Doc date</label>
             <input type="text" name="docDate" class="form-control" ng-model="docDate"/>
             <label>Doc Number</label>
@@ -253,36 +271,6 @@
                 <button ng-click="postUserAllDocs()">All Docs</button>
             </div>
 
-            <div name="divUserSelect" ng-controller="postUserControllerAllCountries">
-                sel.id  {{selected.id}}<br/>
-                sel.name {{selected.name}}<br/>
-                sel.code {{selected.code}}<br/>
-                sel.docs {{selected.docs[countryId].name}}<br/>
-                sel.docs.id {{selected.docs[countryId].id}}<br/>
-                countryId {{countryId}}<br/>
-                allCountriesDocs {{country.docs[modelUser.countryId]}}<br/>
-                country docs name {{country.docs[modelUser.countryId].name}}<br/>
-                current {{modelUser.currentDocId}}
-
-               <!--<select ng-model="selected" ng-change="changeSelectedCountryInDropList()" ng-focus="postUserAllCountries()"  ng-options="country.name for country in country ">-->
-                <select name="countryList" ng-model="selected" ng-init="postUserAllCountries()"  ng-change="changeSelectedCountryInDropList()"  ng-options="country.name for country in country track by country.id"><select ng-model="selected" ng-init="postUserAllCountries()" ng-change="changeSelectedCountryInDropList()"  ng-options="country.name for country in country track by country.id">
-                    <option value="">Выберите наименование гражданства</option>
-                </select>
-
-                <!--<select ng-model="selected" ng-change="changeSelectedCountryInDropList()" ng-focus="postUserAllCountries()"  ng-options="country.code for country in country ">-->
-                <select ng-model="selected"   ng-options="country.code for country in country track by country.id">
-                    <option value="">Выберите код гражданства</option>
-                </select>
-
-                <select ng-model="selected.docs[modelUser.currentDocId]" ng-options="docs.name for docs in selected.docs">
-                    <option value="">Выберите наименование документа</option>
-                </select>
-                <select ng-model="selected.docs[modelUser.currentDocId]"  ng-options="docs.code for docs in selected.docs">
-                    <option value="">Выберите код документа</option>
-                </select>
-                <button ng-click="postUserAllCountries()">All Countries</button>
-                <button ng-click="changeSelectedCountryInDropList()">Test Id</button>
-            </div>
             </form>
             <!--
             <div ng-controller="postOfficeControllerUpdate">
