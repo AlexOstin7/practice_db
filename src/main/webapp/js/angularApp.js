@@ -585,7 +585,7 @@ app.controller('officeController', function ($scope, $http, $location, FactoryOr
     }
 });
 
-app.controller('userController', function ($scope, $http, $location, FactoryOrgId, FactoryOffice, FactoryUser, FactoryCountry) {
+app.controller('userController', function ($scope, $http, $location, $filter, FactoryOrgId, FactoryOffice, FactoryUser, FactoryCountry) {
     $scope.model = FactoryOrgId.organization;
     $scope.modelOffice = FactoryOffice.modelOffice;
     $scope.office = FactoryOffice.office;
@@ -595,7 +595,8 @@ app.controller('userController', function ($scope, $http, $location, FactoryOrgI
     $scope.user = FactoryUser.user;
     $scope.docId = FactoryUser.modelUser.docId;
     $scope.currentDocId = FactoryUser.modelUser.currentDocId;
-
+    //$scope.filterDocDate = $filter('date')( $scope.user.docDate );
+    $scope.filterDocDate = FactoryUser.modelUser.filterDocDate;
     $scope.setView = function (id, firstName, secondName, middleName, possition, docCode, docName, citizenShipCode, citizenShipName, phone, docDate, docNumber, isIdentified, officeId, docId) {
         $scope.user.id = id;
         $scope.firstName = firstName;
@@ -612,10 +613,6 @@ app.controller('userController', function ($scope, $http, $location, FactoryOrgI
         $scope.isIdentified = isIdentified;
         $scope.officeId = officeId;
         $scope.docId = docId;
-    }
-
-    $scope.cleanUp = function () {
-        $scope.setView('', '', '', '', '', '', '', '', '', '', '', '', '');
     }
 
     $scope.changeSelectedCountryInDropList = function () {
@@ -653,7 +650,10 @@ app.controller('userController', function ($scope, $http, $location, FactoryOrgI
         console.log('FactoryUser.country ', FactoryUser.country);
         console.log(' changeSelectedCountryInDropList end ----------------------------');
     }
+
 });
+
+
 
 app.controller('postUserControllerListbyOfficeId', function ($scope, $http, $location, FactoryUser, FactoryOffice) {
     //$scope.model = FactoryOrgId.organization;
@@ -711,12 +711,14 @@ app.controller('postUserControllerListbyOfficeId', function ($scope, $http, $loc
     }
 });
 
-app.controller('getUserControllerGetById', function ($scope, $http, $location, FactoryOffice, FactoryUser, FactoryCountry) {
+app.controller('getUserControllerGetById', function ($scope, $http, $location, $filter, FactoryOffice, FactoryUser, FactoryCountry) {
     //$scope.model = FactoryOrgId.organization;
-    $scope.office = FactoryOffice.office;
-    $scope.modelOffice = FactoryOffice.modelOffice;
-    $scope.user = FactoryUser.user;
-    $scope.modelUser = FactoryUser.modelUser;
+    // $scope.office = FactoryOffice.office;
+    // $scope.modelOffice = FactoryOffice.modelOffice;
+    //
+   // $scope.user = FactoryUser.user;
+   //  $scope.modelUser = FactoryUser.modelUser;
+   //  var filterDocDate = $filter('date')( $scope.user.docDate );
     $scope.getUserById = function () {
         var url = $location.absUrl() + "/api/user/" + $scope.user.id;
 
@@ -730,9 +732,12 @@ app.controller('getUserControllerGetById', function ($scope, $http, $location, F
 
             if (response.data.result == "success") {
                 var list = response.data.data;
+                var filterDocDate = FactoryUser.modelUser.filterDocDate;
                 console.log('getUserById start =====================================');
+                filterDocDate = $filter('date')( list.docDate );
+                console.log('filterDocDate', filterDocDate);
                 console.log(list);
-                $scope.setView($scope.user.id, list.firstName, list.secondName, list.middleName, list.possition, list.docCode, list.docName, list.citizenshipCode, list.citizenshipName, list.phone, list.docDate, list.docNumber, list.identified);
+                $scope.setView($scope.user.id, list.firstName, list.secondName, list.middleName, list.possition, list.docCode, list.docName, list.citizenshipCode, list.citizenshipName, list.phone, filterDocDate, list.docNumber, list.identified);
                 FactoryUser.modelUser.resultMessage = response.data.result;
                 FactoryUser.modelUser.countryId = list.citizenshipId;
                 FactoryUser.modelUser.docId = list.docId;
@@ -1033,6 +1038,7 @@ app.factory('FactoryUser', function () {
             country: '',
             countryId: 1,
             currentDocId: 0,
+            filterDocDate: '',
             selected: {
                 id: 1,
                 code: 643,
