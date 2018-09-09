@@ -597,6 +597,7 @@ app.controller('userController', function ($scope, $http, $location, $filter, Fa
     $scope.currentDocId = FactoryUser.modelUser.currentDocId;
     //$scope.filterDocDate = $filter('date')( $scope.user.docDate );
     $scope.filterDocDate = FactoryUser.modelUser.filterDocDate;
+    $scope.docDate2 = FactoryUser.getFilterDocDate();
     $scope.setView = function (id, firstName, secondName, middleName, possition, docCode, docName, citizenShipCode, citizenShipName, phone, docDate, docNumber, isIdentified, officeId, docId) {
         $scope.user.id = id;
         $scope.firstName = firstName;
@@ -651,6 +652,22 @@ app.controller('userController', function ($scope, $http, $location, $filter, Fa
         console.log(' changeSelectedCountryInDropList end ----------------------------');
     }
 
+    $scope.setFilterDocDate = function (docdate) {
+        $scope.docDate2 = docdate;
+    }
+
+}).directive('date', function (dateFilter) {
+    return {
+        require:'ngModel',
+        link:function (scope, elm, attrs, ctrl) {
+
+            var dateFormat = attrs['date'] || 'yyyy-MM-dd';
+
+            ctrl.$formatters.unshift(function (modelValue) {
+                return dateFilter(modelValue, dateFormat);
+            });
+        }
+    };
 });
 
 
@@ -734,9 +751,12 @@ app.controller('getUserControllerGetById', function ($scope, $http, $location, $
                 var list = response.data.data;
                 var filterDocDate = FactoryUser.modelUser.filterDocDate;
                 console.log('getUserById start =====================================');
-                filterDocDate = $filter('date')( list.docDate );
+                filterDocDate = $filter('date')( list.docDate, "dd-MM-yyyy" );
+                FactoryUser.setFilterDocDate(filterDocDate);
                 console.log('filterDocDate', filterDocDate);
+                $scope.user.docDate2 = FactoryUser.getFilterDocDate();
                 console.log(list);
+                $scope.setFilterDocDate(FactoryUser.getFilterDocDate());
                 $scope.setView($scope.user.id, list.firstName, list.secondName, list.middleName, list.possition, list.docCode, list.docName, list.citizenshipCode, list.citizenshipName, list.phone, filterDocDate, list.docNumber, list.identified);
                 FactoryUser.modelUser.resultMessage = response.data.result;
                 FactoryUser.modelUser.countryId = list.citizenshipId;
@@ -1052,6 +1072,12 @@ app.factory('FactoryUser', function () {
             name: '',
             docs: [{id: '', code: '', name: ''}]
         }],
+        setFilterDocDate: function (docDate) {
+            this.modelUser.filterDocDate = docDate;
+        },
+        getFilterDocDate: function () {
+            return this.modelUser.filterDocDate;
+        },
         updatelistUserByOfficeId: function (name, phone, isIdentified) {
             {
                 this.listUserByOfficeId.firstName = name,

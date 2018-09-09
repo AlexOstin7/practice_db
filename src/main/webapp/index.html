@@ -193,7 +193,7 @@
             <h3>User controller </h3>
 
             <p> Результат: {{modelUser.resultMessage}}</p>
-Filter {{filterDocDate}}
+
             <h4>Office Id {{office.id}}</h4>
             <label>First Name</label>
             <input type="text" name="firstName" class="form-control" ng-model="firstName"/>
@@ -219,9 +219,11 @@ Filter {{filterDocDate}}
                     <select ng-model="modelUser.selected.docs[modelUser.currentDocId]"  ng-options="docs.code for docs in country[modelUser.countryId-1].docs track by docs.id">
                     </select>
                 </div>
+                <label>Doc date</label></br>
+                <label ng-bind="docDate |  date:'dd-MM-yyyy'"></label>
 
-                <input type="date" id="exampleInput" name="docDate" ng-model="docDate"
-                       placeholder="yyyy-MM-dd" min="1974-01-01" max="2018-12-31" required />
+                <input type="date"  name="docDate" date='dd-MM-yyyy' ng-model="docDate"
+                       placeholder="dd-MM-yyyy" min="1974-01-01" max="2018-12-31" required />
            <!-- <label>Doc Code</label>
             <input type="text" name="docCode" class="form-control" ng-model="docCode"/>
             <label>Doc Name</label>
@@ -230,9 +232,9 @@ Filter {{filterDocDate}}
             <input type="text" name="citizenShipCode" class="form-control" ng-model="citizenShipCode"/>
             <label>Citizen ship Name</label>
             <input type="text" name="citizenShipName" class="form-control" ng-model="citizenShipName"/>-->
-                <label ng-bind="docDate |  date:'MM/dd/yyyy'"></label>
-            <label>Doc date</label>
-            <input type="text" name="docDate"  class="form-control" ng-model="docDate"/>
+
+            <!--<label>Doc date</label>
+            <input type="text" name="docDate"  class="form-control" ng-model="docDate  |  date:'dd-MM-yyyy'"/>-->
             <label>Doc Number</label>
             <input type="text" name="docNumber" class="form-control" ng-model="docNumber"/>
             <label>Phone</label>
