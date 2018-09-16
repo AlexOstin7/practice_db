@@ -595,9 +595,6 @@ app.controller('userController', function ($scope, $http, $location, $filter, Fa
     $scope.user = FactoryUser.user;
     $scope.docId = FactoryUser.modelUser.docId;
     $scope.currentDocId = FactoryUser.modelUser.currentDocId;
-    //$scope.filterDocDate = $filter('date')( $scope.user.docDate );
-    $scope.filterDocDate = FactoryUser.modelUser.filterDocDate;
-    $scope.docDate2 = FactoryUser.getFilterDocDate();
     $scope.setView = function (id, firstName, secondName, middleName, possition, docCode, docName, citizenShipCode, citizenShipName, phone, docDate, docNumber, isIdentified, officeId, docId) {
         $scope.user.id = id;
         $scope.firstName = firstName;
@@ -652,25 +649,8 @@ app.controller('userController', function ($scope, $http, $location, $filter, Fa
         console.log(' changeSelectedCountryInDropList end ----------------------------');
     }
 
-    $scope.setFilterDocDate = function (docdate) {
-        $scope.docDate2 = docdate;
-    }
 
-}).directive('date', function (dateFilter) {
-    return {
-        require:'ngModel',
-        link:function (scope, elm, attrs, ctrl) {
-
-            var dateFormat = attrs['date'] || 'yyyy-MM-dd';
-
-            ctrl.$formatters.unshift(function (modelValue) {
-                return dateFilter(modelValue, dateFormat);
-            });
-        }
-    };
 });
-
-
 
 app.controller('postUserControllerListbyOfficeId', function ($scope, $http, $location, FactoryUser, FactoryOffice) {
     //$scope.model = FactoryOrgId.organization;
@@ -729,13 +709,8 @@ app.controller('postUserControllerListbyOfficeId', function ($scope, $http, $loc
 });
 
 app.controller('getUserControllerGetById', function ($scope, $http, $location, $filter, FactoryOffice, FactoryUser, FactoryCountry) {
-    //$scope.model = FactoryOrgId.organization;
-    // $scope.office = FactoryOffice.office;
-    // $scope.modelOffice = FactoryOffice.modelOffice;
-    //
-   // $scope.user = FactoryUser.user;
-   //  $scope.modelUser = FactoryUser.modelUser;
-   //  var filterDocDate = $filter('date')( $scope.user.docDate );
+    $scope.date = new Date();
+    //$scope.filterDocDate = FactoryUser.modelUser.filterDocDate;
     $scope.getUserById = function () {
         var url = $location.absUrl() + "/api/user/" + $scope.user.id;
 
@@ -748,24 +723,24 @@ app.controller('getUserControllerGetById', function ($scope, $http, $location, $
         $http.get(url, config).then(function (response) {
 
             if (response.data.result == "success") {
+                $scope.date = new Date();
                 var list = response.data.data;
-                var filterDocDate = FactoryUser.modelUser.filterDocDate;
                 console.log('getUserById start =====================================');
-                filterDocDate = $filter('date')( list.docDate, "dd-MM-yyyy" );
-                FactoryUser.setFilterDocDate(filterDocDate);
-                console.log('filterDocDate', filterDocDate);
-                $scope.user.docDate2 = FactoryUser.getFilterDocDate();
+                FactoryUser.user.docDate = $filter('date')( list.docDate, "yyyy-MM-dd" );
+                //console.log('filterDocDate', filterDocDate);
+                console.log('filterDocDate', FactoryUser.user.docDate);
                 console.log(list);
-                $scope.setFilterDocDate(FactoryUser.getFilterDocDate());
-                $scope.setView($scope.user.id, list.firstName, list.secondName, list.middleName, list.possition, list.docCode, list.docName, list.citizenshipCode, list.citizenshipName, list.phone, filterDocDate, list.docNumber, list.identified);
+
+                $scope.setView($scope.user.id, list.firstName, list.secondName, list.middleName, list.possition, list.docCode, list.docName, list.citizenshipCode, list.citizenshipName, list.phone, new Date(FactoryUser.user.docDate), list.docNumber, list.identified);
+                $scope.userForm.docDate.$setViewValue(new Date(FactoryUser.user.docDate).toISOString().split("T")[0]);
+                $scope.userForm.docDate.$render();
+
                 FactoryUser.modelUser.resultMessage = response.data.result;
                 FactoryUser.modelUser.countryId = list.citizenshipId;
                 FactoryUser.modelUser.docId = list.docId;
                 console.log('list.docId ', list.docId);
                 console.log('modelUser.countryId ', FactoryUser.modelUser.countryId);
                 console.log('modelUser.docId ', FactoryUser.modelUser.docId);
-                //console.log('FactoryUser.country - ', FactoryUser.country);
-
                 console.log('before changeSelectedCountryInDropList FactoryUser.modelUser.selected', FactoryUser.modelUser.selected);
                // $scope.changeSelectedCountryInDropList();
                 FactoryUser.modelUser.selected.id = list.citizenshipId;
@@ -779,14 +754,12 @@ app.controller('getUserControllerGetById', function ($scope, $http, $location, $
                 //$scope.getResultMessage = "Offices Data Error!";
                 FactoryUser.modelUser.resultMessage = response.data.error;
                 $scope.setView('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
-                //FactoryOrgId.setOrgId('');
             }
 
         }, function (response) {
             //$scope.getResultMessage = "Fail!";
             FactoryUser.modelUser.resultMessage = response.data.error;
             $scope.setView('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
-            //FactoryOrgId.setOrgId('');
         });
     }
 });
@@ -1058,7 +1031,6 @@ app.factory('FactoryUser', function () {
             country: '',
             countryId: 1,
             currentDocId: 0,
-            filterDocDate: '',
             selected: {
                 id: 1,
                 code: 643,
@@ -1076,7 +1048,7 @@ app.factory('FactoryUser', function () {
             this.modelUser.filterDocDate = docDate;
         },
         getFilterDocDate: function () {
-            return this.modelUser.filterDocDate;
+            return this.modelUser.docDate;
         },
         updatelistUserByOfficeId: function (name, phone, isIdentified) {
             {

@@ -190,90 +190,89 @@
 
         <div ng-controller="userController" class="col-md-3">
             <form name="userForm">
-            <h3>User controller </h3>
+                <h3>User controller </h3>
 
-            <p> Результат: {{modelUser.resultMessage}}</p>
+                <p> Результат: {{modelUser.resultMessage}}</p>
 
-            <h4>Office Id {{office.id}}</h4>
-            <label>First Name</label>
-            <input type="text" name="firstName" class="form-control" ng-model="firstName"/>
-            <label>Middle Name</label>
-            <input type="text" name="middleName" class="form-control" ng-model="middleName"/>
-            <label>Second Name</label>
-            <input type="text" name="secondName" class="form-control" ng-model="secondName"/>
-            <label>Position</label>
-            <input type="text" name="possition" class="form-control" ng-model="possition"/>
+                <h4>Office Id {{office.id}}</h4>
+                <label>First Name</label>
+                <input type="text" name="firstName" class="form-control" ng-model="firstName"/>
+                <label>Middle Name</label>
+                <input type="text" name="middleName" class="form-control" ng-model="middleName"/>
+                <label>Second Name</label>
+                <input type="text" name="secondName" class="form-control" ng-model="secondName"/>
+                <label>Position</label>
+                <input type="text" name="possition" class="form-control" ng-model="possition"/>
 
 
                 <div ng-controller="postUserControllerAllCountries">
                     <label>Citizenship Name</label></br>
-                    <select ng-model="modelUser.selected" ng-init="postUserAllCountries()"  ng-change="changeSelectedCountryInDropList()"  ng-options="country.name for country in country track by country.id">
+                    <select ng-model="modelUser.selected" ng-init="postUserAllCountries()"
+                            ng-change="changeSelectedCountryInDropList()"
+                            ng-options="country.name for country in country track by country.id">
                     </select></br>
                     <label>Citizenship Code</label></br>
-                    <select ng-model="modelUser.selected" ng-change="changeSelectedCountryInDropList()"  ng-options="country.code for country in country track by country.id">
+                    <select ng-model="modelUser.selected" ng-change="changeSelectedCountryInDropList()"
+                            ng-options="country.code for country in country track by country.id">
                     </select></br>
                     <label>Doc Name</label></br>
-                    <select ng-model="modelUser.selected.docs[modelUser.currentDocId]"  ng-change="changeSelectedCountryInDropList()" ng-options="docs.name for docs in country[modelUser.countryId-1].docs track by docs.id">
+                    <select ng-model="modelUser.selected.docs[modelUser.currentDocId]"
+                            ng-change="changeSelectedCountryInDropList()"
+                            ng-options="docs.name for docs in country[modelUser.countryId-1].docs track by docs.id">
                     </select></br>
                     <label>Doc Code</label></br>
-                    <select ng-model="modelUser.selected.docs[modelUser.currentDocId]"  ng-options="docs.code for docs in country[modelUser.countryId-1].docs track by docs.id">
+                    <select ng-model="modelUser.selected.docs[modelUser.currentDocId]"
+                            ng-options="docs.code for docs in country[modelUser.countryId-1].docs track by docs.id">
                     </select>
                 </div>
+                <div ng-controller="getUserControllerGetById">
                 <label>Doc date</label></br>
-                <label ng-bind="docDate |  date:'dd-MM-yyyy'"></label>
+                <span  ng-bind="docDate |  date:'dd-MMM-yyyy'"></span>
+                    <span ng-show="userForm.docDate.$error.required">Введите дату докуметна</span>
+                    <span ng-show="userForm.docDate.$dirty && userForm.docDate.$invalid">Неверная Дата документа </span>
+                    </br>
+                <input type="date" name="docDate" date='dd-MMM-yyyy'  ng-model="docDate" ng-change="getUserControllerGetById()"
+                       placeholder="dd-MM-yyyy" min="1974-01-01" max="{{date | date:'yyyy-MM-dd'}}" required="true" valid="true"/>
+                </div></br>
+                <label>Doc Number</label>
+                <input type="text" name="docNumber" class="form-control" ng-model="docNumber"/>
+                <label>Phone</label>
+                <input type="text" name="phone" class="form-control" ng-model="phone"/>
+                <label>isIdentified</label>
+                <input type="text" name="isIdentified" class="form-control" ng-model="isIdentified"/>
+                <button ng-click="cleanUp()">Clean up</button>
 
-                <input type="date"  name="docDate" date='dd-MM-yyyy' ng-model="docDate"
-                       placeholder="dd-MM-yyyy" min="1974-01-01" max="2018-12-31" required />
-           <!-- <label>Doc Code</label>
-            <input type="text" name="docCode" class="form-control" ng-model="docCode"/>
-            <label>Doc Name</label>
-            <input type="text" name="docName" class="form-control" ng-model="docName"/>
-            <label>Citizen ship Code</label>
-            <input type="text" name="citizenShipCode" class="form-control" ng-model="citizenShipCode"/>
-            <label>Citizen ship Name</label>
-            <input type="text" name="citizenShipName" class="form-control" ng-model="citizenShipName"/>-->
+                <div ng-controller="getUserControllerGetById">
+                    <label>User Id</label>
+                    <input type="text" class="form-control" style="width: 120px;" ng-model="user.id"
+                           placeholder='Enter User Id' ng-change="getUserById()"/> <br/>
+                    <button ng-click="getUserById()">Get User By Id</button>
+                </div>
 
-            <!--<label>Doc date</label>
-            <input type="text" name="docDate"  class="form-control" ng-model="docDate  |  date:'dd-MM-yyyy'"/>-->
-            <label>Doc Number</label>
-            <input type="text" name="docNumber" class="form-control" ng-model="docNumber"/>
-            <label>Phone</label>
-            <input type="text" name="phone" class="form-control" ng-model="phone"/>
-            <label>isIdentified</label>
-            <input type="text" name="isIdentified" class="form-control" ng-model="isIdentified"/>
-            <button ng-click="cleanUp()">Clean up</button>
+                <div ng-controller="postUserControllerListbyOfficeId">
+                    <button ng-click="postUserListByOfficeId()">List User by OfficeId</button>
+                </div>
 
-            <div ng-controller="getUserControllerGetById">
-                <label>User Id</label>
-                <input type="text" class="form-control" style="width: 120px;" ng-model="user.id"
-                       placeholder='Enter User Id' ng-change="getUserById()"/> <br/>
-                <button ng-click="getUserById()">Get User By Id</button>
-            </div>
+                <div ng-controller="getUserControllerLoadDocs">
+                    <!-- Country Name {{modelUser.countryName}} Country Id {{modelUser.countryId}} doc {{country.doc}}
+                     sel {{selected}} counntryId {{countryId}} country {{country}}-->
+                    <!-- <button ng-click="getUserLoadDocs()">Load Docs</button>
+                     <button ng-click="getCountryId()">Test Id</button>-->
+                    <!--<select ng-model="selectedDoc"  ng-focus="getUserLoadDocs()"  ng-options="doc.name for doc in doc">
+                        <option value="">Выберите документ</option>
+                    </select>-->
+                </div>
 
-            <div ng-controller="postUserControllerListbyOfficeId">
-                <button ng-click="postUserListByOfficeId()">List User by OfficeId</button>
-            </div>
+                <div ng-controller="postUserControllerAllDocs">
+                    <!--<select ng-model="ddlFruits" ng-options="fruit.name for fruit in Fruits track by fruit.id">
+                    </select>
+                    <select ng-model="select" ng-options="a.name for a in fruit track by a.id">
+                    </select>-->
+                    <!--<select ng-model="selectAll" ng-options="a.name for a in doc track by a.id">-->
+                    <!--</select>-->
 
-            <div ng-controller="getUserControllerLoadDocs">
-               <!-- Country Name {{modelUser.countryName}} Country Id {{modelUser.countryId}} doc {{country.doc}}
-                sel {{selected}} counntryId {{countryId}} country {{country}}-->
-                <button ng-click="getUserLoadDocs()">Load Docs</button>
-                <button ng-click="getCountryId()">Test Id</button>
-                <select ng-model="selectedDoc"  ng-focus="getUserLoadDocs()"  ng-options="doc.name for doc in doc">
-                    <option value="">Выберите документ</option>
-                </select>
-            </div>
-
-            <div ng-controller="postUserControllerAllDocs">
-                <!--<select ng-model="ddlFruits" ng-options="fruit.name for fruit in Fruits track by fruit.id">
-                </select>
-                <select ng-model="select" ng-options="a.name for a in fruit track by a.id">
-                </select>-->
-                <select ng-model="selectAll" ng-options="a.name for a in doc track by a.id">
-                </select>
-
-                <button ng-click="postUserAllDocs()">All Docs</button>
-            </div>
+                    <!--<button ng-click="postUserAllDocs()">All Docs</button>-->
+                </div>
 
             </form>
             <!--
