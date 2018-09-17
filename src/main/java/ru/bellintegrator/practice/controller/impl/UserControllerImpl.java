@@ -108,7 +108,7 @@ public class UserControllerImpl implements UserController {
         return new ResponseSuccess("success", userService.allCountries());
     }
 
-/*
+
     @Override
     @ApiOperation(value = "updateUser", nickname = "updateUser", httpMethod = "POST")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),
@@ -121,7 +121,7 @@ public class UserControllerImpl implements UserController {
         userService.updateUser(user);
         return new ResponseSuccess("success");
     }
-
+/*
     @Override
     @ApiOperation(value = "deleteUserById", nickname = "deleteUserById", httpMethod = "POST")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),

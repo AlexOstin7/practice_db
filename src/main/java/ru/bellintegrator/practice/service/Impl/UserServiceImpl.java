@@ -140,6 +140,44 @@ public class UserServiceImpl implements UserService {
         return countries;
     }
 
+    @Override
+    @Transactional
+    public void updateUser(UserView view) {
+
+        if ( view.getId() == null || view.firstName == null || view.secondName == null || view.middleName == null || view.phone == null || view.officeId == null || view.possition == null ||
+        view.docId == null || view.docId == null || view.docDate == null || view.docCode == null || view.citizenshipId == null || view.citizenshipName == null || view.citizenshipCode == null || view.isIdentified == null) {
+            throw new CustomErrorException("Service says Mismatch one ore more parametr(s)- null  ");
+        }
+        if (Long.valueOf(view.getId()) < 1) {
+            throw new CustomErrorException(String.format("Service says Mismatch parametr- Id* is %s", view.getId()));
+        }
+        log.info("before service update ID" + view.toString());
+        User user = dao.loadById(Long.valueOf(view.getId()));
+        Doc doc = user.getDoc() ;
+        if (user == null) {
+            throw new CustomErrorException(String.format("Service says Mismatch parametr- Id* is %s", view.getId()));
+        }
+        log.info("before service update " + view.toString());
+        user.setFirstName(view.firstName);
+        user.setSecondName(view.secondName);
+        user.setMiddleName(view.middleName);
+        user.setPhone(view.phone);
+        user.setIdentified(view.isIdentified);
+        user.setPossition(view.possition);
+        user.setDocDate(view.docDate);
+        user.setDocNumber(view.docNumber);
+        doc.setId(view.getDocId());
+        doc.setCode(view.getDocCode());
+        doc.getCountries().iterator().next().setId(view.getCitizenshipId());
+        doc.getCountries().iterator().next().setCode(view.getCitizenshipCode());
+        doc.getCountries().iterator().next().setName(view.getCitizenshipName());
+        user.setDoc(doc);
+
+        //view.citizenShipCode = p.getDoc().getCountries().iterator().next().getCode();
+        log.info(view.toString());
+
+        dao.save(user);
+    }
 
 
    /* @Override
@@ -165,30 +203,6 @@ public class UserServiceImpl implements UserService {
 
 
 
-    @Override
-    @Transactional
-    public void updateUser(UserView view) {
-        if (view.getId() == null || view.getActive() == null || view.getAddress() == null || view.getName() == null || view.getPhone() == null || view.orgId == null) {
-            throw new CustomErrorException("Service says Mismatch one ore more parametr(s)- null  ");
-        }
-        if (Long.valueOf(view.getId()) < 1) {
-            throw new CustomErrorException(String.format("Service says Mismatch parametr- Id* is %s", view.getId()));
-        }
-        log.info("before service update ID" + view.toString());
-        User user = dao.loadById(Long.valueOf(view.getId()));
-        if (user == null) {
-            throw new CustomErrorException(String.format("Service says Mismatch parametr- Id* is %s", view.getId()));
-        }
-        log.info("before service update " + view.toString());
-        user.setName(view.name);
-        user.setPhone(view.phone);
-        user.setAddress(view.address);
-        user.setActive(view.isActive);
-
-        log.info(view.toString());
-
-        dao.save(user);
-    }
 
     @Override
     @Transactional

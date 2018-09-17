@@ -746,6 +746,12 @@ app.controller('getUserControllerGetById', function ($scope, $http, $location, $
                 FactoryUser.modelUser.selected.id = list.citizenshipId;
                 FactoryUser.modelUser.selected.docs[0].id = list.docId;
 
+                FactoryOffice.setOfficeId(list.officeId);
+
+                console.log('after FactoryOffice.setOfficeId', FactoryOffice.office);
+                console.log('list.OfficeId', list.officeId);
+                console.log('list', list);
+
                 console.log('after changeSelectedCountryInDropList FactoryUser.modelUser.selected', FactoryUser.modelUser.selected);
                 console.log('FactoryUser.country ', FactoryUser.country);
                 console.log('getUserById end ==============================================');
@@ -992,8 +998,8 @@ app.factory('FactoryOffice', function () {
             this.office.phone = phone;
             this.office.isActive = isActive;
         },
-        setId: function () {
-            this.office.id = $scope.id;
+        setOfficeId: function (id) {
+            this.office.id = id;
         }
     }
 });
