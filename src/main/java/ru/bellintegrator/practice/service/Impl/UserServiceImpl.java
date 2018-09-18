@@ -60,7 +60,8 @@ public class UserServiceImpl implements UserService {
             view.middleName = p.getMiddleName();
             view.possition = p.getPossition();
             view.docCode = p.getDoc().getCode();
-            view.citizenShipCode = p.getDoc().getCountries().iterator().next().getCode();
+           // view.citizenShipCode = p.getDoc().getCountries().iterator().next().getCode();
+            view.citizenShipCode = p.getDoc().getCountries().get(0).getCode();
 
             log.info("after filter " + view.toString());
 
@@ -84,59 +85,62 @@ public class UserServiceImpl implements UserService {
 
         log.info("user service getId " + user.toString());
 
-
-
-       // Function<User, UserView> mapUser = p -> {
-            UserView view = new UserView();
-            view.id = String.valueOf(user.getId());
-            view.firstName = user.getFirstName();
-            view.secondName = user.getSecondName();
-            view.middleName = user.getMiddleName();
-            view.possition = user.getPossition();
-            view.docCode = user.getDoc().getCode();
+        // Function<User, UserView> mapUser = p -> {
+        UserView view = new UserView();
+        view.officeId = user.getOffice().getId();
+        view.id = String.valueOf(user.getId());
+        view.firstName = user.getFirstName();
+        view.secondName = user.getSecondName();
+        view.middleName = user.getMiddleName();
+        view.possition = user.getPossition();
+        view.docCode = user.getDoc().getCode();
         view.docName = user.getDoc().getName();
-        view.citizenshipId = user.getDoc().getCountries().iterator().next().getId();
-            view.citizenshipCode = user.getDoc().getCountries().iterator().next().getCode();
-            view.citizenshipName = user.getDoc().getCountries().iterator().next().getName();
-            view.docId = user.getDoc().getId();
-            view.docNumber = user.getDocNumber();
-            view.docDate = user.getDocDate();
-            view.phone = user.getPhone();
-            view.isIdentified = user.getIdentified();
+        // view.citizenshipId = user.getDoc().getCountries().iterator().next().getId();
+        view.citizenshipId = user.getDoc().getCountries().get(0).getId();
+        view.citizenshipCode = user.getDoc().getCountries().get(0).getCode();
+        //view.citizenshipCode = user.getDoc().getCountries().iterator().next().getCode();
+        view.citizenshipName = user.getDoc().getCountries().get(0).getName();
+        //view.citizenshipName = user.getDoc().getCountries().iterator().next().getName();
+        log.info("view.citizenshipCode " + view.citizenshipCode + " view.citizenshipId " + view.citizenshipId + " view.citizenshipName " + view.citizenshipName);
+        view.docId = user.getDoc().getId();
+        view.docNumber = user.getDocNumber();
+        view.docDate = user.getDocDate();
+        view.phone = user.getPhone();
+        view.isIdentified = user.getIdentified();
 
-            log.info("after filter " + view.toString());
+        log.info("after filter " + view.toString());
 
-            return view;
+        return view;
         //};
 
         //return user.collect(Collectors.toList());
-       //return user;
+        //return user;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Doc> loadDocs(Integer id) {
-        log.info("before service loadDocs " );
+        log.info("before service loadDocs ");
         List<Doc> docs = dao.loadDocs(id);
-        log.info("user service loadDocs " );
+        log.info("user service loadDocs ");
         return docs;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Doc> allDocs() {
-        log.info("before service loadDocs " );
+        log.info("before service loadDocs ");
         List<Doc> docs = dao.allDocs();
-        log.info("user service loadDocs " );
+        log.info("user service loadDocs ");
         return docs;
     }
 
-@Override
+    @Override
     @Transactional(readOnly = true)
     public List<Country> allCountries() {
-        log.info("before service Contries " );
+        log.info("before service Contries ");
         List<Country> countries = dao.allCountries();
-        log.info("user service Countries " );
+        log.info("user service Countries ");
         return countries;
     }
 
@@ -144,8 +148,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateUser(UserView view) {
 
-        if ( view.getId() == null || view.firstName == null || view.secondName == null || view.middleName == null || view.phone == null || view.officeId == null || view.possition == null ||
-        view.docId == null || view.docId == null || view.docDate == null || view.docCode == null || view.citizenshipId == null || view.citizenshipName == null || view.citizenshipCode == null || view.isIdentified == null) {
+        if (view.getId() == null || view.firstName == null || view.secondName == null || view.middleName == null || view.phone == null || view.officeId == null || view.possition == null || view.docId == null || view.docId == null || view.docDate == null || view.docCode == null || view.citizenshipId == null || view.citizenshipName == null || view.citizenshipCode == null || view.isIdentified == null) {
             throw new CustomErrorException("Service says Mismatch one ore more parametr(s)- null  ");
         }
         if (Long.valueOf(view.getId()) < 1) {
@@ -153,7 +156,7 @@ public class UserServiceImpl implements UserService {
         }
         log.info("before service update ID" + view.toString());
         User user = dao.loadById(Long.valueOf(view.getId()));
-        Doc doc = user.getDoc() ;
+        Doc doc = user.getDoc();
         if (user == null) {
             throw new CustomErrorException(String.format("Service says Mismatch parametr- Id* is %s", view.getId()));
         }
@@ -168,9 +171,11 @@ public class UserServiceImpl implements UserService {
         user.setDocNumber(view.docNumber);
         doc.setId(view.getDocId());
         doc.setCode(view.getDocCode());
-        doc.getCountries().iterator().next().setId(view.getCitizenshipId());
-        doc.getCountries().iterator().next().setCode(view.getCitizenshipCode());
-        doc.getCountries().iterator().next().setName(view.getCitizenshipName());
+        //doc.getCountries().iterator().next().setId(view.getCitizenshipId());
+        doc.getCountries().get(0).setId(view.getCitizenshipId());
+        //doc.getCountries().iterator().next().setCode(view.getCitizenshipCode());
+        doc.getCountries().get(0).setCode(view.getCitizenshipCode());
+        doc.getCountries().get(0).setName(view.getCitizenshipName());
         user.setDoc(doc);
 
         //view.citizenShipCode = p.getDoc().getCountries().iterator().next().getCode();
@@ -283,7 +288,7 @@ public class UserServiceImpl implements UserService {
             view.docDate = p.getDocDate();
             view.docNumber = p.getDocNumber();
             view.officeId = p.getOffice().getId();
-           // view.docId = p.getDoc().getId();
+            // view.docId = p.getDoc().getId();
             view.isIdentified = p.getIdentified();
 
             log.info(view.toString());
