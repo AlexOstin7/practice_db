@@ -76,6 +76,25 @@ public class Doc {
         this.countries = countries;
     }
 
+    public void addUser(User user) {
+        getUsers().add(user);
+        //car.setOwner(this);
+        user.setDoc(this);
+    }
+    public void removeUser(User user) {
+        getUsers().remove(user);
+       // car.setOwner(null);
+        user.setDoc(null);
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
     @Override
     public String toString() {
         return "Doc{" + "id=" + id + ", code=" + code + ", name='" + name + '\'' + ", countries=" + countries + '}';

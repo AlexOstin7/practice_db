@@ -615,41 +615,11 @@ app.controller('userController', function ($scope, $http, $location, $filter, Fa
 
     $scope.changeSelectedCountryInDropList = function () {
         console.log('changeSelectedCountryInDropList begin ----------------------------------');
-        var countryId = FactoryUser.modelUser.countryId;
-        var docId = FactoryUser.modelUser.docId;
-        console.log('currentDocId ', $scope.currentDocId);
-        console.log('countryId ', countryId);
-        console.log('docId ', docId);
-        console.log('FactoryUser.modelUser.countryId (id) before changeSelect- ', FactoryUser.modelUser.countryId);
-        console.log('FactoryUser.modelUser.selected', FactoryUser.modelUser.selected);
-        console.log('FactoryUser.country ', FactoryUser.country);
-        var docList = FactoryUser.country[countryId - 1].docs;
-        console.log('docList', docList);
-        console.log('docList.length', docList.length);
-      //  FactoryUser.changeSelectedCountry(FactoryUser.country[countryId-1]);
-            for (i = 0; i < docList.length; i++) {
-                /* console.log('i -', i);
-                console.log('docList[i].id -',docList[i].id );*/
-                FactoryUser.modelUser.selected.docs[countryId] = docList[i];
-                if (docList[i].id == docId) {
-                    FactoryUser.setCurrentDocId(i);
-                    /*console.log('i--', i);
-                    console.log('FactoryUser.modelUser.currentDocId --', FactoryUser.getCurrentDocId());
-*/
-                    //break;
-                }
-            }
-        console.log('after changeSelect ------');
-
-        FactoryUser.modelUser.countryId = FactoryUser.modelUser.selected.id;
-
+       FactoryUser.modelUser.countryId = FactoryUser.modelUser.selected.id;
         console.log('FactoryUser.modelUser.countryId ', FactoryUser.modelUser.countryId);
         console.log('FactoryUser.modelUser.selected', FactoryUser.modelUser.selected);
-        console.log('FactoryUser.country ', FactoryUser.country);
         console.log(' changeSelectedCountryInDropList end ----------------------------');
     }
-
-
 });
 
 app.controller('postUserControllerListbyOfficeId', function ($scope, $http, $location, FactoryUser, FactoryOffice) {
@@ -726,7 +696,7 @@ app.controller('getUserControllerGetById', function ($scope, $http, $location, $
                 $scope.date = new Date();
                 var list = response.data.data;
                 console.log('getUserById start =====================================');
-                FactoryUser.user.docDate = $filter('date')( list.docDate, "yyyy-MM-dd" );
+                FactoryUser.user.docDate = $filter('date')(list.docDate, "yyyy-MM-dd");
                 //console.log('filterDocDate', filterDocDate);
                 console.log('filterDocDate', FactoryUser.user.docDate);
                 console.log(list);
@@ -734,6 +704,7 @@ app.controller('getUserControllerGetById', function ($scope, $http, $location, $
                 $scope.setView($scope.user.id, list.firstName, list.secondName, list.middleName, list.possition, list.docCode, list.docName, list.citizenshipCode, list.citizenshipName, list.phone, new Date(FactoryUser.user.docDate), list.docNumber, list.identified);
                 $scope.userForm.docDate.$setViewValue(new Date(FactoryUser.user.docDate).toISOString().split("T")[0]);
                 $scope.userForm.docDate.$render();
+                console.log('filter DocDate ', FactoryUser.user.docDate);
 
                 FactoryUser.modelUser.resultMessage = response.data.result;
                 FactoryUser.modelUser.countryId = list.citizenshipId;
@@ -742,7 +713,7 @@ app.controller('getUserControllerGetById', function ($scope, $http, $location, $
                 console.log('modelUser.countryId ', FactoryUser.modelUser.countryId);
                 console.log('modelUser.docId ', FactoryUser.modelUser.docId);
                 console.log('before changeSelectedCountryInDropList FactoryUser.modelUser.selected', FactoryUser.modelUser.selected);
-               // $scope.changeSelectedCountryInDropList();
+                // $scope.changeSelectedCountryInDropList();
                 FactoryUser.modelUser.selected.id = list.citizenshipId;
                 FactoryUser.modelUser.selected.docs[0].id = list.docId;
 
@@ -770,6 +741,74 @@ app.controller('getUserControllerGetById', function ($scope, $http, $location, $
     }
 });
 
+app.controller('postUserControllerUpdate', function ($scope, $http, $location, FactoryUser, FactoryOffice) {
+
+    $scope.modelUser = FactoryUser.modelUser;
+    $scope.modelUser.showAll = FactoryUser.modelUser.showAll;
+
+    $scope.postUserUpdate = function () {
+        console.log("user update work begin ---------------------");
+        // console.log("$scope.docDate " + $scope.docDate);
+        console.log("docId:" + FactoryUser.modelUser.selected.docs[0].id);
+        console.log("docCode:" + FactoryUser.modelUser.selected.docs[0].code);
+        console.log("docName:" + FactoryUser.modelUser.selected.docs[0].name);
+        console.log("current DocID:" + FactoryUser.modelUser.currentDocId);
+        console.log("user update work end ---------------------");
+
+        var url = $location.absUrl() + "/api/user/update";
+
+        var config = {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8;'
+            }
+        }
+        var data = {
+            id: FactoryUser.user.id,
+            firstName: $scope.firstName,
+            secondName: $scope.secondName,
+            middleName: $scope.middleName,
+            possition: $scope.possition,
+            docId: FactoryUser.modelUser.selected.docs[0].id,
+            docCode: FactoryUser.modelUser.selected.docs[0].code,
+            docName: FactoryUser.modelUser.selected.docs[0].name,
+            citizenshipId: FactoryUser.modelUser.countryId,
+            citizenshipCode: $scope.citizenShipCode,
+            citizenshipName: $scope.citizenShipName,
+            docNumber: $scope.docNumber,
+            docDate: $scope.docDate,
+            // docDate: $filter('date')($scope.docDate, "yyyy-MM-dd"),
+            phone: $scope.phone,
+            isIdentified: $scope.isIdentified,
+            officeId: $scope.office.id
+        };
+
+        $http.post(url, data, config).then(function (response) {
+
+            if (response.data.result == "success") {
+                /* var list = response.data.data;
+                 $scope.setView($scope.id, list.name, list.address, list.phone, list.active);
+                 FactoryOffice.updateOfficeData($scope.office.id, list.name, list.address, list.phone, list.active);*/
+
+                FactoryUser.modelUser.resultMessage = response.data.result;
+                console.log('filter DocDate', $scope.docDate);
+                //FactoryOffice.modelOffice.showAll = true;
+            } else {
+                //$scope.getResultMessage = "Organization Data Error!";
+                FactoryUser.modelUser.resultMessage = response.data.error;
+                //FactoryOffice.modelOffice.showAll = false;
+
+            }
+
+        }, function (response) {
+
+            FactoryUser.modelUser.showAll = false;
+            FactoryUser.modelUser.resultMessage = response.data.error;
+            //$scope.getResultMessage = "Fail!";
+        });
+
+    }
+});
+
 app.controller('getUserControllerLoadDocs', function ($scope, $http, $location, FactoryUser, FactoryOffice, FactoryDoc, FactoryCountry) {
     //$scope.model = FactoryOrgId.organization;
     $scope.office = FactoryOffice.office;
@@ -777,8 +816,8 @@ app.controller('getUserControllerLoadDocs', function ($scope, $http, $location, 
     $scope.modelUser = FactoryUser.modelUser;
     $scope.modelOffice.showAll = false;
     $scope.selected = FactoryUser.selected;
-   /* $scope.selected.id = FactoryUser.modelUser.selected.id;
-    $scope.selected.name = FactoryUser.selected.name;*/
+    /* $scope.selected.id = FactoryUser.modelUser.selected.id;
+     $scope.selected.name = FactoryUser.selected.name;*/
     $scope.countryId = FactoryCountry.countryId;
     $scope.doc = FactoryDoc.doc;
 
@@ -874,6 +913,9 @@ app.controller('postUserControllerAllDocs', function ($scope, $http, $location, 
                 for (i = 0; i < $scope.allCounries.length; i++) {
                     FactoryDoc.doc[i] = response.data.data[i];
                 }
+
+
+
             } else {
                 //$scope.resultMessage = response.data.error;//"Filter Users Data Error!";
                 FactoryUser.modelUser.resultMessage = response.data.error;
@@ -922,20 +964,18 @@ app.controller('postUserControllerAllCountries', function ($scope, $http, $locat
                 $scope.allCountries = response.data.data;
                 for (i = 0; i < response.data.data.length; i++) {
                     FactoryUser.country[i] = response.data.data[i];
-                   // FactoryUser.country[i].docs.push(response.data.data[i].docs);
-/*
+                    // FactoryUser.country[i].docs.push(response.data.data[i].docs);
 
-                    for (j=0; j < response.data.data[i].docs.length; j ++) {
-                        FactoryUser.country[i].docs[j] = response.data.data[i].docs[j];
-                    }
-*/
+                                        for (j=0; j < response.data.data[i].docs.length; j ++) {
+                                            FactoryUser.country[i].docs[j] = response.data.data[i].docs[j];
+                                        }
 
                 }
                 console.log('FactoryUser.country ', FactoryUser.country);
                 console.log('$scope.selected ', $scope.selected);
                 console.log('FactoryUser.modelUser.selected ', FactoryUser.modelUser.selected);
                 console.log('FactoryUser.modelUser.currenDocId ', FactoryUser.modelUser.currentDocId);
-               // console.log('FFactoryUser.modelUser.selected.docs[modelUser.currentDocId] ', FactoryUser.modelUser.selected.docs[0]);
+                // console.log('FFactoryUser.modelUser.selected.docs[modelUser.currentDocId] ', FactoryUser.modelUser.selected.docs[0]);
                 console.log('postUserAllCountries end end end end end end end end end end end end end end ');
             } else {
                 //$scope.resultMessage = response.data.error;//"Filter Users Data Error!";

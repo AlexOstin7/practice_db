@@ -69,11 +69,13 @@ public interface UserDAO {
 
    List<User> filterUserList(UserFilterView userFilterView);
 
-    List<Doc> loadDocs(Integer id);
+    List<Doc> loadDocsByCountryId(Integer id);
 
     List<Doc> allDocs();
 
     List<Country> allCountries();
+
+    Doc loadDocById(Integer id);
 
 
 }

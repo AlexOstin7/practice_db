@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public List<Doc> loadDocs(Integer id) {
         log.info("before service loadDocs ");
-        List<Doc> docs = dao.loadDocs(id);
+        List<Doc> docs = dao.loadDocsByCountryId(id);
         log.info("user service loadDocs ");
         return docs;
     }
@@ -154,13 +154,15 @@ public class UserServiceImpl implements UserService {
         if (Long.valueOf(view.getId()) < 1) {
             throw new CustomErrorException(String.format("Service says Mismatch parametr- Id* is %s", view.getId()));
         }
-        log.info("before service update ID" + view.toString());
+        log.info("before service update docId in User" + view.toString());
         User user = dao.loadById(Long.valueOf(view.getId()));
         Doc doc = user.getDoc();
+
         if (user == null) {
             throw new CustomErrorException(String.format("Service says Mismatch parametr- Id* is %s", view.getId()));
         }
-        log.info("before service update " + view.toString());
+        log.info("before service update doc " + doc.toString());
+        log.info("before service update user " + user.toString());
         user.setFirstName(view.firstName);
         user.setSecondName(view.secondName);
         user.setMiddleName(view.middleName);
@@ -169,17 +171,34 @@ public class UserServiceImpl implements UserService {
         user.setPossition(view.possition);
         user.setDocDate(view.docDate);
         user.setDocNumber(view.docNumber);
+
+        /*log.info("view.getDocId()" + view.getDocId());
         doc.setId(view.getDocId());
         doc.setCode(view.getDocCode());
+        log.info("view.getDocCode()" + view.getDocCode());*/
         //doc.getCountries().iterator().next().setId(view.getCitizenshipId());
-        doc.getCountries().get(0).setId(view.getCitizenshipId());
+//        doc.getCountries().get(0).setId(view.getCitizenshipId());
         //doc.getCountries().iterator().next().setCode(view.getCitizenshipCode());
-        doc.getCountries().get(0).setCode(view.getCitizenshipCode());
-        doc.getCountries().get(0).setName(view.getCitizenshipName());
-        user.setDoc(doc);
+//        doc.getCountries().get(0).setCode(view.getCitizenshipCode());
+//        doc.getCountries().get(0).setName(view.getCitizenshipName());
+
+        //user.setDoc(doc);
+        doc.removeUser(user);
+
+        doc = dao.loadDocById(Integer.valueOf(view.getDocId()));
+        doc.addUser(user);
+        //List<User> users = dao.loadUsersFromDocById(Integer.valueOf(view.getId()));
+        //List<User> users = doc.getUsers();
+        //users.add(user);
+       // doc.setUsers(users);
+
+
+
+       // doc.addUser(user);
+       //user.setDoc(doc);
 
         //view.citizenShipCode = p.getDoc().getCountries().iterator().next().getCode();
-        log.info(view.toString());
+        log.info("after service update " + user.toString());
 
         dao.save(user);
     }
@@ -290,6 +309,13 @@ public class UserServiceImpl implements UserService {
             view.officeId = p.getOffice().getId();
             // view.docId = p.getDoc().getId();
             view.isIdentified = p.getIdentified();
+            view.docId = p.getDoc().getId();
+            view.docCode = p.getDoc().getCode();
+            view.docName = p.getDoc().getName();
+
+            view.citizenshipId = p.getDoc().getCountries().get(0).getId();
+            view.citizenshipCode = p.getDoc().getCountries().get(0).getCode();
+            view.citizenshipName = p.getDoc().getCountries().get(0).getName();
 
             log.info(view.toString());
 

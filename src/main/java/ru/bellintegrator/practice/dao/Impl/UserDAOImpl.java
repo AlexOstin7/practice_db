@@ -133,19 +133,6 @@ public class UserDAOImpl implements UserDAO {
         return results;
     }
 
-    /*@Override
-    public List<Doc> loadDocs() {
-
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-
-        CriteriaQuery<Doc> query = cb.createQuery(Doc.class);
-        Root<User> userRoot = query.from(User.class);
-        Join<User, Doc> docs = userRoot.join("doc");
-        query.select(docs).where(cb.equal(userRoot.get("firstName"), "ИВАН"));
-        List<Doc> results = em.createQuery(query).getResultList();
-
-        return  results;
-    }*/
 
     public List<Doc> allDocs() {
         //TypedQuery<Organization> query = em.createQuery("SELECT p FROM Organization p", Organization.class);
@@ -160,7 +147,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<Doc> loadDocs(Integer id) {
+    public List<Doc> loadDocsByCountryId(Integer id) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         /*CriteriaQuery cq = cb.createQuery(Doc.class);
@@ -203,5 +190,15 @@ public class UserDAOImpl implements UserDAO {
         return  results;
     }
 
+    @Override
+    public Doc loadDocById(Integer id) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Doc> criteria = builder.createQuery(Doc.class);
 
+        Root<Doc> Doc = criteria.from(Doc.class);
+        criteria.where(builder.equal(Doc.get("id"), id));
+
+        TypedQuery<Doc> query = em.createQuery(criteria);
+        return query.getSingleResult();
+    }
 }
