@@ -155,12 +155,14 @@ public class UserServiceImpl implements UserService {
             throw new CustomErrorException(String.format("Service says Mismatch parametr- Id* is %s", view.getId()));
         }
         log.info("before service update docId in User" + view.toString());
+
         User user = dao.loadById(Long.valueOf(view.getId()));
-        Doc doc = user.getDoc();
 
         if (user == null) {
             throw new CustomErrorException(String.format("Service says Mismatch parametr- Id* is %s", view.getId()));
         }
+
+        Doc doc = user.getDoc();
         log.info("before service update doc " + doc.toString());
         log.info("before service update user " + user.toString());
         user.setFirstName(view.firstName);
@@ -171,38 +173,28 @@ public class UserServiceImpl implements UserService {
         user.setPossition(view.possition);
         user.setDocDate(view.docDate);
         user.setDocNumber(view.docNumber);
-
-        /*log.info("view.getDocId()" + view.getDocId());
-        doc.setId(view.getDocId());
-        doc.setCode(view.getDocCode());
-        log.info("view.getDocCode()" + view.getDocCode());*/
-        //doc.getCountries().iterator().next().setId(view.getCitizenshipId());
-//        doc.getCountries().get(0).setId(view.getCitizenshipId());
-        //doc.getCountries().iterator().next().setCode(view.getCitizenshipCode());
-//        doc.getCountries().get(0).setCode(view.getCitizenshipCode());
-//        doc.getCountries().get(0).setName(view.getCitizenshipName());
-
-        //user.setDoc(doc);
         doc.removeUser(user);
-
         doc = dao.loadDocById(Integer.valueOf(view.getDocId()));
         doc.addUser(user);
-        //List<User> users = dao.loadUsersFromDocById(Integer.valueOf(view.getId()));
-        //List<User> users = doc.getUsers();
-        //users.add(user);
-       // doc.setUsers(users);
-
-
-
-       // doc.addUser(user);
-       //user.setDoc(doc);
-
-        //view.citizenShipCode = p.getDoc().getCountries().iterator().next().getCode();
         log.info("after service update " + user.toString());
 
         dao.save(user);
     }
 
+    @Override
+    @Transactional
+    public void deleteUser(UserView view) {
+        log.info("delete-view 1 " + view.toString());
+        if (view.getId().isEmpty()|| (Long.valueOf(view.getId()) < 1)) {
+            throw new CustomErrorException("Mismatch parameter- Id is empty" + view.getId().toString());
+        }
+        User user = dao.loadById(Long.valueOf(view.getId()));
+        log.info("delete-view 2" + view.toString());
+        if (user == null  ) {
+            throw new CustomErrorException("Mismatch parameter- Id is " );
+        }
+        dao.remove(user);
+    }
 
    /* @Override
     @Transactional(readOnly = true)
@@ -222,29 +214,6 @@ public class UserServiceImpl implements UserService {
         };
         // if (user.getName() != null && !user.getName().isEmpty()) {
         return all.stream().map(mapUser).collect(Collectors.toList());
-        //}
-    }
-
-
-
-
-    @Override
-    @Transactional
-    public void deleteUser(UserView view) {
-        log.info("delete-view 1 " + view.toString());
-        if (view.getId().isEmpty()) {
-            throw new CustomErrorException("Mismatch parameter- Id is empty");
-        }
-        User user = dao.loadById(Long.valueOf(view.getId()));
-        log.info("delete-view 2" + view.toString());
-        if (user == null || (Long.valueOf(view.getId()) < 1) ) {
-            throw new CustomErrorException("Mismatch parameter- Id is " + view.getId().toString());
-        }
-
-        //else {
-       // Organization organization = user.getOrganization();
-        //organization.removeUser(user);
-        dao.remove(user);
         //}
     }
 

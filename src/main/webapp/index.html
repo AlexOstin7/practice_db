@@ -207,7 +207,6 @@
 
                 <div ng-controller="postUserControllerAllCountries">
                     <label>Citizenship Name</label></br>
-                    {{modelUser.currentDocId}}</br>
                    <!-- {{modelUser.selected}}</br>
                     {{modelUser.selected.docs}}</br>-->
                     <select ng-model="modelUser.selected" ng-init="postUserAllCountries()"
@@ -230,9 +229,10 @@
                     </select>
                 </div>
                 <label>Doc date</label></br>
+               <!-- userForm.docDate.$dirty{{userForm.docDate.$dirty}} userForm.docDate.$pristine {{userForm.docDate.$pristine}}-->
                 <span  ng-bind="docDate |  date:'dd-MMMM-yyyy'"></span>
                     <span ng-show="userForm.docDate.$error.required">Введите дату докуметна</span>
-                    <span ng-show="userForm.docDate.$dirty && userForm.docDate.$invalid">Неверная Дата документа </span>
+                    <span ng-show="userForm.docDate.$dirty && (userForm.docDate.$invalid )">Неверная Дата документа </span>
                     </br>
                 <input type="date" name="docDate" date='dd-MMM-yyyy'  ng-model="docDate"
                        min="1974-01-01" max="{{date | date:'yyyy-MM-dd'}}" required="true" valid="true"/>
@@ -244,14 +244,17 @@
                 <label>isIdentified</label>
                 <input type="text" name="isIdentified" class="form-control" ng-model="isIdentified"/>
                 <button ng-click="cleanUp()">Clean up</button>
-
+            </form>
+                <form name="userFormGetId" ng-submit="getUserById()">
                 <div ng-controller="getUserControllerGetById">
-                    <label>User Id</label>
-                    <input type="text" class="form-control" style="width: 120px;" ng-model="user.id"
-                           placeholder='Enter User Id' ng-change="getUserById()"/> <br/>
+                    <label for='userId'>  User Id</label>
+                    <!--userFormGetId.userId.$submitted {{userForm.userId.$submitted}}-->
+                    <input id= 'userId' type="number" name="userId" class="form-control" style="width: 120px;" min="1" ng-model="user.id"
+                           placeholder='Enter User Id' /> <br/>
                     <button ng-click="getUserById()">Get User By Id</button>
-                </div>
 
+                </div>
+                </form>
                 <div ng-controller="postUserControllerListbyOfficeId">
                     <button ng-click="postUserListByOfficeId()">List by OfficeId</button>
                 </div>
@@ -280,19 +283,18 @@
                     <!--<select ng-model="selectAll" ng-options="a.name for a in doc track by a.id">-->
                     <!--</select>-->
 
-                    <button ng-click="postUserAllDocs()">All Docs</button>
+                    <!--<button ng-click="postUserAllDocs()">All Docs</button>-->
                 </div>
 
-            </form>
-            <!--
 
 
-            <div ng-controller="postOfficeControllerDelete">
+            <div ng-controller="postUserControllerDelete">
 
-                <button ng-click="deleteOfficeById()">Delete Office</button>
+                <button ng-click="deleteUserById()">Delete </button>
 
             </div>
 
+            <!--
             <div ng-controller="postOfficeControllerSave" class="col-md-3">
 
                 <button ng-click="postOfficeSave()">Save</button>

@@ -26,11 +26,12 @@ public interface UserController {
 
     Response allCountries();
 
-
-
     Response updateUser(@RequestBody UserView user);
-/*
+
     Response deleteUser(@RequestBody UserView user);
+
+/*
+
 
     Response user(@RequestBody UserView user);
 */

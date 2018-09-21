@@ -30,12 +30,10 @@ public interface UserService {
 
     List<Country> allCountries();
 
-
-
     void updateUser(UserView office);
-/*
-    void deleteUser(UserView office);
 
+    void deleteUser(UserView office);
+/*
 
     void add(UserView office);*/
 
