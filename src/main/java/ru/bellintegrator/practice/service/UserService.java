@@ -33,9 +33,8 @@ public interface UserService {
     void updateUser(UserView office);
 
     void deleteUser(UserView office);
-/*
 
-    void add(UserView office);*/
+    void addUser(UserView office);
 
    // User getUserByName(String name);
 

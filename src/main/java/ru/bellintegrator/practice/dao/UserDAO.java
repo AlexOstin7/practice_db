@@ -77,5 +77,7 @@ public interface UserDAO {
 
     Doc loadDocById(Integer id);
 
+    Office loadOfficeById(Long id);
+
 
 }

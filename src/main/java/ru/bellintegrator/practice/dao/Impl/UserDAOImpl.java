@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.bellintegrator.practice.dao.UserDAO;
 import ru.bellintegrator.practice.exception.CustomErrorException;
-import ru.bellintegrator.practice.model.Country;
-import ru.bellintegrator.practice.model.Doc;
-import ru.bellintegrator.practice.model.Organization;
-import ru.bellintegrator.practice.model.User;
+import ru.bellintegrator.practice.model.*;
 import ru.bellintegrator.practice.view.UserFilterView;
 
 import javax.persistence.Entity;
@@ -199,6 +196,18 @@ public class UserDAOImpl implements UserDAO {
         criteria.where(builder.equal(Doc.get("id"), id));
 
         TypedQuery<Doc> query = em.createQuery(criteria);
+        return query.getSingleResult();
+    }
+
+    @Override
+    public Office loadOfficeById(Long id) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Office> criteria = builder.createQuery(Office.class);
+
+        Root<Office> Office = criteria.from(Office.class);
+        criteria.where(builder.equal(Office.get("id"), id));
+
+        TypedQuery<Office> query = em.createQuery(criteria);
         return query.getSingleResult();
     }
 }

@@ -248,7 +248,7 @@
                 <form name="userFormGetId" ng-submit="getUserById()">
                 <div ng-controller="getUserControllerGetById">
                     <label for='userId'>  User Id</label>
-                    <!--userFormGetId.userId.$submitted {{userForm.userId.$submitted}}-->
+                    userFormGetId.userId.$submitted {{userForm.userId.$submitted}}
                     <input id= 'userId' type="number" name="userId" class="form-control" style="width: 120px;" min="1" ng-model="user.id"
                            placeholder='Enter User Id' /> <br/>
                     <button ng-click="getUserById()">Get User By Id</button>
@@ -294,13 +294,11 @@
 
             </div>
 
-            <!--
-            <div ng-controller="postOfficeControllerSave" class="col-md-3">
+            <div ng-controller="postUserControllerSave" class="col-md-3">
 
-                <button ng-click="postOfficeSave()">Save</button>
+                <button ng-click="postUserSave()">Save</button>
 
             </div>
--->
 
 
         </div>

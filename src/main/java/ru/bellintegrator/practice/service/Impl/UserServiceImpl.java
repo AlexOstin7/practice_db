@@ -11,10 +11,7 @@ import ru.bellintegrator.practice.dao.OfficeDAO;
 import ru.bellintegrator.practice.dao.UserDAO;
 import ru.bellintegrator.practice.dao.OrganizationDAO;
 import ru.bellintegrator.practice.exception.CustomErrorException;
-import ru.bellintegrator.practice.model.Country;
-import ru.bellintegrator.practice.model.Doc;
-import ru.bellintegrator.practice.model.User;
-import ru.bellintegrator.practice.model.Organization;
+import ru.bellintegrator.practice.model.*;
 import ru.bellintegrator.practice.service.UserService;
 import ru.bellintegrator.practice.service.UserService;
 import ru.bellintegrator.practice.view.UserFilterView;
@@ -196,6 +193,58 @@ public class UserServiceImpl implements UserService {
         dao.remove(user);
     }
 
+    @Override
+    @Transactional
+    public void addUser(UserView view) {
+        log.info("user serv offview view  " + view.toString());
+        if (view.getOfficeId() == null) {
+            throw new CustomErrorException("Mismatch parameter- officeId is null ");
+        }
+        if ((Long.valueOf(view.getOfficeId()) < 1) ) {
+            throw new CustomErrorException("Mismatch parameter- officeId is " + view.getOfficeId().toString());
+        }
+        User user = new User();
+        log.info("user serv offview before 2  " + user.toString());
+
+     /*   Organization organization = daoOrg.loadById(view.orgId);
+        if (organization == null) {
+            throw new CustomErrorException(String.format("Service says Mismatch parametr- Id* is %s", view.orgId));
+        }
+*/
+        //Doc doc = user.getDoc();
+        //Office office = user.getOffice();
+
+        user.setFirstName(view.firstName);
+        user.setSecondName(view.secondName);
+        user.setMiddleName(view.middleName);
+        user.setPhone(view.phone);
+        user.setIdentified(view.isIdentified);
+        user.setPossition(view.possition);
+        user.setDocDate(view.docDate);
+        user.setDocNumber(view.docNumber);
+        Office office = dao.loadOfficeById(Long.valueOf(view.getOfficeId()));
+        log.info("user service addUser office " + office.toString());
+
+        user.setOffice(office);
+
+        Doc doc = dao.loadDocById(Integer.valueOf(view.getDocId()));
+        log.info("user service addUser doc 1" + doc.toString());
+        user.setDoc(doc);
+        doc.addUser(user);
+        office.addUser(user);
+        log.info("user service addUser doc 2" + doc.toString());
+        log.info("user service addUser office " + office.toString());
+        log.info("user service addUser user  " + user.toString());
+//        log.info("user serv offview before org " + organization.toString());
+        //organization.addUser(user);
+        //Organization organization = user.getOrganization();
+        // Organization organization = user.getOrganization();
+        //  organization.addUser(user);
+
+        dao.save(user);
+
+    }
+
    /* @Override
     @Transactional(readOnly = true)
     public List<UserView> listUsers(UserView user) {
@@ -217,45 +266,8 @@ public class UserServiceImpl implements UserService {
         //}
     }
 
-    @Override
-    @Transactional
-    public void add(UserView view) {
-        log.info("user serv offview view  " + view.toString());
-        if (view.getOrgId() == null) {
-            throw new CustomErrorException("Mismatch parameter- orgId is null ");
-        }
-        if ((Long.valueOf(view.getOrgId()) < 1) ) {
-            throw new CustomErrorException("Mismatch parameter- orgId is " + view.getOrgId().toString());
-        }
 
-      // User user = new User(view.name, view.address, view.phone, view.isActive, view.orgId);
-       // User user = new User("SSSSS","FFFFFFFFFFFF", 123, true, 1l);
-        User user = new User();
-
-
-        log.info("user serv offview before 2  " + user.toString());
-
-        Organization organization = daoOrg.loadById(view.orgId);
-        if (organization == null) {
-            throw new CustomErrorException(String.format("Service says Mismatch parametr- Id* is %s", view.orgId));
-        }
-
-        user.setName(view.name);
-        user.setAddress(view.address);
-        user.setPhone(view.phone);
-        user.setActive(view.isActive);
-        user.setOrganization(organization);
-
-        log.info("user serv offview before user  " + user.toString());
-        log.info("user serv offview before org " + organization.toString());
-        //organization.addUser(user);
-        //Organization organization = user.getOrganization();
-       // Organization organization = user.getOrganization();
-      //  organization.addUser(user);
-
-        dao.save(user);
-
-    }*/
+    */
 
 
 //   Test only

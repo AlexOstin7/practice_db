@@ -793,7 +793,7 @@ app.controller('postUserControllerUpdate', function ($scope, $http, $location, F
             } else {
                 //$scope.getResultMessage = "Organization Data Error!";
                 FactoryUser.modelUser.resultMessage = response.data.error;
-                //FactoryOffice.modelOffice.showAll = false;
+                FactoryOffice.modelUser.showAll = false;
 
             }
 
@@ -844,6 +844,57 @@ app.controller('postUserControllerDelete', function ($scope, $http, $location, F
 
 });
 
+app.controller('postUserControllerSave', function ($scope, $http, $location, FactoryOffice, FactoryUser) {
+    $scope.modelUser = FactoryUser.user;
+    $scope.modelOffice = FactoryOffice.modelOffice;
+
+    $scope.postUserSave = function () {
+
+        var url = $location.absUrl() + "/api/user/save";
+
+        var config = {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8;'
+            }
+        }
+        var data = {
+            // id: FactoryUser.user.id,
+            firstName: $scope.firstName,
+            secondName: $scope.secondName,
+            middleName: $scope.middleName,
+            possition: $scope.possition,
+            docId: FactoryUser.modelUser.selected.docs[0].id,
+            docCode: FactoryUser.modelUser.selected.docs[0].code,
+            docName: FactoryUser.modelUser.selected.docs[0].name,
+            citizenshipId: FactoryUser.modelUser.countryId,
+            citizenshipCode: $scope.citizenShipCode,
+            citizenshipName: $scope.citizenShipName,
+            docNumber: $scope.docNumber,
+            docDate: $scope.docDate,
+            // docDate: $filter('date')($scope.docDate, "yyyy-MM-dd"),
+            phone: $scope.phone,
+            isIdentified: $scope.isIdentified,
+            officeId: $scope.office.id
+        };
+        $http.post(url, data, config).then(function (response) {
+            if (response.data.result == "success") {
+                var list = response.data.data;
+                // $scope.setView('', list.name, list.address, list.phone, list.active);
+                /*$scope.setView('', $scope.name, $scope.address, $scope.phone, $scope.isActive);
+                FactoryUser.updateUserData('', $scope.name, $scope.address, $scope.phone, $scope.isActive);*/
+                FactoryUser.modelUser.resultMessage = response.data.result;
+                //$scope.setView('', '', '', '', '');
+                //FactoryOrgId.setOrgId('');
+            } else {
+                FactoryUser.modelUser.resultMessage = response.data.error;
+            }
+        }, function (response) {
+            //$scope.postResultMessage = "Fail!";
+            FactoryUser.modelUser.resultMessage = response.data.error;
+        });
+
+    }
+});
 
 app.controller('getUserControllerLoadDocs', function ($scope, $http, $location, FactoryUser, FactoryOffice, FactoryDoc, FactoryCountry) {
     //$scope.model = FactoryOrgId.organization;

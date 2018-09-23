@@ -97,6 +97,15 @@ public class Office {
         this.users = users;
     }
 
+    public void addUser(User user) {
+        getUsers().add(user);
+        user.setOffice(this);
+    }
+    public void removeUser(User user) {
+        getUsers().remove(user);
+        user.setOffice(null);
+    }
+
     public Office() {
     }
 

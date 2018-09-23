@@ -133,20 +133,17 @@ public class UserControllerImpl implements UserController {
         userService.deleteUser(user);
         return new ResponseSuccess("success");
     }
-/*
-
-
 
     @Override
     @ApiOperation(value = "saveUser", nickname = "saveUser", httpMethod = "POST")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class), @ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 405, message = "I don't know"), @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/user/save", method = {POST})
-    public Response user(@RequestBody UserView user) {
+    public Response saveUser(@RequestBody UserView user) {
         log.info("user contr save before " + user.toString());
-        userService.add(user);
+        userService.addUser(user);
         log.info("user contr save after " + user.toString());
         return new ResponseSuccess("success");
-    }*/
+    }
 
     //FOR TEST ONLY!!!!
     @Override
