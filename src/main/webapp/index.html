@@ -248,7 +248,6 @@
                 <form name="userFormGetId" ng-submit="getUserById()">
                 <div ng-controller="getUserControllerGetById">
                     <label for='userId'>  User Id</label>
-                    userFormGetId.userId.$submitted {{userForm.userId.$submitted}}
                     <input id= 'userId' type="number" name="userId" class="form-control" style="width: 120px;" min="1" ng-model="user.id"
                            placeholder='Enter User Id' /> <br/>
                     <button ng-click="getUserById()">Get User By Id</button>
