@@ -1178,15 +1178,15 @@ app.factory('FactoryUser', function () {
         }],
 
 
-        updatelistUserByOfficeId: function (name, phone, isIdentified) {
+       /* updatelistUserByOfficeId: function (name, phone, isIdentified) {
             {
                 this.listUserByOfficeId.firstName = name,
                     this.listUserByOfficeId.phone = phone,
                     this.listUserByOfficeId.isIdentified = isIdentified
             }
-        },
+        },*/
 
-        setId: function () {
+        /*setId: function () {
             this.user.id = $scope.id;
         },
         setCountry: function (country) {
@@ -1209,7 +1209,7 @@ app.factory('FactoryUser', function () {
         },
         changeSelectedCountry: function (country) {
             this.modelUser.selected = country;
-        }
+        }*/
     }
 });
 
