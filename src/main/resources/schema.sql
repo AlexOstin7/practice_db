@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS user (
 
 CREATE TABLE IF NOT EXISTS reg_User (
   login VARCHAR(50) NOT NULL,
-  password VARCHAR(32) NOT NULL,
+  password VARCHAR(64) NOT NULL,
   name VARCHAR(50) NOT NULL,
   PRIMARY KEY (`login`)
 );
