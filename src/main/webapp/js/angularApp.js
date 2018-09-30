@@ -1076,6 +1076,47 @@ app.controller('postUserControllerAllCountries', function ($scope, $http, $locat
     }
 });
 
+app.controller('postRegisterControllerAdd', function ($scope, $http, $location, FactoryReg) {
+
+    $scope.modelReg = FactoryReg.modelReg;
+
+    // $scope.modelReg.showAll = FactoryReg.modelReg.showAll;
+
+    $scope.postRegisterAdd = function () {
+        console.log('postRegAdd start start start start start start start start start start start start start');
+
+        var url = $location.absUrl() + "/api/register";
+
+        var config = {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8;'
+            }
+        }
+        var data = {
+            login: $scope.login,
+            password: $scope.password,
+            name: $scope.name
+        };
+        $http.post(url, data, config).then(function (response) {
+
+            if (response.data.result == "success") {
+                $scope.modelReg.showAll = true;
+                $scope.modelReg.resultMessage = response.data.result;
+
+                console.log('postUserAllCountries end end end end end end end end end end end end end end ');
+            } else {
+                //$scope.resultMessage = response.data.error;//"Filter Users Data Error!";
+                FactoryReg.modelReg.resultMessage = response.data.error;
+                // $scope.showAllOrgId = false;
+            }
+        }, function (response) {
+            FactoryReg.modelReg.resultMessage = response.data.error;
+            // $scope.showAllOrgId = false;
+        });
+
+    }
+});
+
 app.factory('FactoryOrgId', function () {
     return {
         organization: {
@@ -1255,6 +1296,15 @@ app.factory('FactoryCountry', function () {
         changeSelected: function (id) {
             this.selected.id = id;
         },
+    };
+});
+
+app.factory('FactoryReg', function() {
+    return {
+        modelReg: {
+            resultMessage: '',
+            showAll: false
+        }
     };
 });
 

@@ -1,10 +1,6 @@
 package ru.bellintegrator.practice.dao;
 
-import ru.bellintegrator.practice.model.Country;
-import ru.bellintegrator.practice.model.Doc;
-import ru.bellintegrator.practice.model.Office;
-import ru.bellintegrator.practice.model.User;
-import ru.bellintegrator.practice.view.OfficeFilterView;
+import ru.bellintegrator.practice.model.*;
 import ru.bellintegrator.practice.view.UserFilterView;
 
 import java.util.List;
@@ -65,9 +61,9 @@ public interface UserDAO {
      * Фильтр Users by *OfficeId, firstName, , secondName, middleName , possition
      *
      * @param userFilterView
-    */
+     */
 
-   List<User> filterUserList(UserFilterView userFilterView);
+    List<User> filterUserList(UserFilterView userFilterView);
 
     List<Doc> loadDocsByCountryId(Integer id);
 
@@ -78,6 +74,5 @@ public interface UserDAO {
     Doc loadDocById(Integer id);
 
     Office loadOfficeById(Long id);
-
 
 }
