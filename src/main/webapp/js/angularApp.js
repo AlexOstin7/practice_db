@@ -1,4 +1,4 @@
-var app = angular.module('app', []);//17/07/2018
+var app = angular.module('app', []);//10/10/2018
 
 app.controller('postOrganizationsControllerUpdate', function ($scope, $http, $location, FactoryOrgId) {
     $scope.model = FactoryOrgId.organization;
@@ -1080,8 +1080,6 @@ app.controller('postRegisterControllerAdd', function ($scope, $http, $location, 
 
     $scope.modelReg = FactoryReg.modelReg;
 
-    // $scope.modelReg.showAll = FactoryReg.modelReg.showAll;
-
     $scope.postRegisterAdd = function () {
         console.log('postRegAdd start start start start start start start start start start start start start');
 
@@ -1098,7 +1096,87 @@ app.controller('postRegisterControllerAdd', function ($scope, $http, $location, 
             name: $scope.name
         };
         $http.post(url, data, config).then(function (response) {
+            console.log("response.data.result " + response.data.result);
+            if (response.data.result == "success") {
+                $scope.modelReg.showAll = true;
+                $scope.modelReg.resultMessage = response.data.result;
 
+                console.log('postUserAllCountries end end end end end end end end end end end end end end ');
+            } else {
+                //$scope.resultMessage = response.data.error;//"Filter Users Data Error!";
+                FactoryReg.modelReg.resultMessage = response.data.error;
+                // $scope.showAllOrgId = false;
+            }
+        }, function (response) {
+            FactoryReg.modelReg.resultMessage = response.data.error;
+            // $scope.showAllOrgId = false;
+        });
+
+    }
+});
+
+app.controller('getRegisterControllerActivation', function ($scope, $http, $location, FactoryReg) {
+
+    $scope.modelReg = FactoryReg.modelReg;
+
+    $scope.getRegisterActivation = function () {
+        console.log('getRegActivate start start start start start start start start start start start start start');
+
+        var url = $location.absUrl() + "/api/activation";
+
+        var config = {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8;'
+            },
+            params: {'code': $scope.code}
+
+
+        }
+
+        $http.get(url, config).then(function (response) {
+            console.log("code  " + $scope.code);
+            console.log("response.data.result " + response.data.result);
+            if (response.data.result == "success") {
+                $scope.modelReg.showAll = true;
+                $scope.modelReg.resultMessage = response.data.result;
+console.log("code 2 " + FactoryReg.modelReg.code);
+                console.log('postUserAllCountries end end end end end end end end end end end end end end ');
+            } else {
+                //$scope.resultMessage = response.data.error;//"Filter Users Data Error!";
+                FactoryReg.modelReg.resultMessage = response.data.error;
+                // $scope.showAllOrgId = false;
+            }
+        }, function (response) {
+            FactoryReg.modelReg.resultMessage = response.data.error;
+            // $scope.showAllOrgId = false;
+        });
+
+    }
+});
+
+app.controller('postRegisterControllerLogin', function ($scope, $http, $location, FactoryReg) {
+
+    $scope.modelReg = FactoryReg.modelReg;
+
+    // $scope.modelReg.showAll = FactoryReg.modelReg.showAll;
+
+    $scope.postRegisterLogin = function () {
+        console.log('postRegLogin start start start start start start start start start start start start start');
+
+        var url = $location.absUrl() + "/api/login";
+
+        var config = {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8;'
+            }
+        }
+        var data = {
+            login: $scope.login,
+            password: $scope.password,
+            name: $scope.name
+        };
+        $http.post(url, data, config).then(function (response) {
+            console.log("response.data.result " + response.data.result);
             if (response.data.result == "success") {
                 $scope.modelReg.showAll = true;
                 $scope.modelReg.resultMessage = response.data.result;
@@ -1303,7 +1381,8 @@ app.factory('FactoryReg', function() {
     return {
         modelReg: {
             resultMessage: '',
-            showAll: false
+            showAll: false,
+            code: ''
         }
     };
 });

@@ -9,6 +9,8 @@ import ru.bellintegrator.practice.view.RegUserView;
 import ru.bellintegrator.practice.view.UserFilterView;
 import ru.bellintegrator.practice.view.UserView;
 
+import java.security.NoSuchAlgorithmException;
+
 public interface RegUserController {
 
     Response register(@RequestBody RegUserView regUser);
