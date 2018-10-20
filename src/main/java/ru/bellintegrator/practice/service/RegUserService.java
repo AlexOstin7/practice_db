@@ -8,6 +8,7 @@ import ru.bellintegrator.practice.view.RegUserView;
 import ru.bellintegrator.practice.view.UserFilterView;
 import ru.bellintegrator.practice.view.UserView;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 /**
@@ -37,7 +38,12 @@ public interface RegUserService {
 
     // User getUserByName(String name);
 
-    void addUser(RegUserView regUser);
+    void addUser(RegUserView regUserView);
+
+    void activation(String code);
+
+    void login(RegUserView regUserView) throws NoSuchAlgorithmException;
+
 
     List<RegUserView> registers();
 }

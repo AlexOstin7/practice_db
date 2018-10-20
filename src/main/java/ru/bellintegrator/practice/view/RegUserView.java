@@ -12,6 +12,10 @@ public class RegUserView {
 
     public String name;
 
+    public String code;
+
+    public Boolean active;
+
     public RegUserView() {
     }
 
@@ -39,8 +43,24 @@ public class RegUserView {
         this.name = name;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
     @Override
     public String toString() {
-        return "RegUserView{" + "login='" + login + '\'' + ", password='" + password + '\'' + ", name='" + name + '\'' + '}';
+        return "RegUserView{" + "login='" + login + '\'' + ", password='" + password + '\'' + ", name='" + name + '\'' + ", code='" + code + '\'' + ", isActive=" + active + '}';
     }
 }

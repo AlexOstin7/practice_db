@@ -4,9 +4,9 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "regUser")
+@Table(name = "RegUser")
 public class RegUser {
-    private static final long serialVersionUID = -123456L;
+    private static final long serialVersionUID = -1234567L;
     /*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)*/
     @Id
@@ -18,6 +18,12 @@ public class RegUser {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "code")
+    private String code;
+
+    @Column(name = "active")
+    private Boolean active = false ;
 
     public RegUser() {
     }
@@ -46,8 +52,24 @@ public class RegUser {
         this.name = name;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
     @Override
     public String toString() {
-        return "RegUser{" + "login='" + login + '\'' + ", password='" + password + '\'' + ", name='" + name + '\'' + '}';
+        return "RegUser{" + "login='" + login + '\'' + ", password='" + password + '\'' + ", name='" + name + '\'' + ", code='" + code + '\'' + ", isActive=" + active + '}';
     }
 }

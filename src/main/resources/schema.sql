@@ -44,7 +44,6 @@ create table country_doc (
     REFERENCES doc (id)
 );
 
-
 CREATE TABLE IF NOT EXISTS user (
   id               INTEGER  PRIMARY KEY AUTO_INCREMENT,
   first_Name       VARCHAR(50) NOT NULL,
@@ -61,9 +60,11 @@ CREATE TABLE IF NOT EXISTS user (
   CONSTRAINT doc_FKEY FOREIGN KEY(doc_Id) REFERENCES PUBLIC.doc (id)
 );
 
-CREATE TABLE IF NOT EXISTS reg_User (
+CREATE TABLE IF NOT EXISTS Reg_User (
   login VARCHAR(50) NOT NULL,
   password VARCHAR(64) NOT NULL,
   name VARCHAR(50) NOT NULL,
+  code VARCHAR(36) NOT NULL,
+  active BOOLEAN NOT NULL,
   PRIMARY KEY (`login`)
 );

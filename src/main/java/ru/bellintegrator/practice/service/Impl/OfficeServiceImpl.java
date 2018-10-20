@@ -150,7 +150,7 @@ public class OfficeServiceImpl implements OfficeService {
 
         log.info(view.toString());
 
-        dao.save(office);
+        //dao.save(office);
     }
 
     @Override

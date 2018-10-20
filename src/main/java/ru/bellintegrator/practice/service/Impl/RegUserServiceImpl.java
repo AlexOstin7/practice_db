@@ -1,10 +1,14 @@
 package ru.bellintegrator.practice.service.Impl;
 
+import org.h2.jdbc.JdbcSQLException;
+import org.junit.Before;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
@@ -20,9 +24,12 @@ import ru.bellintegrator.practice.view.RegUserView;
 import ru.bellintegrator.practice.view.UserFilterView;
 import ru.bellintegrator.practice.view.UserView;
 
+import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -38,7 +45,7 @@ public class RegUserServiceImpl implements RegUserService {
         this.dao = dao;
     }
 
-   private static String bytesToHex(byte[] hash) {
+   private String bytesToHex(byte[] hash) {
        StringBuffer hexString = new StringBuffer();
        for (int i = 0; i < hash.length; i++) {
            String hex = Integer.toHexString(0xff & hash[i]);
@@ -48,12 +55,13 @@ public class RegUserServiceImpl implements RegUserService {
        return hexString.toString();
    }
 
-    public byte[] hash(String password) throws NoSuchAlgorithmException {
+    private byte[] hash(String password) throws NoSuchAlgorithmException {
         MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
         byte[] passBytes = password.getBytes();
         byte[] passHash = sha256.digest(passBytes);
         return passHash;
     }
+
     @Override
     @Transactional
     public void addUser(RegUserView view) {
@@ -79,30 +87,72 @@ public class RegUserServiceImpl implements RegUserService {
         }
         RegUser regUser = new RegUser();
         log.info("user reg addUser  " + regUser.toString());
-
-
         regUser.setLogin(view.login);
         regUser.setName(view.name);
-        //regUser.setPassword(view.password);
-        //regUser.setPassword(bytesToHex(view.password));
-//        String sha256hex = DigestUtils.sha256Hex(view.getPassword());
-
+        //regUser.setCode("1234567890");
+        //regUser.setCode("0123");
+        regUser.setCode(UUID.randomUUID().toString());
+        log.info("user reg setCode  " + regUser.toString());
 
         String generatedPassword = null;
         try {
             generatedPassword= bytesToHex(hash(view.password));
             regUser.setPassword(generatedPassword);
             log.info("user 1 generatedPassword  " + regUser.toString());
-            dao.save(regUser);
-        }
-        catch (NoSuchAlgorithmException e)
-        {
-            throw new CustomErrorException(e.toString());
 
         }
+
+        catch (NoSuchAlgorithmException  e)
+        {
+            throw new CustomErrorException(e.toString());
+        }
+        log.info("service user getLogin  " + regUser.getLogin());
+
+        dao.save(regUser);
+
         log.info("user 2 generatedPassword  " + regUser.toString());
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public void activation(String code) {
+        log.info("activation code " + code);
+        RegUser regUser = dao.loadByCode(code);
+        log.info("service reguser 0 " + regUser.toString());
+        if (regUser == null ) {
+            throw new CustomErrorException("Wrong activation code " + code);
+        }
+        if (regUser.getActive() == true ) {
+            throw new CustomErrorException("Already activated  " + code);
+        }
+        log.info("service reguser 1 " + regUser.toString());
+        regUser.setActive(true);
+
+        log.info("service reguser 2 " + regUser.toString());
+
+        dao.save(regUser);
+        log.info("service reguser 3 " + regUser.toString());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public void login(RegUserView regUserView) throws NoSuchAlgorithmException {
+        log.info("service login " + regUserView.toString());
+        RegUser regUser = dao.loadByLogin(regUserView.getLogin());
+        log.info("service login 0 " + regUser.toString());
+
+        if (regUser.getActive() == false ) {
+            throw new CustomErrorException("User is not activated  " );
+        }
+
+        if (regUser == null | regUserView.getPassword() == null | regUserView.getPassword().isEmpty() |  regUserView.getPassword().compareTo(bytesToHex(hash(regUserView.getPassword())))==0) {
+                throw new CustomErrorException("Mismatсh login or password " + regUserView.login + ' ' + regUserView.password);
+        }
+        log.info("service reguser 2 " + regUser.toString());
+        dao.save(regUser);
+    }
+
+    @Test
     @Override
     @Transactional(readOnly = true)
     public List<RegUserView> registers() {
@@ -114,6 +164,8 @@ public class RegUserServiceImpl implements RegUserService {
             view.login = p.getLogin();
             view.name = p.getName();
             view.password = p.getPassword();
+            view.code = p.getCode();
+            view.active = p.getActive();
 
             log.info(view.toString());
 

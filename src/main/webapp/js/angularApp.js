@@ -1098,7 +1098,7 @@ app.controller('postRegisterControllerAdd', function ($scope, $http, $location, 
             name: $scope.name
         };
         $http.post(url, data, config).then(function (response) {
-
+            console.log("response.data.result " + response.data.result);
             if (response.data.result == "success") {
                 $scope.modelReg.showAll = true;
                 $scope.modelReg.resultMessage = response.data.result;
@@ -1116,6 +1116,49 @@ app.controller('postRegisterControllerAdd', function ($scope, $http, $location, 
 
     }
 });
+
+app.controller('getRegisterControllerActivation', function ($scope, $http, $location, FactoryReg) {
+
+    $scope.modelReg = FactoryReg.modelReg;
+
+    //var code =
+    //$scope.code;// = FactoryReg.modelReg.code;
+
+    $scope.getRegisterActivation = function () {
+        console.log('getRegActivate start start start start start start start start start start start start start');
+
+        var url = $location.absUrl() + "/api/activation";
+
+        var config = {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8;'
+            },
+            params: {'code': $scope.code}
+
+
+        }
+
+        $http.get(url, config).then(function (response) {
+            console.log("code  " + $scope.code);
+            console.log("response.data.result " + response.data.result);
+            if (response.data.result == "success") {
+                $scope.modelReg.showAll = true;
+                $scope.modelReg.resultMessage = response.data.result;
+console.log("code 2 " + FactoryReg.modelReg.code);
+                console.log('postUserAllCountries end end end end end end end end end end end end end end ');
+            } else {
+                //$scope.resultMessage = response.data.error;//"Filter Users Data Error!";
+                FactoryReg.modelReg.resultMessage = response.data.error;
+                // $scope.showAllOrgId = false;
+            }
+        }, function (response) {
+            FactoryReg.modelReg.resultMessage = response.data.error;
+            // $scope.showAllOrgId = false;
+        });
+
+    }
+});
+
 
 app.factory('FactoryOrgId', function () {
     return {
@@ -1303,7 +1346,8 @@ app.factory('FactoryReg', function() {
     return {
         modelReg: {
             resultMessage: '',
-            showAll: false
+            showAll: false,
+            code: ''
         }
     };
 });
