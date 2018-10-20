@@ -27,7 +27,9 @@
     <!--h1>Practice</h1-->
     <div class="row">
         <div ng-controller="postRegisterControllerAdd" class="col-md-2">
-            <form name="registerFormAdd" ng-submit="postRegisterAdd()">
+
+            <form name="registerForm" ng-submit="postRegisterAdd()">
+<!--&gt;>>>>>> d911fb6209b29b5d5f2d64927e11bf796746b44b-->
                 <h3>Register User</h3>
                 <p> Результат: {{modelReg.resultMessage}}</p>
                 <label>Name</label>
@@ -43,7 +45,9 @@
         </div>
 
         <div ng-controller="getRegisterControllerActivation" class="col-md-2">
-            <form name="activationFormAdd" ng-submit="getRegisterActivation()">
+
+            <form name="activationForm" ng-submit="getRegisterActivation()">
+<!--&gt;>>>>>> d911fb6209b29b5d5f2d64927e11bf796746b44b-->
                 <h3>Activation User</h3>
                 <p> Результат: {{modelReg.resultMessage}}</p>
                 <label>Login</label>
@@ -54,6 +58,20 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
 
+        </div>
+
+        <div ng-controller="postRegisterControllerLogin" class="col-md-2">
+            <form name="loginForm" ng-submit="postRegisterLogin()">
+                <h3>Login User</h3>
+                <p> Результат: {{modelReg.resultMessage}}</p>
+                <label>Login</label>
+                <input type="text" name="login" class="form-control" ng-model="login"/>
+                <label>Password</label>
+                <input type="text" name="password" class="form-control" ng-model="password"/>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+<!--&gt;>>>>>> d911fb6209b29b5d5f2d64927e11bf796746b44b-->
         </div>
     </div>
     <div class="row">
@@ -240,9 +258,10 @@
                     <label>Citizenship Name</label></br>
                    <!-- {{modelUser.selected}}</br>
                     {{modelUser.selected.docs}}</br>-->
-                    <select ng-model="modelUser.selected" ng-init="postUserAllCountries()"
-                            ng-change="changeSelectedCountryInDropList()"
-                            ng-options="country.name for country in country track by country.id">
+                    <select ng-model="modelUser.selected"
+                            ng-init="postUserAllCountries()"
+                            ng-change= "changeSelectedCountryInDropList()"
+                            ng-options="country.name for country in country track by country.id" >
                     </select></br>
                     <label>Citizenship Code</label></br>
                     <select ng-model="modelUser.selected" ng-change="changeSelectedCountryInDropList()"

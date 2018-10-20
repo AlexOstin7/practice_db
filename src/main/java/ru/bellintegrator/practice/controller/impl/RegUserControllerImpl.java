@@ -53,10 +53,35 @@ public class RegUserControllerImpl implements RegUserController {
         regUserService.addUser(regUser);
         return new ResponseSuccess("success");
     }
-   /* public Response register(RegUserView regUser) {
-        return null;
-    }*/
 
+    @Override
+    @ApiOperation(value = "getActivationCode", nickname = "getActivationCode", httpMethod = "GET")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 405, message = "I don't know"),
+            @ApiResponse(code = 500, message = "Failure")})
+    @RequestMapping(value = "/activation", method = {GET})
+    public Response activation(@RequestParam(value = "code", defaultValue = "") String code)
+    {
+        regUserService.activation(code);
+        return new ResponseSuccess("success");
+    }
+
+//>>>>>>> d911fb6209b29b5d5f2d64927e11bf796746b44b
+    @Override
+    @ApiOperation(value = "postLogin", nickname = "postLogin", httpMethod = "POST")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 405, message = "I don't know"),
+            @ApiResponse(code = 500, message = "Failure")})
+    @RequestMapping(value = "/login", method = {POST})
+    @ExceptionHandler(NoSuchAlgorithmException.class)
+    public Response login(@RequestBody RegUserView regUserView) {
+        regUserService.login(regUserView);
+       /* try {
+            log.info("controller login try 0 "+ regUserView.toString());
+
+<<<<<<< HEAD
     @Override
     @ApiOperation(value = "getActivationCode", nickname = "getActivationCode", httpMethod = "GET")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),
@@ -85,9 +110,17 @@ public class RegUserControllerImpl implements RegUserController {
         {
             throw new CustomErrorException(e.toString());
         }
+=======
+            log.info("controller login try 1 "+ regUserView.toString());
+        }
+        catch (NoSuchAlgorithmException e)
+        {
+            log.info("controller login catch "+ regUserView.toString());
+            throw new CustomErrorException(e.toString());
+        }*/
+//>>>>>>> d911fb6209b29b5d5f2d64927e11bf796746b44b
         return new ResponseSuccess("success");
     }
-
     //For test only
     @Test
     @Override

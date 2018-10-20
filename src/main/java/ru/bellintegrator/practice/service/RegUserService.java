@@ -42,8 +42,7 @@ public interface RegUserService {
 
     void activation(String code);
 
-    void login(RegUserView regUserView) throws NoSuchAlgorithmException;
-
+    void login(RegUserView regUserView);
 
     List<RegUserView> registers();
 }
