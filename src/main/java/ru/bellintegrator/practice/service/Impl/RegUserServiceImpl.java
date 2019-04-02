@@ -24,11 +24,16 @@ import ru.bellintegrator.practice.view.RegUserView;
 import ru.bellintegrator.practice.view.UserFilterView;
 import ru.bellintegrator.practice.view.UserView;
 
+
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -66,6 +71,47 @@ public class RegUserServiceImpl implements RegUserService {
             throw new CustomErrorException(e.toString());
         }
     }
+
+    public void emailSender( ) {
+        String to = "i11i11@mail.ru";         // sender email
+        String from = "a1b2c3d4f5g6h7f8@yandex.ru";       // receiver email
+        String host = "77.88.21.38";            // mail server host
+
+        Properties properties = System.getProperties();
+        properties.setProperty("mail.smtp.host", host);
+        /*properties.put("mail.smtp.port", "25");
+        properties.put("mail.smtp.host", "smtp.yandex.ru");*/
+        Session session = Session.getDefaultInstance(properties,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+//                        return new PasswordAuthentication("username","password");
+                        return new PasswordAuthentication("a1b2c3d4f5g6h7f8","12345678909");
+                    }
+                });
+//                ); // default session
+
+        try {
+            MimeMessage message = new MimeMessage(session); // email message
+
+            message.setFrom(new InternetAddress(from)); // setting header fields
+
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+
+            message.setSubject("Test Mail from Java Program"); // subject line
+
+            // actual mail body
+            message.setText("You can send mail from Java program by using mail API, but you need" + "couple of more JAR files e.g. smtp.jar and activation.jar");
+
+            // Send message
+            Transport.send(message);
+            log.info("RegUser serv  Email Sent successfully...." );
+        } catch (MessagingException mex) {
+            mex.printStackTrace();
+        }
+
+    }
+
+//}
 
 //>>>>>>> d911fb6209b29b5d5f2d64927e11bf796746b44b
     @Override
@@ -109,7 +155,7 @@ public class RegUserServiceImpl implements RegUserService {
         log.info("service user getLogin  " + regUser.getLogin());
 
         dao.save(regUser);
-
+        emailSender();
         log.info("user 2 generatedPassword  " + regUser.toString());
     }
 

@@ -67,7 +67,6 @@ public class RegUserControllerImpl implements RegUserController {
         return new ResponseSuccess("success");
     }
 
-//>>>>>>> d911fb6209b29b5d5f2d64927e11bf796746b44b
     @Override
     @ApiOperation(value = "postLogin", nickname = "postLogin", httpMethod = "POST")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),
@@ -78,47 +77,6 @@ public class RegUserControllerImpl implements RegUserController {
     @ExceptionHandler(NoSuchAlgorithmException.class)
     public Response login(@RequestBody RegUserView regUserView) {
         regUserService.login(regUserView);
-       /* try {
-            log.info("controller login try 0 "+ regUserView.toString());
-
-<<<<<<< HEAD
-    @Override
-    @ApiOperation(value = "getActivationCode", nickname = "getActivationCode", httpMethod = "GET")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),
-            @ApiResponse(code = 404, message = "Not Found"),
-            @ApiResponse(code = 405, message = "I don't know"),
-            @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(value = "/activation", method = {GET})
-    public Response activation(@RequestParam(value = "code", defaultValue = "") String code)
-    {
-        regUserService.activation(code);
-        return new ResponseSuccess("success");
-    }
-
-    @Override
-    @ApiOperation(value = "postLogin", nickname = "postLogin", httpMethod = "POST")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),
-            @ApiResponse(code = 404, message = "Not Found"),
-            @ApiResponse(code = 405, message = "I don't know"),
-            @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(value = "/login", method = {POST})
-    public Response login(@RequestBody RegUserView regUserView) {
-        try {
-            regUserService.login(regUserView);
-        }
-        catch (NoSuchAlgorithmException e)
-        {
-            throw new CustomErrorException(e.toString());
-        }
-=======
-            log.info("controller login try 1 "+ regUserView.toString());
-        }
-        catch (NoSuchAlgorithmException e)
-        {
-            log.info("controller login catch "+ regUserView.toString());
-            throw new CustomErrorException(e.toString());
-        }*/
-//>>>>>>> d911fb6209b29b5d5f2d64927e11bf796746b44b
         return new ResponseSuccess("success");
     }
     //For test only
@@ -131,36 +89,9 @@ public class RegUserControllerImpl implements RegUserController {
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/registers", method = {GET})
     public Response registers() {
+        log.info("contr reg registers " + regUserService.toString());
         return new ResponseSuccess("success", regUserService.registers());
     }
 
 }
 
-/*@Override
-    @ApiOperation(value = "listUsersByOfficeId", nickname = "listUsersByOfficeId", httpMethod = "POST")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),
-            @ApiResponse(code = 404, message = "Not Found"),
-            @ApiResponse(code = 405, message = "I don't know"),
-            @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(value = "/user/list", method = {POST})
-    public Response filterUsers(@RequestBody UserFilterView user) {
-        log.info("view-listByOfficeId" + user.toString());
-        List<UserFilterView> userFilterViewList = userService.filterUserList(user);
-
-        return new ResponseSuccess("success", userFilterViewList);
-    }
-    @Override
-    @ApiOperation(value = "getUserById", nickname = "getUserById", httpMethod = "GET")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success", response = String.class),
-            @ApiResponse(code = 404, message = "Not Found"),
-            @ApiResponse(code = 405, message = "I don't know"),
-            @ApiResponse(code = 500, message = "Failure")})
-    //@RequestMapping(value = "/user/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-    @RequestMapping(value = "/user/{id}", method = {GET})
-    public Response getUserById(@PathVariable(value = "id") Long id) {
-        log.info("controller before service.getUserByID "+ id.toString());
-        UserView user = userService.getUserById(id);
-        log.info("controller after service.getUserByID "+ id.toString() + " user - " + user.toString());
-        return new ResponseSuccess("success", user);
-    }
-    */
