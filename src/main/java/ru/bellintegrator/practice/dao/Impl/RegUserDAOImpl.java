@@ -78,7 +78,7 @@ public class RegUserDAOImpl implements RegUserDAO {
 
     @Override
     public RegUser loadByLogin(String login) {
-        CriteriaBuilder builder = em.getCriteriaBuilder();
+        /*CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<RegUser> criteria = builder.createQuery(RegUser.class);
 
         Root<RegUser> RegUser = criteria.from(RegUser.class);
@@ -93,7 +93,8 @@ public class RegUserDAOImpl implements RegUserDAO {
         } catch (NoResultException e) {
             throw new CustomErrorException(String.format("DAO RegUser loadByLogin says login does't found- %s", login));
             //e.printStackTrace();
-        }
+        }*/
+        return em.find(RegUser.class, login);
 
     }
 

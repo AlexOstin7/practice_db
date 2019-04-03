@@ -120,7 +120,7 @@ public class RegUserServiceImpl implements RegUserService {
         log.info("user serv regview view  " + view.toString());
         log.info("user serv revview string.length  " + view.getPassword().length());
         if (view.login == null || view.name == null || view.password == null) {
-            throw new CustomErrorException("Mismatch parameter- login is null ");
+            throw new CustomErrorException("Mismatch parameter- login or name or password is null ");
         }
         if (view.getPassword().length() < 3) {
             throw new CustomErrorException("Mismatch parameter- password is less 3 symbols " + view.getPassword());
@@ -139,6 +139,9 @@ public class RegUserServiceImpl implements RegUserService {
         }
         RegUser regUser = new RegUser();
         log.info("user reg addUser  " + regUser.toString());
+        if (dao.loadByLogin(view.login) != null) {
+            throw new CustomErrorException("Login already exists " + view.getLogin());
+        }
         regUser.setLogin(view.login);
         regUser.setName(view.name);
         //regUser.setCode("1234567890");
@@ -155,7 +158,7 @@ public class RegUserServiceImpl implements RegUserService {
         log.info("service user getLogin  " + regUser.getLogin());
 
         dao.save(regUser);
-        emailSender();
+       // emailSender();
         log.info("user 2 generatedPassword  " + regUser.toString());
     }
 
@@ -164,10 +167,11 @@ public class RegUserServiceImpl implements RegUserService {
     public void activation(String code) {
         log.info("activation code " + code);
         RegUser regUser = dao.loadByCode(code);
-        log.info("service reguser 0 " + regUser.toString());
         if (regUser == null) {
             throw new CustomErrorException("Wrong activation code " + code);
         }
+        log.info("service reguser 0 " + regUser.toString());
+
         if (regUser.getActive() == true) {
             throw new CustomErrorException("Already activated  " + code);
         }
@@ -185,23 +189,21 @@ public class RegUserServiceImpl implements RegUserService {
     public void login(RegUserView regUserView) {
         log.info("service login 0" + regUserView.toString());
         RegUser regUser = dao.loadByLogin(regUserView.getLogin());
-        log.info("service login 1 " + regUser.toString());
 
         if (regUser.getActive() == false) {
             throw new CustomErrorException("User is not activated  ");
         }
-
 //        byte[] hash = hash(regUserView.getPassword());
+        String generatedPassword = bytesToHex(hash(regUserView.password));;
+//        generatedPassword = bytesToHex(hash(regUserView.password));
+        log.info("service login 1 " + regUser.toString() + " generPass " + generatedPassword);
+//log.info("service login 11 " + (regUser == null) + " 1 " + (regUserView.getPassword() == null) + " 2 " + regUserView.getPassword().isEmpty() + " 3 " + regUser.getPassword().equals(generatedPassword) +" 4 " + regUserView.getPassword() );
 
-        String generatedPassword = null;
-        generatedPassword = bytesToHex(hash(regUserView.password));
-
-        if (regUser == null | regUserView.getPassword() == null | regUserView.getPassword().isEmpty() | (regUserView.getPassword().compareTo(generatedPassword) == 0) ){
+        if (regUser == null | regUserView.getPassword() == null | regUserView.getPassword().isEmpty() | regUser.getPassword().compareTo(generatedPassword) != 0  ){
             log.info("service login 2 " + regUserView.toString());
             throw new CustomErrorException("Mismatсh login or password " + regUserView.login + ' ' + regUserView.password);
         }
         log.info("service login 3 " + regUser.toString());
-//>>>>>>> d911fb6209b29b5d5f2d64927e11bf796746b44b
     }
 
     @Test

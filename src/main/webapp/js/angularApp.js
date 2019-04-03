@@ -1129,8 +1129,6 @@ app.controller('getRegisterControllerActivation', function ($scope, $http, $loca
                 'Content-Type': 'application/json;charset=utf-8;'
             },
             params: {'code': $scope.code}
-
-
         }
 
         $http.get(url, config).then(function (response) {
@@ -1139,7 +1137,7 @@ app.controller('getRegisterControllerActivation', function ($scope, $http, $loca
             if (response.data.result == "success") {
                 $scope.modelReg.showAll = true;
                 $scope.modelReg.resultMessage = response.data.result;
-console.log("code 2 " + FactoryReg.modelReg.code);
+                console.log("code 2 " + FactoryReg.modelReg.code);
                 console.log('postUserAllCountries end end end end end end end end end end end end end end ');
             } else {
                 //$scope.resultMessage = response.data.error;//"Filter Users Data Error!";
@@ -1196,7 +1194,7 @@ app.controller('postRegisterControllerLogin', function ($scope, $http, $location
     }
 });
 
-app.controller('getRegisterControllerActivation', function ($scope, $http, $location, FactoryReg) {
+/*app.controller('getRegisterControllerActivation', function ($scope, $http, $location, FactoryReg) {
 
     $scope.modelReg = FactoryReg.modelReg;
 
@@ -1236,7 +1234,7 @@ console.log("code 2 " + FactoryReg.modelReg.code);
         });
 
     }
-});
+});*/
 
 
 app.factory('FactoryOrgId', function () {

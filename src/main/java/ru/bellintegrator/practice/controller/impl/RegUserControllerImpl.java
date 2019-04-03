@@ -63,6 +63,7 @@ public class RegUserControllerImpl implements RegUserController {
     @RequestMapping(value = "/activation", method = {GET})
     public Response activation(@RequestParam(value = "code", defaultValue = "") String code)
     {
+        log.info("contr reg activation " + code);
         regUserService.activation(code);
         return new ResponseSuccess("success");
     }
@@ -76,6 +77,7 @@ public class RegUserControllerImpl implements RegUserController {
     @RequestMapping(value = "/login", method = {POST})
     @ExceptionHandler(NoSuchAlgorithmException.class)
     public Response login(@RequestBody RegUserView regUserView) {
+        log.info("contr reg login " + regUserView);
         regUserService.login(regUserView);
         return new ResponseSuccess("success");
     }
